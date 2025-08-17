@@ -4,42 +4,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divyansh's Portfolio</title>
-    <link rel="stylesheet" href="Styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&display=swap" rel="stylesheet">
+    <title>Divyansh Garg</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./Styles.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="left">Divyansh's Portfolio</div>
-            <div class="right">
-                <ul>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Services</li>
-                    <li>Projects</li>
-                    <li>Contact Me</li>
-                </ul>
-            </div>
-        </nav>
+    <input type="checkbox" id="nav-toggle" style="display: none;">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="#" class="logo">DG.</a>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <a href="#contact" class="btn btn-primary hire-me-btn">Contact Me</a>
+                <label for="nav-toggle" class="nav-toggle-label">
+                    <span></span>
+                </label>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section class="firstsection">
-            <div class="leftsection">
-                Hi, My name is Divyansh Garg
-                <div>
-                    I am a web developer
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-title-wrapper">
+                    <h1 class="typing-effect">Creative UI/UX Designer</h1>
+                </div>
+                <p>I design and build beautiful, responsive, and user-friendly websites and applications. Let's create
+                    something amazing together.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">My Work</a>
+                    <a href="https://github.com/Divyansh3105" target="_blank" class="btn btn-secondary">GitHub</a>
                 </div>
             </div>
-            <div class="rightsection">
-                <img src="Media/temp.png" alt="temp">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="Media/WhatsApp Image 2025-08-15 at 12.10.22_da3a4cd5.jpg" alt="John Doe">
+                </div>
+                <div class="about-text">
+                    <h2>About Me</h2>
+                    <p>Hello! I'm Divyansh Garg, a passionate developer based in India. I specialize in creating dynamic
+                        and engaging web experiences. My journey in tech
+                        started with a fascination for how things work, which led me to dive deep into front-end and
+                        back-end development.</p>
+                    <p>I thrive on solving complex problems and I'm always eager to learn new technologies. When I'm not
+                        coding, you can find me exploring the city, contributing to open-source projects, or brewing the
+                        perfect cup of coffee.</p>
+                    <a href="Media/Divyansh Garg.pdf" download class="btn btn-primary">Download Resume</a>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="bg-dark">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="grid grid-projects">
+                <!-- Project Card 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="Media/COD SS.png" alt="Project One">
+                        <div class="project-overlay">
+                            <h3>Call Of Duty Tribute site</h3>
+                            <a href="https://call-of-duty-tribute.netlify.app/">Live Demo</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Call Of Duty Tribute Site</h3>
+                        <div class="project-tags">
+                            <span>HTML</span><span>TailWind CSS</span><span>Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="Media/AC SS.png" alt="Project Two">
+                        <div class="project-overlay">
+                            <h3>Assasign's Creed Tribute Site</h3>
+                            <a href="https://assassins-creed-tribute.netlify.app/">Live Demo</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Assasign's Creed Tribute Site</h3>
+                        <div class="project-tags">
+                            <span>HTML</span><span>CSS</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="Media/Smart Sorter SS.png" alt="Project Three">
+                        <div class="project-overlay">
+                            <h3>Smart Sort Selector</h3>
+                            <a href="#">Live Demo</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Smart Sort Selector</h3>
+                        <div class="project-tags">
+                            <span>HTML5</span><span>CSS3</span><span>Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>My Skills</h2>
+            <div class="grid grid-skills">
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/javascript/javascript-icon.svg"
+                        alt="JavaScript">
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg"
+                        alt="HTML5">
+                    <h3>HTML5</h3>
+                </div>
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg"
+                        alt="TailWind CSS">
+                    <h3>TailWind CSS</h3>
+                </div>
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/w3_css/w3_css-icon.svg"
+                        alt="CSS Icon">
+                    <h3>CSS3</h3>
+                </div>
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/getbootstrap/getbootstrap-icon.svg"
+                        alt="Bootstrap">
+                    <h3>Bootstrap</h3>
+                </div>
+                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/python/python-icon.svg"
+                        alt="Python">
+                    <h3>Python</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-dark">
+        <div class="container">
+            <h2 style="text-align:center;">Get In Touch</h2>
+            <p style="text-align:center;">Have a project in mind or just want to say hello? My inbox is always open.</p>
+            <form action="#" method="POST" class="contact-form">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" class="form-input" required>
+                    <input type="email" name="email" placeholder="Your Email" class="form-input" required>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <textarea name="message" placeholder="Your Message" class="form-textarea" required></textarea>
+                </div>
+                <div style="text-align:center; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/Divyansh3105">GitHub</a>
+                <a href="www.linkedin.com/in/divyanshgarg3105">LinkedIn</a>
+            </div>
+            <p>&copy; 2025 Divyansh Garg. All Rights Reserved.</p>
+        </div>
+    </footer>
+
 </body>
 
 </html>

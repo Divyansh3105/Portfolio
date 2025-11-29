@@ -9,7 +9,7 @@ A modern, responsive portfolio website showcasing web development projects and s
 
 ## 🌐 Live Demo
 
-**[View Live Portfolio →](https://divyansh3105.github.io/)**
+**[View Live Portfolio →](https://divyansh3105.github.io/Portfolio/)**
 
 Experience the portfolio in action with all its features:
 

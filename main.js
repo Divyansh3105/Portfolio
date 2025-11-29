@@ -1,5 +1,20 @@
 // Modern Portfolio JavaScript
 
+// Keyboard Navigation Detection
+let isKeyboardUser = false;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Tab") {
+    isKeyboardUser = true;
+    document.body.classList.add("keyboard-nav");
+  }
+});
+
+document.addEventListener("mousedown", () => {
+  isKeyboardUser = false;
+  document.body.classList.remove("keyboard-nav");
+});
+
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
@@ -95,18 +110,162 @@ const hideLoader = () => {
   }
 };
 
-// Parallax effect for gradient orbs
+// Enhanced Parallax effect for gradient orbs, sections, and text
 const addParallaxEffect = () => {
+  // Disable parallax on mobile for better performance
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) return;
+
   const orbs = document.querySelectorAll(".gradient-orb");
-  window.addEventListener("scroll", () => {
+  const parallaxSections = document.querySelectorAll(".parallax-section");
+  const parallaxBgs = document.querySelectorAll(".parallax-bg");
+  const parallaxTexts = document.querySelectorAll(".parallax-text");
+  const heroContent = document.querySelector(".hero-content");
+
+  let ticking = false;
+
+  const updateParallax = () => {
     const scrolled = window.pageYOffset;
+    const windowHeight = window.innerHeight;
+
+    // Orbs parallax
     orbs.forEach((orb, index) => {
       const speed = 0.3 + index * 0.1;
       orb.style.transform = `translate(${scrolled * speed}px, ${
         scrolled * speed * 0.5
       }px)`;
     });
-  });
+
+    // Hero content parallax fade
+    if (heroContent) {
+      const heroOpacity = 1 - scrolled / (windowHeight * 0.8);
+      const heroTransform = scrolled * 0.5;
+      heroContent.style.opacity = Math.max(0, heroOpacity);
+      heroContent.style.transform = `translateY(${heroTransform}px)`;
+    }
+
+    // Section parallax backgrounds
+    parallaxBgs.forEach((bg) => {
+      const rect = bg.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      // Only apply parallax when element is in viewport
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 100;
+        bg.style.transform = `translateY(${moveAmount}px)`;
+      }
+    });
+
+    // Section parallax (entire sections)
+    parallaxSections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 50;
+        section.style.transform = `translateY(${moveAmount * 0.3}px)`;
+      }
+    });
+
+    // Text parallax with fade
+    parallaxTexts.forEach((text) => {
+      const rect = text.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 30;
+        const opacity = Math.min(1, Math.max(0, scrollPercent * 2 - 0.3));
+
+        text.style.transform = `translateY(${-moveAmount}px)`;
+        text.style.opacity = opacity;
+      }
+    });
+
+    // About image parallax
+    const aboutImage = document.querySelector(".about-image-wrapper");
+    if (aboutImage) {
+      const rect = aboutImage.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 40;
+        aboutImage.style.transform = `translateY(${-moveAmount * 0.5}px)`;
+      }
+    }
+
+    // Project cards subtle parallax
+    const projectCards = document.querySelectorAll(".project-card");
+    projectCards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 20;
+        const stagger = index * 2;
+        const parallaxY = -moveAmount * 0.3 + stagger;
+
+        // Check if card is being hovered
+        const isHovered = card.matches(":hover");
+        const hoverOffset = isHovered ? -8 : 0;
+
+        card.style.transform = `translateY(${parallaxY + hoverOffset}px)`;
+        card.classList.add("parallax-active");
+      }
+    });
+
+    // Skill cards subtle parallax
+    const skillCards = document.querySelectorAll(".skill-card-interactive");
+    skillCards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrollPercent =
+          (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const moveAmount = (scrollPercent - 0.5) * 15;
+        const stagger = index * 1.5;
+        const parallaxY = -moveAmount * 0.4 + stagger;
+
+        // Check if card is being hovered
+        const isHovered = card.matches(":hover");
+        const hoverOffset = isHovered ? -8 : 0;
+
+        card.style.transform = `translateY(${
+          parallaxY + hoverOffset
+        }px) scale(${isHovered ? 1.02 : 1})`;
+        card.classList.add("parallax-active");
+      }
+    });
+    ticking = false;
+  };
+
+  const requestTick = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  };
+
+  window.addEventListener("scroll", requestTick);
+
+  // Trigger initial parallax calculation
+  updateParallax();
 };
 
 // Animate elements on intersection
@@ -138,12 +297,38 @@ const enhanceProjectCards = () => {
   });
 };
 
+// Parallax intro animation on page load
+const initParallaxIntro = () => {
+  const sections = document.querySelectorAll("section");
+
+  sections.forEach((section, index) => {
+    // Skip hero section as it has its own animation
+    if (section.id === "home") return;
+
+    section.style.opacity = "0";
+    section.style.transform = "translateY(60px)";
+
+    setTimeout(() => {
+      section.style.transition =
+        "opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)";
+      section.style.opacity = "1";
+      section.style.transform = "translateY(0)";
+
+      // Remove transition after animation completes
+      setTimeout(() => {
+        section.style.transition = "";
+      }, 1000);
+    }, 100 + index * 150);
+  });
+};
+
 // Initialize on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll();
   observeElements();
   addParallaxEffect();
   enhanceProjectCards();
+  initParallaxIntro();
 });
 
 // Hide loader when page is fully loaded
@@ -412,10 +597,24 @@ const projectsData = {
   },
 };
 
+// Handle keyboard navigation for project cards
+function handleProjectKeydown(event, projectId) {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openProjectModal(projectId);
+  }
+}
+
+// Store currently open project for arrow navigation
+let currentProjectId = null;
+const projectIds = ["cod", "ac", "smartsort", "portfolio", "python", "webdev"];
+
 // Open Project Modal
 function openProjectModal(projectId) {
   const project = projectsData[projectId];
   if (!project) return;
+
+  currentProjectId = projectId;
 
   const modal = document.getElementById("projectModal");
   const modalImage = document.getElementById("modalImage");
@@ -455,6 +654,35 @@ function openProjectModal(projectId) {
   // Show modal
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
+
+  // Announce to screen readers
+  announceToScreenReader(`Opened ${project.title} project details`);
+
+  // Focus on modal content for keyboard users
+  setTimeout(() => {
+    const modalContent = modal.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.focus();
+    }
+  }, 100);
+
+  // Trap focus within modal
+  trapFocus(modal);
+}
+
+// Announce to screen readers
+function announceToScreenReader(message) {
+  const announcement = document.createElement("div");
+  announcement.setAttribute("role", "status");
+  announcement.setAttribute("aria-live", "polite");
+  announcement.setAttribute("aria-atomic", "true");
+  announcement.className = "sr-only";
+  announcement.textContent = message;
+  document.body.appendChild(announcement);
+
+  setTimeout(() => {
+    announcement.remove();
+  }, 1000);
 }
 
 // Close Project Modal
@@ -462,6 +690,61 @@ function closeProjectModal() {
   const modal = document.getElementById("projectModal");
   modal.classList.remove("active");
   document.body.style.overflow = "";
+  currentProjectId = null;
+
+  // Return focus to the project card that opened the modal
+  if (isKeyboardUser) {
+    const projectCards = document.querySelectorAll(".project-card");
+    const currentIndex = projectIds.indexOf(currentProjectId);
+    if (currentIndex >= 0 && projectCards[currentIndex]) {
+      projectCards[currentIndex].focus();
+    }
+  }
+}
+
+// Navigate to next project
+function navigateToNextProject() {
+  const currentIndex = projectIds.indexOf(currentProjectId);
+  const nextIndex = (currentIndex + 1) % projectIds.length;
+  const nextProjectId = projectIds[nextIndex];
+  closeProjectModal();
+  setTimeout(() => openProjectModal(nextProjectId), 100);
+}
+
+// Navigate to previous project
+function navigateToPreviousProject() {
+  const currentIndex = projectIds.indexOf(currentProjectId);
+  const prevIndex = (currentIndex - 1 + projectIds.length) % projectIds.length;
+  const prevProjectId = projectIds[prevIndex];
+  closeProjectModal();
+  setTimeout(() => openProjectModal(prevProjectId), 100);
+}
+
+// Focus trap for modal
+function trapFocus(modal) {
+  const focusableElements = modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const firstFocusable = focusableElements[0];
+  const lastFocusable = focusableElements[focusableElements.length - 1];
+
+  modal.addEventListener("keydown", function (e) {
+    if (e.key === "Tab") {
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    }
+  });
 }
 
 // Close modal on overlay click
@@ -471,10 +754,30 @@ document.getElementById("projectModal")?.addEventListener("click", (e) => {
   }
 });
 
-// Close modal on Escape key
+// Keyboard navigation for modals
 document.addEventListener("keydown", (e) => {
+  const modal = document.getElementById("projectModal");
+  const themePanel = document.getElementById("themePanel");
+
+  // Close modal on Escape
   if (e.key === "Escape") {
-    closeProjectModal();
+    if (modal && modal.classList.contains("active")) {
+      closeProjectModal();
+    }
+    if (themePanel && themePanel.classList.contains("active")) {
+      closeThemePanel();
+    }
+  }
+
+  // Arrow key navigation in project modal
+  if (modal && modal.classList.contains("active")) {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      navigateToNextProject();
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      navigateToPreviousProject();
+    }
   }
 });
 
@@ -769,27 +1072,60 @@ const loadTheme = () => {
   applyTheme(savedTheme);
 };
 
-// Apply theme
+// Apply theme with smooth transition
 const applyTheme = (themeName) => {
-  // Remove all theme classes
-  document.documentElement.removeAttribute("data-theme");
+  // Add transitioning class to body
+  document.body.classList.add("theme-transitioning");
 
-  // Apply new theme (except for default cyber-blue)
-  if (themeName !== "cyber-blue") {
-    document.documentElement.setAttribute("data-theme", themeName);
-  }
+  // Create transition overlay for smooth fade effect
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99999;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  `;
+  document.body.appendChild(overlay);
 
-  // Update active state in theme options
-  themeOptions.forEach((option) => {
-    if (option.getAttribute("data-theme") === themeName) {
-      option.classList.add("active");
-    } else {
-      option.classList.remove("active");
-    }
+  // Fade in overlay
+  requestAnimationFrame(() => {
+    overlay.style.opacity = "0.15";
   });
 
-  // Save to localStorage
-  localStorage.setItem("portfolio-theme", themeName);
+  // Apply theme after brief delay
+  setTimeout(() => {
+    // Remove all theme classes
+    document.documentElement.removeAttribute("data-theme");
+
+    // Apply new theme (except for default cyber-blue)
+    if (themeName !== "cyber-blue") {
+      document.documentElement.setAttribute("data-theme", themeName);
+    }
+
+    // Update active state in theme options
+    themeOptions.forEach((option) => {
+      if (option.getAttribute("data-theme") === themeName) {
+        option.classList.add("active");
+      } else {
+        option.classList.remove("active");
+      }
+    });
+
+    // Save to localStorage
+    localStorage.setItem("portfolio-theme", themeName);
+
+    // Fade out overlay
+    setTimeout(() => {
+      overlay.style.opacity = "0";
+      setTimeout(() => {
+        overlay.remove();
+        document.body.classList.remove("theme-transitioning");
+      }, 200);
+    }, 100);
+  }, 150);
 };
 
 // Open theme panel
@@ -797,6 +1133,13 @@ const openThemePanel = () => {
   themePanel.classList.add("active");
   themePanelOverlay.classList.add("active");
   document.body.style.overflow = "hidden";
+
+  // Focus first theme option for keyboard users
+  setTimeout(() => {
+    if (isKeyboardUser && themeOptions.length > 0) {
+      themeOptions[0].focus();
+    }
+  }, 100);
 };
 
 // Close theme panel
@@ -804,6 +1147,11 @@ const closeThemePanel = () => {
   themePanel.classList.remove("active");
   themePanelOverlay.classList.remove("active");
   document.body.style.overflow = "";
+
+  // Return focus to theme toggle button
+  if (isKeyboardUser && themeToggleBtn) {
+    themeToggleBtn.focus();
+  }
 };
 
 // Event listeners
@@ -812,7 +1160,7 @@ themePanelClose?.addEventListener("click", closeThemePanel);
 themePanelOverlay?.addEventListener("click", closeThemePanel);
 
 // Theme option click handlers
-themeOptions.forEach((option) => {
+themeOptions.forEach((option, index) => {
   option.addEventListener("click", () => {
     const themeName = option.getAttribute("data-theme");
     applyTheme(themeName);
@@ -827,6 +1175,23 @@ themeOptions.forEach((option) => {
     setTimeout(() => {
       closeThemePanel();
     }, 300);
+  });
+
+  // Keyboard navigation for theme options
+  option.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      option.click();
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextOption = themeOptions[index + 1] || themeOptions[0];
+      nextOption.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevOption =
+        themeOptions[index - 1] || themeOptions[themeOptions.length - 1];
+      prevOption.focus();
+    }
   });
 });
 
@@ -843,3 +1208,185 @@ loadTheme();
 // Add smooth transition when theme changes
 document.documentElement.style.transition =
   "background-color 0.3s ease, color 0.3s ease";
+
+// Confetti effect for successful form submission
+const createConfetti = () => {
+  const colors = ["#667eea", "#764ba2", "#f5576c", "#4facfe", "#00f2fe"];
+  const confettiCount = 50;
+
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.cssText = `
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      left: ${Math.random() * 100}%;
+      top: -10px;
+      opacity: 1;
+      transform: rotate(${Math.random() * 360}deg);
+      animation: confettiFall ${2 + Math.random() * 2}s ease-out forwards;
+      z-index: 10000;
+      pointer-events: none;
+    `;
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 4000);
+  }
+};
+
+// Contact Form Validation and Submission
+const contactForm = document.getElementById("contactForm");
+const nameInput = document.getElementById("contactName");
+const emailInput = document.getElementById("contactEmail");
+const messageInput = document.getElementById("contactMessage");
+const submitBtn = document.getElementById("submitBtn");
+const formSuccess = document.getElementById("formSuccess");
+const formError = document.getElementById("formError");
+
+// Email validation regex
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Validate individual field
+const validateField = (input, errorId, validationFn) => {
+  const field = input.closest(".form-field");
+  const error = document.getElementById(errorId);
+
+  if (!validationFn(input.value.trim())) {
+    field.classList.add("error");
+    field.classList.remove("success");
+    return false;
+  } else {
+    field.classList.remove("error");
+    field.classList.add("success");
+    return true;
+  }
+};
+
+// Validation functions
+const validateName = (name) => name.length >= 2;
+const validateEmail = (email) => emailRegex.test(email);
+const validateMessage = (message) => message.length >= 10;
+
+// Real-time validation
+nameInput?.addEventListener("blur", () => {
+  validateField(nameInput, "nameError", validateName);
+});
+
+emailInput?.addEventListener("blur", () => {
+  validateField(emailInput, "emailError", validateEmail);
+});
+
+messageInput?.addEventListener("blur", () => {
+  validateField(messageInput, "messageError", validateMessage);
+});
+
+// Remove error on input
+[nameInput, emailInput, messageInput].forEach((input) => {
+  input?.addEventListener("input", () => {
+    const field = input.closest(".form-field");
+    if (field.classList.contains("error")) {
+      field.classList.remove("error");
+    }
+  });
+});
+
+// Character counter for message
+const charCounter = document.getElementById("charCounter");
+messageInput?.addEventListener("input", () => {
+  const length = messageInput.value.length;
+  const maxLength = 1000;
+  charCounter.textContent = `${length} / ${maxLength}`;
+
+  // Update counter color based on length
+  if (length > maxLength * 0.9) {
+    charCounter.classList.add("danger");
+    charCounter.classList.remove("warning");
+  } else if (length > maxLength * 0.75) {
+    charCounter.classList.add("warning");
+    charCounter.classList.remove("danger");
+  } else {
+    charCounter.classList.remove("warning", "danger");
+  }
+});
+
+// Form submission
+contactForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Validate all fields
+  const isNameValid = validateField(nameInput, "nameError", validateName);
+  const isEmailValid = validateField(emailInput, "emailError", validateEmail);
+  const isMessageValid = validateField(
+    messageInput,
+    "messageError",
+    validateMessage
+  );
+
+  if (!isNameValid || !isEmailValid || !isMessageValid) {
+    // Shake the form
+    contactForm.style.animation = "shake 0.5s ease";
+    setTimeout(() => {
+      contactForm.style.animation = "";
+    }, 500);
+    return;
+  }
+
+  // Show loading state
+  submitBtn.disabled = true;
+  submitBtn.classList.add("loading");
+
+  try {
+    // Submit form data
+    const formData = new FormData(contactForm);
+    const response = await fetch(contactForm.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      // Show success message
+      formSuccess.classList.add("show");
+      formError.classList.remove("show");
+
+      // Create confetti effect
+      createConfetti();
+
+      // Reset form
+      contactForm.reset();
+      document.querySelectorAll(".form-field").forEach((field) => {
+        field.classList.remove("success", "error");
+      });
+
+      // Reset character counter
+      if (charCounter) {
+        charCounter.textContent = "0 / 1000";
+        charCounter.classList.remove("warning", "danger");
+      }
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        formSuccess.classList.remove("show");
+      }, 5000);
+    } else {
+      throw new Error("Form submission failed");
+    }
+  } catch (error) {
+    // Show error message
+    formError.classList.add("show");
+    formSuccess.classList.remove("show");
+
+    // Hide error message after 5 seconds
+    setTimeout(() => {
+      formError.classList.remove("show");
+    }, 5000);
+  } finally {
+    // Reset button state
+    submitBtn.disabled = false;
+    submitBtn.classList.remove("loading");
+  }
+});

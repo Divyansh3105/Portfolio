@@ -2,46 +2,192 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divyansh Garg</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="Media/favicon.ico" type="image/png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divyansh Garg | Web Developer & UI/UX Designer</title>
+
+    <meta name="description"
+        content="Portfolio of Divyansh Garg — a creative Web Developer and UI/UX Designer skilled in building responsive, modern, and user-friendly web experiences.">
+    <meta name="keywords"
+        content="Divyansh Garg, Web Developer, UI UX Designer, Portfolio, HTML, CSS, Tailwind, Bootstrap, Python">
+    <meta name="author" content="Divyansh Garg">
+
+    <link rel="icon" href="Media/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./Styles.css">
 </head>
 
 <body>
-    <input type="checkbox" id="nav-toggle" style="display: none;">
+    <!-- Page Loader -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <input type="checkbox" id="nav-toggle" hidden>
+
     <!-- Header -->
     <header class="main-header">
         <div class="container">
             <nav class="main-nav">
-                <a href="#" class="logo">DG.</a>
+                <a href="#home" class="logo">
+                    <span class="logo-bracket">&lt;</span>DG<span class="logo-bracket">/&gt;</span>
+                </a>
                 <div class="nav-links">
-                    <a href="#about">About</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#skills">Skills</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                 </div>
-                <a href="#contact" class="btn btn-primary hire-me-btn">Contact Me</a>
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Change theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="4" />
+                        <path
+                            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                    </svg>
+                </button>
+                <a href="#contact" class="btn-glass hire-me-btn">Let's Talk</a>
                 <label for="nav-toggle" class="nav-toggle-label">
                     <span></span>
                 </label>
             </nav>
         </div>
+        <!-- Scroll Progress Indicator -->
+        <div class="scroll-progress-bar"></div>
     </header>
 
     <!-- Hero Section -->
     <section id="home">
-        <div class="container">
+        <div class="hero-bg">
+            <!-- Animated SVG Mesh Background -->
+            <div class="animated-bg">
+                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMid slice"></svg>
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:rgba(102,126,234,0.3);stop-opacity:1">
+                            <animate attributeName="stop-color"
+                                values="rgba(102,126,234,0.3);rgba(245,87,108,0.3);rgba(79,172,254,0.3);rgba(102,126,234,0.3)"
+                                dur="20s" repeatCount="indefinite" />
+                        </stop>
+                        <stop offset="100%" style="stop-color:rgba(245,87,108,0.2);stop-opacity:1">
+                            <animate attributeName="stop-color"
+                                values="rgba(245,87,108,0.2);rgba(79,172,254,0.2);rgba(102,126,234,0.2);rgba(245,87,108,0.2)"
+                                dur="20s" repeatCount="indefinite" />
+                        </stop>
+                    </linearGradient>
+                    <filter id="goo">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                            result="goo" />
+                    </filter>
+                </defs>
+                <g filter="url(#goo)">
+                    <circle cx="200" cy="200" r="100" fill="url(#grad1)">
+                        <animate attributeName="cx" values="200;800;200" dur="25s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="200;400;200" dur="30s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="800" cy="400" r="120" fill="url(#grad1)" opacity="0.8">
+                        <animate attributeName="cx" values="800;400;800" dur="30s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="400;600;400" dur="25s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="600" cy="600" r="80" fill="url(#grad1)" opacity="0.6">
+                        <animate attributeName="cx" values="600;300;600" dur="28s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="600;300;600" dur="32s" repeatCount="indefinite" />
+                    </circle>
+                </g>
+                </svg>
+            </div>
+
+            <!-- Gradient Orbs -->
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+
+            <!-- Blur Blobs -->
+            <div class="blur-blob blob-1"></div>
+            <div class="blur-blob blob-2"></div>
+            <div class="blur-blob blob-3"></div>
+
+            <!-- Animated Gradient Waves -->
+            <svg class="gradient-wave wave-1" viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgba(102,126,234,0.2);stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:rgba(245,87,108,0.2);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgba(79,172,254,0.2);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M0,100 Q300,50 600,100 T1200,100 L1200,200 L0,200 Z" fill="url(#waveGrad1)">
+                    <animate attributeName="d"
+                        values="M0,100 Q300,50 600,100 T1200,100 L1200,200 L0,200 Z;M0,100 Q300,150 600,100 T1200,100 L1200,200 L0,200 Z;M0,100 Q300,50 600,100 T1200,100 L1200,200 L0,200 Z"
+                        dur="15s" repeatCount="indefinite" />
+                </path>
+            </svg>
+            <svg class="gradient-wave wave-2" viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgba(79,172,254,0.15);stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:rgba(102,126,234,0.15);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgba(245,87,108,0.15);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M0,120 Q300,80 600,120 T1200,120 L1200,200 L0,200 Z" fill="url(#waveGrad2)">
+                    <animate attributeName="d"
+                        values="M0,120 Q300,80 600,120 T1200,120 L1200,200 L0,200 Z;M0,120 Q300,160 600,120 T1200,120 L1200,200 L0,200 Z;M0,120 Q300,80 600,120 T1200,120 L1200,200 L0,200 Z"
+                        dur="20s" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        <div class="container">""
             <div class="hero-content">
-                <div class="hero-title-wrapper">
-                    <h1 class="typing-effect">Creative UI/UX Designer</h1>
-                </div>
-                <p>I design and build beautiful, responsive, and user-friendly websites and applications. Let's create
-                    something amazing together.</p>
+                <div class="hero-badge">Available for freelance</div>
+                <h1 class="hero-title">
+                    <span class="hero-greeting">Hi, I'm</span>
+                    <span class="hero-name">Divyansh Garg</span>
+                    <span class="hero-role">Web Developer & Designer</span>
+                </h1>
+                <p class="hero-description">
+                    I craft beautiful digital experiences that blend creativity with functionality.
+                    Specializing in modern web development and intuitive UI/UX design.
+                </p>
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">My Work</a>
-                    <a href="https://github.com/Divyansh3105" target="_blank" class="btn btn-secondary">GitHub</a>
+                    <a href="#projects" class="btn-gradient">
+                        <span>View My Work</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                    <a href="#contact" class="btn-glass">Get In Touch</a>
+                </div>
+                <div class="hero-social">
+                    <a href="https://github.com/Divyansh3105" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/divyanshgarg3105/" target="_blank" rel="noopener"
+                        aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="mailto:divyanshgarg3105@gmail.com" aria-label="Email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -49,131 +195,372 @@
 
     <!-- About Section -->
     <section id="about">
-        <div class="container">
+        <div class="container reveal">
+            <div class="section-header">
+                <span class="section-tag">Get to know me</span>
+                <h2>About Me</h2>
+            </div>
             <div class="about-grid">
-                <div class="about-image">
-                    <img src="Media/WhatsApp Image 2025-08-15 at 12.10.22_da3a4cd5.jpg" alt="John Doe">
+                <div class="about-image-wrapper">
+                    <div class="about-image-card">
+                        <img src="Media/WhatsApp Image 2025-08-15 at 12.10.22_da3a4cd5.jpg"
+                            alt="Portrait of Divyansh Garg">
+                        <div class="image-glow"></div>
+                    </div>
                 </div>
-                <div class="about-text">
-                    <h2>About Me</h2>
-                    <p>Hello! I'm Divyansh Garg, a passionate developer based in India. I specialize in creating dynamic
-                        and engaging web experiences. My journey in tech
-                        started with a fascination for how things work, which led me to dive deep into front-end and
-                        back-end development.</p>
-                    <p>I thrive on solving complex problems and I'm always eager to learn new technologies. When I'm not
-                        coding, you can find me exploring the city, contributing to open-source projects, or brewing the
-                        perfect cup of coffee.</p>
-                    <a href="Media/Divyansh Garg.pdf" download class="btn btn-primary">Download Resume</a>
+                <div class="about-content">
+                    <p class="about-lead">I'm a dedicated Computer Science student and Web Developer from India,
+                        passionate about creating digital experiences that make a difference.</p>
+                    <p>I specialize in designing clean, minimalistic, and intuitive web interfaces that perfectly blend
+                        aesthetics with usability. With expertise in modern front-end technologies and a keen eye for
+                        design, I transform ideas into responsive, accessible, and performant web applications.</p>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Exp</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Satisfaction</div>
+                        </div>
+                    </div>
+                    <a href="Media/Divyansh Garg.pdf" download class="btn-gradient">
+                        <span>Download Resume</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Projects Section -->
-    <section id="projects" class="bg-dark">
-        <div class="container">
-            <h2>My Projects</h2>
-            <div class="grid grid-projects">
-                <!-- Project Card 1 -->
-                <div class="project-card">
+    <!-- Projects Section -->
+    <section id="projects">
+        <!-- Animated floating shapes -->
+        <svg class="floating-shapes"
+            style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0.4;">
+            <defs>
+                <linearGradient id="shapeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:rgba(245,87,108,0.3);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(79,172,254,0.3);stop-opacity:1" />
+                </linearGradient>
+            </defs>
+
+            <circle cx="10%" cy="20%" r="40" fill="url(#shapeGrad1)" style="filter: blur(20px);">
+                <animate attributeName="cy" values="20%;80%;20%" dur="35s" repeatCount="indefinite" />
+            </circle>
+
+            <rect x="80%" y="60%" width="60" height="60" rx="10" fill="url(#shapeGrad1)" style="filter: blur(20px);">
+                <animate attributeName="y" values="60%;10%;60%" dur="40s" repeatCount="indefinite" />
+                <animateTransform attributeName="transform" type="rotate" values="0 85 65;360 85 65" dur="30s"
+                    repeatCount="indefinite" />
+            </rect>
+
+            <polygon points="90,10 110,50 70,50" fill="url(#shapeGrad1)" style="filter: blur(20px);"
+                transform="translate(85%, 40%)">
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="8s" repeatCount="indefinite" />
+            </polygon>
+        </svg>
+
+        <div class="container reveal">
+            <div class="section-header">
+                <span class="section-tag">My work</span>
+                <h2>Featured Projects</h2>
+            </div>
+
+            <div class="projects-grid">
+
+                <!-- Project 1 -->
+                <div class="project-card" onclick="openProjectModal('cod')" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/COD SS.png" alt="Project One">
+                        <img src="Media/COD SS.png" alt="Call Of Duty Tribute Site Screenshot">
                         <div class="project-overlay">
-                            <h3>Call Of Duty Tribute site</h3>
-                            <a href="https://call-of-duty-tribute.netlify.app/">Live Demo</a>
+                            <h3>Call Of Duty Tribute</h3>
+                            <p>A tribute site honoring the Call of Duty franchise, built with Tailwind &amp; Bootstrap.
+                            </p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;transition:transform 0.3s ease;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
+
                     <div class="project-info">
-                        <h3>Call Of Duty Tribute Site</h3>
+                        <h3>Call Of Duty Tribute</h3>
                         <div class="project-tags">
-                            <span>HTML</span><span>TailWind CSS</span><span>Bootstrap</span>
+                            <span>HTML</span>
+                            <span>Tailwind</span>
+                            <span>Bootstrap</span>
                         </div>
                     </div>
                 </div>
-                <!-- Project Card 2 -->
-                <div class="project-card">
+
+                <!-- Project 2 -->
+                <div class="project-card" onclick="openProjectModal('ac')" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/AC SS.png" alt="Project Two">
+                        <img src="Media/AC SS.png" alt="Assassin's Creed Tribute Site Screenshot">
                         <div class="project-overlay">
-                            <h3>Assasign's Creed Tribute Site</h3>
-                            <a href="https://assassins-creed-tribute.netlify.app/">Live Demo</a>
+                            <h3>Assassin's Creed Tribute</h3>
+                            <p>Showcases design consistency &amp; fluid transitions inspired by the iconic AC series.
+                            </p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;transition:transform 0.3s ease;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
+
                     <div class="project-info">
-                        <h3>Assasign's Creed Tribute Site</h3>
+                        <h3>Assassin's Creed Tribute</h3>
                         <div class="project-tags">
-                            <span>HTML</span><span>CSS</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
                         </div>
                     </div>
                 </div>
-                <!-- Project Card 3 -->
-                <div class="project-card">
+
+                <!-- Project 3 -->
+                <div class="project-card" onclick="openProjectModal('smartsort')" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/Smart Sorter SS.png" alt="Project Three">
+                        <img src="Media/Smart Sorter SS.png" alt="Smart Sort Selector Screenshot">
                         <div class="project-overlay">
                             <h3>Smart Sort Selector</h3>
-                            <a href="#">Live Demo</a>
+                            <p>Python-powered visual sorter with interactive UI for better understanding algorithms.</p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
+
                     <div class="project-info">
                         <h3>Smart Sort Selector</h3>
                         <div class="project-tags">
-                            <span>HTML5</span><span>CSS3</span><span>Python</span>
+                            <span>Python</span>
+                            <span>Tkinter</span>
+                            <span>Algorithms</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                <!-- Project 4 -->
+                <div class="project-card" onclick="openProjectModal('portfolio')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop"
+                            alt="Code Editor Screenshot">
+                        <div class="project-overlay">
+                            <h3>Portfolio Website</h3>
+                            <p>Personal portfolio showcasing projects and skills with modern design and smooth
+                                animations.
+                            </p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3>Portfolio Website</h3>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card" onclick="openProjectModal('python')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+                            alt="Data Visualization">
+                        <div class="project-overlay">
+                            <h3>Python Projects Collection</h3>
+                            <p>Collection of Python scripts and mini-projects demonstrating various programming
+                                concepts.
+                            </p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3>Python Projects</h3>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Automation</span>
+                            <span>Scripts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card" onclick="openProjectModal('webdev')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
+                            alt="Web Development">
+                        <div class="project-overlay">
+                            <h3>Web Development Projects</h3>
+                            <p>Various web development experiments and learning projects using modern frameworks.</p>
+                            <span
+                                style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--gradient-primary);border-radius:8px;font-weight:600;font-size:0.9rem;color:white;">
+                                View Details
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3>Web Dev Experiments</h3>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- .projects-grid -->
+        </div> <!-- .container -->
     </section>
+
 
     <!-- Skills Section -->
     <section id="skills">
-        <div class="container">
-            <h2>My Skills</h2>
-            <div class="grid grid-skills">
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/javascript/javascript-icon.svg"
-                        alt="JavaScript">
-                    <h3>JavaScript</h3>
-                </div>
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg"
-                        alt="HTML5">
-                    <h3>HTML5</h3>
-                </div>
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg"
-                        alt="TailWind CSS">
-                    <h3>TailWind CSS</h3>
-                </div>
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/w3_css/w3_css-icon.svg"
-                        alt="CSS Icon">
-                    <h3>CSS3</h3>
-                </div>
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/getbootstrap/getbootstrap-icon.svg"
-                        alt="Bootstrap">
-                    <h3>Bootstrap</h3>
-                </div>
-                <div class="skill-card"><img src="https://www.vectorlogo.zone/logos/python/python-icon.svg"
-                        alt="Python">
-                    <h3>Python</h3>
-                </div>
+        <!-- Animated mesh grid -->
+        <svg class="mesh-grid"
+            style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0.15;">
+            <defs>
+                <linearGradient id="meshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:rgba(102,126,234,0.5);stop-opacity:1">
+                        <animate attributeName="stop-color"
+                            values="rgba(102,126,234,0.5);rgba(245,87,108,0.5);rgba(102,126,234,0.5)" dur="15s"
+                            repeatCount="indefinite" />
+                    </stop>
+                    <stop offset="100%" style="stop-color:rgba(79,172,254,0.5);stop-opacity:1">
+                        <animate attributeName="stop-color"
+                            values="rgba(79,172,254,0.5);rgba(102,126,234,0.5);rgba(79,172,254,0.5)" dur="15s"
+                            repeatCount="indefinite" />
+                    </stop>
+                </linearGradient>
+            </defs>
+            <path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#meshGrad)" stroke-width="2" fill="none">
+                <animate attributeName="d"
+                    values="M0,200 Q300,100 600,200 T1200,200;M0,200 Q300,300 600,200 T1200,200;M0,200 Q300,100 600,200 T1200,200"
+                    dur="20s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,400 Q300,300 600,400 T1200,400" stroke="url(#meshGrad)" stroke-width="2" fill="none">
+                <animate attributeName="d"
+                    values="M0,400 Q300,300 600,400 T1200,400;M0,400 Q300,500 600,400 T1200,400;M0,400 Q300,300 600,400 T1200,400"
+                    dur="25s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,600 Q300,500 600,600 T1200,600" stroke="url(#meshGrad)" stroke-width="2" fill="none">
+                <animate attributeName="d"
+                    values="M0,600 Q300,500 600,600 T1200,600;M0,600 Q300,700 600,600 T1200,600;M0,600 Q300,500 600,600 T1200,600"
+                    dur="30s" repeatCount="indefinite" />
+            </path>
+        </svg>
+        <div class="container reveal">
+            <div class="section-header">
+                <span class="section-tag">My expertise</span>
+                <h2>Skills & Technologies</h2>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="skills-tabs">
+                <button class="skill-tab active" data-category="frontend">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    Frontend
+                </button>
+                <button class="skill-tab" data-category="backend">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                        <line x1="6" y1="18" x2="6.01" y2="18" />
+                    </svg>
+                    Backend
+                </button>
+                <button class="skill-tab" data-category="tools">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                    </svg>
+                    Tools
+                </button>
+                <button class="skill-tab" data-category="languages">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                    Languages
+                </button>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="skills-grid-interactive" id="skillsContainer">
+                <!-- Skills will be dynamically inserted here -->
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="bg-dark">
-        <div class="container">
-            <h2 style="text-align:center;">Get In Touch</h2>
-            <p style="text-align:center;">Have a project in mind or just want to say hello? My inbox is always open.</p>
-            <form action="#" method="POST" class="contact-form">
+    <section id="contact">
+        <div class="container reveal">
+            <div class="section-header">
+                <span class="section-tag">Get in touch</span>
+                <h2>Let's Work Together</h2>
+            </div>
+            <form action="https://formspree.io/f/xrbyynjq" method="POST" class="contact-form">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="Your Name" class="form-input" required>
                     <input type="email" name="email" placeholder="Your Email" class="form-input" required>
                 </div>
-                <div style="margin-top: 1.5rem;">
-                    <textarea name="message" placeholder="Your Message" class="form-textarea" required></textarea>
-                </div>
+                <textarea name="message" placeholder="Your Message" class="form-textarea" required></textarea>
                 <div style="text-align:center; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="btn-gradient">
+                        <span>Send Message</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                        </svg>
+                    </button>
                 </div>
             </form>
         </div>
@@ -182,14 +569,205 @@
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
-            <div class="footer-links">
-                <a href="https://github.com/Divyansh3105" target="_blank">GitHub</a>
-                <a href="www.linkedin.com/in/divyanshgarg3105" target="_blank">LinkedIn</a>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://github.com/Divyansh3105" target="_blank" rel="noopener"
+                        aria-label="GitHub Profile">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/divyanshgarg3105/" target="_blank" rel="noopener"
+                        aria-label="LinkedIn Profile">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="mailto:divyanshgarg3105@gmail.com" aria-label="Email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        Email
+                    </a>
+                </div>
+                <p>&copy; 2025 Divyansh Garg. Crafted with passion and code.</p>
             </div>
-            <p>&copy; 2025 Divyansh Garg. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6" />
+        </svg>
+    </button>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeProjectModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="Project Screenshot" />
+            </div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle"></h3>
+                    <p class="modal-description" id="modalDescription"></p>
+                </div>
+
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="16 18 22 12 16 6" />
+                            <polyline points="8 6 2 12 8 18" />
+                        </svg>
+                        Technologies Used
+                    </div>
+                    <div class="modal-tech-stack" id="modalTechStack"></div>
+                </div>
+
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        Key Features
+                    </div>
+                    <ul class="modal-features" id="modalFeatures"></ul>
+                </div>
+
+                <div class="modal-actions">
+                    <a id="modalLiveLink" href="#" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        View Live Site
+                    </a>
+                    <a id="modalCodeLink" href="#" target="_blank" rel="noopener" class="modal-btn modal-btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        View Code
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Switcher Panel -->
+    <div class="theme-panel" id="themePanel">
+        <div class="theme-panel-header">
+            <h3>Choose Your Theme</h3>
+            <button class="theme-panel-close" id="themePanelClose" aria-label="Close theme panel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="theme-options">
+            <button class="theme-option active" data-theme="cyber-blue">
+                <div class="theme-preview">
+                    <div class="theme-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+                    </div>
+                </div>
+                <div class="theme-info">
+                    <span class="theme-name">Cyber Blue</span>
+                    <span class="theme-desc">Default theme</span>
+                </div>
+                <div class="theme-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+            </button>
+
+            <button class="theme-option" data-theme="purple-aurora">
+                <div class="theme-preview">
+                    <div class="theme-color" style="background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #c084fc 0%, #f472b6 100%)">
+                    </div>
+                </div>
+                <div class="theme-info">
+                    <span class="theme-name">Purple Aurora</span>
+                    <span class="theme-desc">Vibrant & mystical</span>
+                </div>
+                <div class="theme-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+            </button>
+
+            <button class="theme-option" data-theme="frost-white">
+                <div class="theme-preview">
+                    <div class="theme-color" style="background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #93c5fd 0%, #c4b5fd 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)">
+                    </div>
+                </div>
+                <div class="theme-info">
+                    <span class="theme-name">Frost White</span>
+                    <span class="theme-desc">Clean & minimal</span>
+                </div>
+                <div class="theme-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+            </button>
+
+            <button class="theme-option" data-theme="sunset-red">
+                <div class="theme-preview">
+                    <div class="theme-color" style="background: linear-gradient(135deg, #f97316 0%, #dc2626 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #fb923c 0%, #ef4444 100%)">
+                    </div>
+                    <div class="theme-color" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)">
+                    </div>
+                </div>
+                <div class="theme-info">
+                    <span class="theme-name">Sunset Red</span>
+                    <span class="theme-desc">Warm & energetic</span>
+                </div>
+                <div class="theme-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Theme Panel Overlay -->
+    <div class="theme-panel-overlay" id="themePanelOverlay"></div>
+
+    <script src="main.js"></script>
 </body>
 
-</html>
+</html></button>span>div> </svg></div></button>div>

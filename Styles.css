@@ -122,6 +122,8 @@ section {
   padding: 8rem 0;
   position: relative;
   transition: background-color var(--theme-transition);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 /* Header */
@@ -1903,9 +1905,14 @@ h2 {
 .blur-blob,
 .animated-bg,
 .gradient-wave {
-  will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* Only add will-change during animations */
+.gradient-orb.animating,
+.blur-blob.animating {
+  will-change: transform;
 }
 
 /* Universal theme transition for all elements */
@@ -2465,12 +2472,22 @@ body.keyboard-nav .modal-keyboard-hints {
   .animated-bg,
   .blur-blob,
   .floating-shapes,
-  .mesh-grid {
-    display: none;
+  .mesh-grid,
+  .gradient-wave {
+    display: none !important;
   }
 
   .gradient-orb {
-    filter: blur(60px);
+    filter: blur(40px);
+    animation: none !important;
+  }
+
+  /* Reduce orb count on mobile */
+  .orb-2,
+  .orb-3,
+  .blob-2,
+  .blob-3 {
+    display: none !important;
   }
 
   /* Disable parallax on mobile for better performance */

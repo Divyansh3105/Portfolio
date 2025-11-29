@@ -97,16 +97,15 @@ window.addEventListener("scroll", () => {
   updateScrollProgress();
 });
 
-// Page loader
+// Page loader - optimized for faster display
 const hideLoader = () => {
   const loader = document.getElementById("pageLoader");
   if (loader) {
+    // Hide immediately when DOM is ready
+    loader.classList.add("hidden");
     setTimeout(() => {
-      loader.classList.add("hidden");
-      setTimeout(() => {
-        loader.style.display = "none";
-      }, 500);
-    }, 500);
+      loader.style.display = "none";
+    }, 300);
   }
 };
 
@@ -297,28 +296,35 @@ const enhanceProjectCards = () => {
   });
 };
 
-// Parallax intro animation on page load
+// Parallax intro animation on page load - optimized
 const initParallaxIntro = () => {
+  // Only animate sections that are in viewport
   const sections = document.querySelectorAll("section");
+  const windowHeight = window.innerHeight;
 
   sections.forEach((section, index) => {
     // Skip hero section as it has its own animation
     if (section.id === "home") return;
 
-    section.style.opacity = "0";
-    section.style.transform = "translateY(60px)";
+    const rect = section.getBoundingClientRect();
 
-    setTimeout(() => {
-      section.style.transition =
-        "opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)";
-      section.style.opacity = "1";
-      section.style.transform = "translateY(0)";
+    // Only animate if section is near viewport
+    if (rect.top < windowHeight * 1.5) {
+      section.style.opacity = "0";
+      section.style.transform = "translateY(30px)";
 
-      // Remove transition after animation completes
       setTimeout(() => {
-        section.style.transition = "";
-      }, 1000);
-    }, 100 + index * 150);
+        section.style.transition =
+          "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+        section.style.opacity = "1";
+        section.style.transform = "translateY(0)";
+
+        // Remove transition after animation completes
+        setTimeout(() => {
+          section.style.transition = "";
+        }, 600);
+      }, 50 + index * 100);
+    }
   });
 };
 
@@ -362,8 +368,13 @@ if (window.innerWidth > 768) {
   createCursorTrail();
 }
 
-// Create floating particles
+// Create floating particles - optimized for performance
 const createFloatingParticles = () => {
+  // Skip on mobile or low-end devices
+  if (window.innerWidth <= 768 || navigator.hardwareConcurrency < 4) {
+    return;
+  }
+
   const particleContainer = document.createElement("div");
   particleContainer.className = "particle-container";
   particleContainer.style.cssText = `
@@ -375,57 +386,56 @@ const createFloatingParticles = () => {
   `;
   document.body.appendChild(particleContainer);
 
+  let particleCount = 0;
+  const maxParticles = 10; // Reduced from unlimited
+
   const createParticle = () => {
+    if (particleCount >= maxParticles) return;
+
     const particle = document.createElement("div");
-    const size = Math.random() * 4 + 2;
+    const size = Math.random() * 3 + 2;
     const startX = Math.random() * window.innerWidth;
-    const duration = Math.random() * 20 + 15;
-    const delay = Math.random() * 5;
+    const duration = Math.random() * 15 + 10; // Faster animations
 
     particle.style.cssText = `
       position: absolute;
       width: ${size}px;
       height: ${size}px;
-      background: radial-gradient(circle, rgba(102, 126, 234, 0.8), transparent);
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.6), transparent);
       border-radius: 50%;
       bottom: -10px;
       left: ${startX}px;
-      animation: floatUp ${duration}s linear ${delay}s infinite;
+      animation: floatUp ${duration}s linear infinite;
       opacity: 0;
+      will-change: transform;
     `;
 
     particleContainer.appendChild(particle);
+    particleCount++;
 
     // Remove particle after animation
     setTimeout(() => {
       particle.remove();
-    }, (duration + delay) * 1000);
+      particleCount--;
+    }, duration * 1000);
   };
 
-  // Create particles periodically
-  setInterval(createParticle, 500);
+  // Create fewer particles, less frequently
+  setInterval(createParticle, 2000); // Reduced frequency
 
   // Add CSS animation
   const style = document.createElement("style");
   style.textContent = `
     @keyframes floatUp {
       0% {
-        transform: translateY(0) translateX(0) scale(0);
+        transform: translateY(0) scale(0);
         opacity: 0;
       }
       10% {
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-50vh) translateX(${
-          Math.random() * 100 - 50
-        }px) scale(1);
-        opacity: 0.4;
+        opacity: 0.5;
       }
       100% {
-        transform: translateY(-100vh) translateX(${
-          Math.random() * 200 - 100
-        }px) scale(0.5);
+        transform: translateY(-100vh) scale(0.5);
         opacity: 0;
       }
     }
@@ -433,37 +443,52 @@ const createFloatingParticles = () => {
   document.head.appendChild(style);
 };
 
-// Initialize particles on desktop
-if (window.innerWidth > 768) {
-  createFloatingParticles();
+// Initialize particles on desktop with good hardware
+if (window.innerWidth > 768 && navigator.hardwareConcurrency >= 4) {
+  // Delay particle creation until after page load
+  setTimeout(createFloatingParticles, 2000);
 }
 
-// Add interactive blob effect on mouse move
+// Add interactive blob effect on mouse move - optimized
 const createInteractiveBlob = () => {
+  // Skip on mobile or low-end devices
+  if (window.innerWidth <= 768 || navigator.hardwareConcurrency < 4) {
+    return;
+  }
+
   const blob = document.createElement("div");
   blob.className = "interactive-blob";
   blob.style.cssText = `
     position: fixed;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.15), transparent);
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
     border-radius: 50%;
     filter: blur(60px);
     pointer-events: none;
     z-index: 0;
-    transition: transform 0.3s ease;
+    will-change: transform;
   `;
   document.body.appendChild(blob);
 
+  // Throttle mouse move events
+  let ticking = false;
   document.addEventListener("mousemove", (e) => {
-    blob.style.left = `${e.clientX - 150}px`;
-    blob.style.top = `${e.clientY - 150}px`;
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        blob.style.transform = `translate(${e.clientX - 150}px, ${
+          e.clientY - 150
+        }px)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 };
 
-// Initialize interactive blob on desktop
-if (window.innerWidth > 768) {
-  createInteractiveBlob();
+// Initialize interactive blob on desktop with delay
+if (window.innerWidth > 768 && navigator.hardwareConcurrency >= 4) {
+  setTimeout(createInteractiveBlob, 1000);
 }
 
 // Project Modal Data

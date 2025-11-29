@@ -13,10 +13,62 @@
         content="Divyansh Garg, Web Developer, UI UX Designer, Portfolio, HTML, CSS, Tailwind, Bootstrap, Python">
     <meta name="author" content="Divyansh Garg">
 
-    <link rel="icon" href="Media/favicon.png" type="image/png">
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://formspree.io">
+
+    <!-- Load fonts with display=swap for better performance -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- Preload critical CSS -->
     <link rel="stylesheet" href="./Styles.css">
+
+    <!-- Preload critical JavaScript -->
+    <link rel="modulepreload" href="./main.js">
+
+    <!-- Critical CSS for faster initial render -->
+    <style>
+        body {
+            margin: 0;
+            background: #0a0a0f;
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif
+        }
+
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, .1);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -67,42 +119,42 @@
     <section id="home">
         <div class="hero-bg">
             <!-- Animated SVG Mesh Background -->
-            <div class="animated-bg">
-                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid slice"></svg>
-                <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:rgba(102,126,234,0.3);stop-opacity:1">
-                            <animate attributeName="stop-color"
-                                values="rgba(102,126,234,0.3);rgba(245,87,108,0.3);rgba(79,172,254,0.3);rgba(102,126,234,0.3)"
-                                dur="20s" repeatCount="indefinite" />
-                        </stop>
-                        <stop offset="100%" style="stop-color:rgba(245,87,108,0.2);stop-opacity:1">
-                            <animate attributeName="stop-color"
-                                values="rgba(245,87,108,0.2);rgba(79,172,254,0.2);rgba(102,126,234,0.2);rgba(245,87,108,0.2)"
-                                dur="20s" repeatCount="indefinite" />
-                        </stop>
-                    </linearGradient>
-                    <filter id="goo">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-                            result="goo" />
-                    </filter>
-                </defs>
-                <g filter="url(#goo)">
-                    <circle cx="200" cy="200" r="100" fill="url(#grad1)">
-                        <animate attributeName="cx" values="200;800;200" dur="25s" repeatCount="indefinite" />
-                        <animate attributeName="cy" values="200;400;200" dur="30s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="800" cy="400" r="120" fill="url(#grad1)" opacity="0.8">
-                        <animate attributeName="cx" values="800;400;800" dur="30s" repeatCount="indefinite" />
-                        <animate attributeName="cy" values="400;600;400" dur="25s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="600" cy="600" r="80" fill="url(#grad1)" opacity="0.6">
-                        <animate attributeName="cx" values="600;300;600" dur="28s" repeatCount="indefinite" />
-                        <animate attributeName="cy" values="600;300;600" dur="32s" repeatCount="indefinite" />
-                    </circle>
-                </g>
+            <div class="animated-bg" style="will-change: transform;">
+                <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+                    style="will-change: auto;">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:rgba(102,126,234,0.3);stop-opacity:1">
+                                <animate attributeName="stop-color"
+                                    values="rgba(102,126,234,0.3);rgba(245,87,108,0.3);rgba(79,172,254,0.3);rgba(102,126,234,0.3)"
+                                    dur="20s" repeatCount="indefinite" />
+                            </stop>
+                            <stop offset="100%" style="stop-color:rgba(245,87,108,0.2);stop-opacity:1">
+                                <animate attributeName="stop-color"
+                                    values="rgba(245,87,108,0.2);rgba(79,172,254,0.2);rgba(102,126,234,0.2);rgba(245,87,108,0.2)"
+                                    dur="20s" repeatCount="indefinite" />
+                            </stop>
+                        </linearGradient>
+                        <filter id="goo">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                                result="goo" />
+                        </filter>
+                    </defs>
+                    <g filter="url(#goo)">
+                        <circle cx="200" cy="200" r="100" fill="url(#grad1)">
+                            <animate attributeName="cx" values="200;800;200" dur="25s" repeatCount="indefinite" />
+                            <animate attributeName="cy" values="200;400;200" dur="30s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="800" cy="400" r="120" fill="url(#grad1)" opacity="0.8">
+                            <animate attributeName="cx" values="800;400;800" dur="30s" repeatCount="indefinite" />
+                            <animate attributeName="cy" values="400;600;400" dur="25s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="600" cy="600" r="80" fill="url(#grad1)" opacity="0.6">
+                            <animate attributeName="cx" values="600;300;600" dur="28s" repeatCount="indefinite" />
+                            <animate attributeName="cy" values="600;300;600" dur="32s" repeatCount="indefinite" />
+                        </circle>
+                    </g>
                 </svg>
             </div>
 
@@ -207,7 +259,8 @@
             <div class="about-grid">
                 <div class="about-image-wrapper">
                     <div class="about-image-card">
-                        <img src="Media/Divyansh.webp" alt="Portrait of Divyansh Garg">
+                        <img src="Media/Divyansh.webp" alt="Portrait of Divyansh Garg" loading="lazy" width="400"
+                            height="400">
                         <div class="image-glow"></div>
                     </div>
                 </div>
@@ -287,7 +340,8 @@
                     onkeydown="handleProjectKeydown(event, 'cod')" tabindex="0" role="button"
                     aria-label="View Call Of Duty Tribute project details" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/COD SS.webp" alt="Call Of Duty Tribute Site Screenshot">
+                        <img src="Media/COD SS.webp" alt="Call Of Duty Tribute Site Screenshot" loading="lazy"
+                            width="800" height="600">
                         <div class="project-overlay">
                             <h3>Call Of Duty Tribute</h3>
                             <p>A tribute site honoring the Call of Duty franchise, built with Tailwind &amp; Bootstrap.
@@ -318,7 +372,8 @@
                     tabindex="0" role="button" aria-label="View Assassin's Creed Tribute project details"
                     style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/AC SS.webp" alt="Assassin's Creed Tribute Site Screenshot">
+                        <img src="Media/AC SS.webp" alt="Assassin's Creed Tribute Site Screenshot" loading="lazy"
+                            width="800" height="600">
                         <div class="project-overlay">
                             <h3>Assassin's Creed Tribute</h3>
                             <p>Showcases design consistency &amp; fluid transitions inspired by the iconic AC series.
@@ -348,7 +403,8 @@
                     onkeydown="handleProjectKeydown(event, 'smartsort')" tabindex="0" role="button"
                     aria-label="View Smart Sort Selector project details" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="Media/Smart Sorter SS.webp" alt="Smart Sort Selector Screenshot">
+                        <img src="Media/Smart Sorter SS.webp" alt="Smart Sort Selector Screenshot" loading="lazy"
+                            width="800" height="600">
                         <div class="project-overlay">
                             <h3>Smart Sort Selector</h3>
                             <p>Python-powered visual sorter with interactive UI for better understanding algorithms.</p>
@@ -379,7 +435,7 @@
                     aria-label="View Portfolio Website project details" style="cursor: pointer;">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop"
-                            alt="Code Editor Screenshot">
+                            alt="Code Editor Screenshot" loading="lazy" width="800" height="600">
                         <div class="project-overlay">
                             <h3>Portfolio Website</h3>
                             <p>Personal portfolio showcasing projects and skills with modern design and smooth
@@ -412,7 +468,7 @@
                     aria-label="View Python Projects Collection details" style="cursor: pointer;">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
-                            alt="Data Visualization">
+                            alt="Data Visualization" loading="lazy" width="800" height="600">
                         <div class="project-overlay">
                             <h3>Python Projects Collection</h3>
                             <p>Collection of Python scripts and mini-projects demonstrating various programming
@@ -445,7 +501,7 @@
                     aria-label="View Web Development Experiments details" style="cursor: pointer;">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
-                            alt="Web Development">
+                            alt="Web Development" loading="lazy" width="800" height="600">
                         <div class="project-overlay">
                             <h3>Web Development Projects</h3>
                             <p>Various web development experiments and learning projects using modern frameworks.</p>
@@ -838,7 +894,7 @@
     <!-- Theme Panel Overlay -->
     <div class="theme-panel-overlay" id="themePanelOverlay"></div>
 
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 </body>
 
 </html></button>span>div> </svg></div></button>div>

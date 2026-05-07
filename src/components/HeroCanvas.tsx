@@ -47,8 +47,8 @@ export default function HeroCanvas() {
     icosahedron.position.set(2.5, 0, 0);
     scene.add(icosahedron);
 
-    // ── Torus Knot ──
-    const torusGeo = new THREE.TorusKnotGeometry(0.8, 0.25, 120, 12);
+    // ── Torus Knot (simplified geometry: 80×8 instead of 120×12) ──
+    const torusGeo = new THREE.TorusKnotGeometry(0.8, 0.25, 80, 8);
     const torusMat = new THREE.MeshPhongMaterial({
       color: 0x9b59fc,
       wireframe: true,
@@ -60,8 +60,8 @@ export default function HeroCanvas() {
     torusKnot.position.set(-2.5, 0.5, -1);
     scene.add(torusKnot);
 
-    // ── Floating Particles ──
-    const particleCount = 1500;
+    // ── Floating Particles (reduced 1500 → 600) ──
+    const particleCount = 600;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       positions[i * 3]     = (Math.random() - 0.5) * 20;
@@ -72,7 +72,7 @@ export default function HeroCanvas() {
     particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const particleMat = new THREE.PointsMaterial({
       color: 0x00f5ff,
-      size: 0.03,
+      size: 0.04,
       transparent: true,
       opacity: 0.6,
       sizeAttenuation: true,
@@ -113,10 +113,14 @@ export default function HeroCanvas() {
 
     // ── Animation Loop ──
     let animId: number;
+    let isVisible = true;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      // ← Key fix: skip rendering when hero is scrolled out of view
+      if (!isVisible) return;
+
       const t = clock.getElapsedTime();
 
       // Rotate meshes
@@ -142,10 +146,22 @@ export default function HeroCanvas() {
     };
     animate();
 
+    // ── IntersectionObserver: pause rAF when hero scrolls off-screen ──
+    const heroSection = canvas.closest('section') ?? canvas;
+    const observer = new IntersectionObserver(
+      (entries) => { isVisible = entries[0].isIntersecting; },
+      { threshold: 0.01 }
+    );
+    observer.observe(heroSection);
+
     return () => {
       cancelAnimationFrame(animId);
+      observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
+      // Dispose GPU resources
+      [icoGeo, torusGeo, particleGeo, octaGeo].forEach(g => g.dispose());
+      [icoMat, torusMat, particleMat, octaMat].forEach(m => m.dispose());
       renderer.dispose();
     };
   }, []);
@@ -161,6 +177,7 @@ export default function HeroCanvas() {
         height: '100%',
         pointerEvents: 'none',
         transition: 'opacity 0.35s ease',
+        willChange: 'transform',
       }}
     />
   );

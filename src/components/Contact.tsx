@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
 import styles from './Contact.module.css';
 
 const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
@@ -19,6 +18,7 @@ export default function Contact() {
     try {
       // If env vars are set, send via EmailJS; otherwise fall back to simulation
       if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
+        const emailjs = (await import('@emailjs/browser')).default;
         await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
       } else {
         // Fallback simulation when EmailJS not configured yet

@@ -3,7 +3,7 @@
    Theme: Dark Cosmos | Cyan + Violet Neon
 ═══════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Fonts loaded via <link> in index.html to avoid render-blocking @import */
 
 /* ── TOKENS ── */
 :root {
@@ -252,6 +252,7 @@ img, svg { display: block; max-width: 100%; }
   outline: none;
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 
 .btn::after {
@@ -373,6 +374,7 @@ img, svg { display: block; max-width: 100%; }
   z-index: 9999;
   transition: transform 0.1s ease;
   mix-blend-mode: screen;
+  will-change: transform;
 }
 
 #cursor-ring {
@@ -386,6 +388,7 @@ img, svg { display: block; max-width: 100%; }
   pointer-events: none;
   z-index: 9998;
   transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
 }
 
 #cursor-ring.hovered {
@@ -420,10 +423,12 @@ img, svg { display: block; max-width: 100%; }
 .gsap-fade-up {
   opacity: 0;
   transform: translateY(50px);
+  will-change: transform, opacity;
 }
 
 .gsap-fade-in {
   opacity: 0;
+  will-change: opacity;
 }
 
 /* ── RESPONSIVE ── */

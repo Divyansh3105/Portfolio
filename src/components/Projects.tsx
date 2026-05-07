@@ -25,19 +25,44 @@ export default function Projects() {
   );
 
   useEffect(() => {
-    // Re-apply vanilla tilt dynamically
-    const applyTilt = async () => {
-      const { default: VanillaTilt } = await import("vanilla-tilt");
-      const cards = document.querySelectorAll(".tilt-card");
-      VanillaTilt.init(Array.from(cards) as HTMLElement[], {
+    // Apply vanilla-tilt lazily via IntersectionObserver instead of all at once
+    let observer: IntersectionObserver;
+
+    const applyTiltToElement = async (el: HTMLElement) => {
+      const { default: VanillaTilt } = await import('vanilla-tilt');
+      VanillaTilt.init([el], {
         max: 10,
         speed: 400,
         glare: true,
-        "max-glare": 0.1,
+        'max-glare': 0.1,
         perspective: 1000,
       });
     };
-    applyTilt();
+
+    const initObserver = () => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              applyTiltToElement(entry.target as HTMLElement);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '100px' }
+      );
+      document.querySelectorAll<HTMLElement>('.tilt-card').forEach((card) => {
+        observer.observe(card);
+      });
+    };
+
+    // Small delay to let DOM settle after filter change
+    const timeout = setTimeout(initObserver, 50);
+
+    return () => {
+      clearTimeout(timeout);
+      if (observer) observer.disconnect();
+    };
   }, [activeCategory, visibleCount]);
 
   const categoryLabel: Record<Category, string> = {

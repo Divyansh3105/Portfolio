@@ -328,9 +328,9 @@ img, svg { display: block; max-width: 100%; }
   66%       { transform: translateY(-6px) rotate(-1deg); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px hsla(185, 100%, 52%, 0.2); }
-  50%       { box-shadow: 0 0 40px hsla(185, 100%, 52%, 0.5); }
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.6; }
 }
 
 @keyframes spin-slow {

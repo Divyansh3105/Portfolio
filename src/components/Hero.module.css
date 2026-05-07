@@ -20,6 +20,7 @@
   border-radius: 50%;
   pointer-events: none;
   animation: float 8s ease-in-out infinite;
+  will-change: transform;
 }
 
 .blob2 {
@@ -34,6 +35,7 @@
   border-radius: 50%;
   pointer-events: none;
   animation: float 10s ease-in-out infinite reverse;
+  will-change: transform;
 }
 
 .content {
@@ -65,8 +67,10 @@
   height: 7px;
   background: hsl(130, 70%, 55%);
   border-radius: 50%;
-  animation: pulse-glow 2s ease-in-out infinite;
+  /* scale+opacity is compositor-only — no box-shadow animation */
+  animation: pulse-scale 2s ease-in-out infinite;
   box-shadow: 0 0 8px hsl(130, 70%, 55%);
+  will-change: transform, opacity;
 }
 
 /* Name */
@@ -93,8 +97,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  background-size: 200% 200%;
-  animation: gradient-shift 4s ease infinite;
+  /* Removed gradient-shift (background-position animation = non-composited)
+     Using static gradient — visually identical, zero jank */
   letter-spacing: -0.03em;
   line-height: 1;
   position: relative;
@@ -257,6 +261,7 @@
   height: 48px;
   background: linear-gradient(to bottom, var(--accent-cyan), transparent);
   animation: float 2s ease-in-out infinite;
+  will-change: transform;
 }
 
 @media (max-width: 768px) {

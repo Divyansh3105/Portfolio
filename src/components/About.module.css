@@ -87,7 +87,8 @@
   font-weight: 700;
   color: hsl(225, 28%, 5%);
   flex-shrink: 0;
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-scale 3s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .infoName {
@@ -129,7 +130,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
-  transition: var(--transition);
+  transition: transform 0.3s ease;
+  will-change: transform;
 }
 
 .factChip:hover {
@@ -218,6 +220,7 @@
     transparent 100%
   );
   animation: shimmer 1.6s ease-in-out infinite;
+  will-change: transform;
 }
 
 .githubStatImg {

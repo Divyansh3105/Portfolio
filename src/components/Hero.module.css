@@ -1,0 +1,270 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Gradient blobs */
+.blob1 {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  background: radial-gradient(circle, hsla(185, 100%, 52%, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+.blob2 {
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  background: radial-gradient(circle, hsla(265, 85%, 68%, 0.07) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  max-width: 750px;
+}
+
+/* Status badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1rem;
+  border-radius: 100px;
+  border: 1px solid hsla(120, 70%, 50%, 0.3);
+  background: hsla(120, 70%, 50%, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: hsl(130, 70%, 65%);
+  letter-spacing: 0.04em;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  background: hsl(130, 70%, 55%);
+  border-radius: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
+  box-shadow: 0 0 8px hsl(130, 70%, 55%);
+}
+
+/* Name */
+.name {
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.greeting {
+  display: block;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  margin-bottom: 0.25rem;
+  letter-spacing: normal;
+}
+
+.nameHighlight {
+  display: block;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-cyan) 70%, var(--accent-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  position: relative;
+  cursor: default;
+}
+
+/* Glitch effect on hover */
+.nameHighlight::before,
+.nameHighlight::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.nameHighlight:hover::before {
+  animation: glitch-before 0.4s steps(1) infinite;
+  opacity: 1;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+}
+
+.nameHighlight:hover::after {
+  animation: glitch-after 0.4s steps(1) infinite 0.1s;
+  opacity: 1;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+}
+
+@keyframes glitch-before {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px) skewX(-2deg); }
+  40%       { transform: translateX(4px) skewX(2deg); }
+  60%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px) skewX(-1deg); }
+}
+
+@keyframes glitch-after {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(4px) skewX(2deg); }
+  40%       { transform: translateX(-4px) skewX(-2deg); }
+  60%       { transform: translateX(2px); }
+  80%       { transform: translateX(-2px) skewX(1deg); }
+}
+
+/* Role typewriter */
+.roleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.1em;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.2s ease both;
+  min-height: 2.2rem;
+}
+
+.roleText {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--accent-cyan);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.cursor {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--accent-cyan);
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+
+/* Tagline */
+.tagline {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+/* Resume button — violet glow variant */
+.resumeBtn {
+  border-color: hsla(265, 85%, 68%, 0.5) !important;
+  color: var(--accent-violet) !important;
+}
+
+.resumeBtn:hover {
+  border-color: var(--accent-violet) !important;
+  color: var(--accent-violet) !important;
+  box-shadow: 0 0 24px hsla(265, 85%, 68%, 0.35) !important;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 2.5rem;
+  animation: fadeUp 0.6s 0.5s ease both;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--accent-cyan);
+  line-height: 1;
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* Scroll cue */
+.scrollCue {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  animation: fadeIn 1s 1s ease both;
+  z-index: 10;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+  animation: float 2s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .stats { gap: 1.5rem; }
+  .blob1, .blob2 { opacity: 0.5; }
+  .actions { gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .nameHighlight::before, .nameHighlight::after { display: none; }
+}

@@ -1,0 +1,91 @@
+/* ── ThemeToggle ── pill-style animated sun/moon toggle ── */
+
+.toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Outer pill track */
+.track {
+  display: flex;
+  align-items: center;
+  width: 52px;
+  height: 28px;
+  border-radius: 100px;
+  border: 1.5px solid var(--glass-border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  position: relative;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  padding: 3px;
+}
+
+.dark .track {
+  background: hsla(225, 30%, 14%, 0.8);
+  border-color: hsla(185, 100%, 52%, 0.3);
+}
+
+.light .track {
+  background: hsla(210, 80%, 94%, 0.85);
+  border-color: hsla(45, 98%, 62%, 0.5);
+}
+
+/* Sliding thumb */
+.thumb {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.35s ease,
+              box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+.dark .thumb {
+  background: hsl(225, 30%, 18%);
+  box-shadow: 0 2px 8px hsla(185, 100%, 52%, 0.3);
+  transform: translateX(0px);
+}
+
+.light .thumb {
+  background: hsl(45, 98%, 62%);
+  box-shadow: 0 2px 10px hsla(45, 98%, 62%, 0.5);
+  transform: translateX(24px);
+}
+
+/* Icons inside thumb — crossfade */
+.icon {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transition: opacity 0.25s ease, transform 0.35s ease;
+}
+
+/* Sun — visible in light mode */
+.sun  { color: hsl(225, 28%, 12%); }
+.moon { color: var(--accent-cyan); }
+
+.dark  .sun  { opacity: 0; transform: scale(0.6) rotate(-30deg); }
+.dark  .moon { opacity: 1; transform: scale(1) rotate(0deg); }
+
+.light .sun  { opacity: 1; transform: scale(1) rotate(0deg); }
+.light .moon { opacity: 0; transform: scale(0.6) rotate(30deg); }
+
+/* Hover feedback */
+.toggle:hover .track { border-color: var(--accent-cyan); }
+.toggle:hover .thumb { filter: brightness(1.1); }
+
+.toggle:focus-visible .track {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 100px;
+}

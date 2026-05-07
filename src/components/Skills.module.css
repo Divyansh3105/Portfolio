@@ -1,0 +1,141 @@
+.skills { position: relative; }
+
+/* Override section-header margin for skills — avoids giant gap */
+.skills :global(.section-header) {
+  margin-bottom: 2.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.groupCard {
+  padding: 1.5rem;
+  min-height: 180px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation-delay: var(--delay, 0s);
+}
+
+.groupCard:hover {
+  transform: translateY(-4px);
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.groupIcon {
+  font-size: 1.5rem;
+}
+
+.groupTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.color-cyan   { color: var(--accent-cyan); }
+.color-violet { color: var(--accent-violet); }
+.color-gold   { color: var(--accent-gold); }
+.color-pink   { color: var(--accent-pink); }
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skillPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.skillPill:hover {
+  color: var(--text-primary);
+  border-color: hsla(185, 100%, 52%, 0.3);
+  background: hsla(185, 100%, 52%, 0.08);
+}
+
+.skillDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-cyan   { background: var(--accent-cyan); }
+.dot-violet { background: var(--accent-violet); }
+.dot-gold   { background: var(--accent-gold); }
+.dot-pink   { background: var(--accent-pink); }
+
+/* Learning card */
+.learningCard {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.learningHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.learningTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.learningTag {
+  padding: 0.3rem 0.875rem;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, hsla(185, 100%, 52%, 0.1), hsla(265, 85%, 68%, 0.1));
+  border: 1px solid hsla(265, 85%, 68%, 0.25);
+  color: var(--accent-violet);
+  transition: var(--transition);
+}
+
+.learningTag:hover {
+  background: hsla(265, 85%, 68%, 0.15);
+  border-color: var(--accent-violet);
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .learningCard { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}

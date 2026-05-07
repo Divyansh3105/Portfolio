@@ -1,0 +1,250 @@
+.about {
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Code Card */
+.codeCard {
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.filename {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.code {
+  padding: 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-x: auto;
+  color: var(--text-primary);
+}
+
+/* Syntax colors */
+.keyword  { color: hsl(265, 85%, 75%); }
+.variable { color: hsl(185, 100%, 65%); }
+.op       { color: var(--text-muted); }
+.prop     { color: hsl(200, 80%, 70%); }
+.string   { color: hsl(130, 60%, 65%); }
+.array    { color: hsl(45, 95%, 65%); }
+
+/* Info column */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(225, 28%, 5%);
+  flex-shrink: 0;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.infoName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.infoRole {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.bioCard {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.highlight {
+  color: var(--accent-cyan);
+  font-style: normal;
+}
+
+/* Quick facts */
+.quickFacts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.factChip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  transition: var(--transition);
+}
+
+.factChip:hover {
+  transform: translateY(-2px);
+}
+
+.factIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.factLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.1rem;
+}
+
+.factValue {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .quickFacts { grid-template-columns: 1fr; }
+}
+
+/* ── GitHub Activity Strip ── */
+.githubStrip {
+  margin-top: 2.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  padding: 1.5rem 2rem;
+}
+
+.githubStripLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.githubCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.githubImgWrap {
+  flex: 1;
+  min-width: 280px;
+  min-height: 120px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+/* shimmer skeleton while loading */
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsla(185, 100%, 52%, 0.06) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.githubStatImg {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(1.05);
+  transition: transform 0.3s ease;
+  border-radius: var(--radius-md);
+}
+
+.githubStatImg:hover {
+  transform: scale(1.02);
+}
+
+.githubFallback {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid hsla(185, 100%, 52%, 0.3);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.githubFallback:hover {
+  background: hsla(185, 100%, 52%, 0.1);
+}

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://divyanshgarg.dev/sitemap.xml
+Sitemap: https://divyanshgarg3105.netlify.app/sitemap.xml

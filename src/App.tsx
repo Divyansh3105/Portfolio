@@ -1,26 +1,19 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-
-// ── Lazy-load below-the-fold sections ──
-const About    = lazy(() => import('./components/About'));
-const Skills   = lazy(() => import('./components/Skills'));
-const Projects = lazy(() => import('./components/Projects'));
-const Journey  = lazy(() => import('./components/Journey'));
-const Contact  = lazy(() => import('./components/Contact'));
-const Terminal = lazy(() => import('./components/Terminal'));
+import About from './components/About';
+import Skills from './components/Skills';
+import Projects from './components/Projects';
+import Journey from './components/Journey';
+import Contact from './components/Contact';
+import Terminal from './components/Terminal';
 
 import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Simple loading placeholder — height reserves space so CLS stays at 0
-function SectionSkeleton() {
-  return <div style={{ minHeight: '400px' }} aria-hidden="true" />;
-}
 
 function App() {
   const [terminalOpen, setTerminalOpen] = useState(false);
@@ -149,19 +142,17 @@ function App() {
       <div className="noise-overlay" />
 
       {/* Terminal Easter Egg */}
-      <Suspense fallback={null}>
-        {terminalOpen && <Terminal onClose={() => setTerminalOpen(false)} />}
-      </Suspense>
+      {terminalOpen && <Terminal onClose={() => setTerminalOpen(false)} />}
 
       {/* App */}
       <Navbar />
       <main>
         <Hero />
-        <Suspense fallback={<SectionSkeleton />}><About /></Suspense>
-        <Suspense fallback={<SectionSkeleton />}><Skills /></Suspense>
-        <Suspense fallback={<SectionSkeleton />}><Projects /></Suspense>
-        <Suspense fallback={<SectionSkeleton />}><Journey /></Suspense>
-        <Suspense fallback={<SectionSkeleton />}><Contact /></Suspense>
+        <About />
+        <Skills />
+        <Projects />
+        <Journey />
+        <Contact />
       </main>
 
       <footer

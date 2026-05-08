@@ -27,8 +27,10 @@ export default function Hero() {
       return;
     }
     if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setRoleIndex(i => (i + 1) % roles.length);
+      timeoutRef.current = setTimeout(() => {
+        setIsDeleting(false);
+        setRoleIndex(i => (i + 1) % roles.length);
+      }, speed);
       return;
     }
 

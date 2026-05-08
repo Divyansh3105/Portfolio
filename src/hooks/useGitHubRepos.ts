@@ -63,7 +63,6 @@ export function useGitHubRepos(username: string) {
   useEffect(() => {
     // If we already have cached data in state, skip the fetch
     if (Object.keys(repoMap).length > 0) {
-      setLoading(false);
       return;
     }
 

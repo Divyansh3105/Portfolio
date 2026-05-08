@@ -105,7 +105,7 @@ html.theme-transitioning *::after {
 }
 
 /* Light mode — kbd shortcut chips in contact */
-[data-theme="light"] :global(.kbd) {
+[data-theme="light"] .kbd {
   background: hsla(265, 60%, 90%, 0.6);
   border-color: hsla(265, 60%, 60%, 0.3);
 }

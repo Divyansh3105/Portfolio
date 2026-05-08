@@ -28,7 +28,6 @@ A fully custom, animated developer portfolio built from scratch with React 19, T
 | **3D / Canvas** | Three.js |
 | **Animations** | GSAP + ScrollTrigger, CSS animations |
 | **Tilt effect** | Vanilla Tilt |
-| **Typed text** | Typed.js |
 | **Email** | EmailJS (`@emailjs/browser`) |
 | **Styling** | Vanilla CSS Modules + CSS custom properties |
 | **Fonts** | Space Grotesk · Inter · JetBrains Mono |

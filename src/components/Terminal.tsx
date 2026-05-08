@@ -13,6 +13,8 @@ const COMMANDS: Record<string, string[]> = {
     "  skills      → Tech stack",
     "  projects    → Flagship projects",
     "  contact     → Get in touch",
+    "  socials     → Social links",
+    "  resume      → View resume (PDF)",
     "  github      → Open GitHub profile",
     "  clear       → Clear terminal",
     "  exit        → Close terminal",
@@ -21,8 +23,8 @@ const COMMANDS: Record<string, string[]> = {
     "  Divyansh Garg",
     "  ─────────────────────────────",
     "  Role    : Full Stack Developer",
-    "  Study   : B.Tech CSE, 3rd Year (2022–2026)",
-    "  College : Class of 2026",
+    "  Study   : B.Tech CSE, 3rd Year (2023–2027)",
+    "  College : Class of 2027",
     "  Status  : 🟢 Open to internships",
     "  Based   : India 🇮🇳",
     "  Commits : 351+ in 2025",
@@ -54,6 +56,12 @@ const COMMANDS: Record<string, string[]> = {
     "",
     "  Response time: usually within 24 hours 🚀",
   ],
+  socials: [
+    "  🐙 GitHub   : github.com/Divyansh3105",
+    "  🔗 LinkedIn : linkedin.com/in/divyanshgarg3105",
+    "  📧 Email    : divyanshgarg3105@gmail.com",
+  ],
+  resume: ["  Opening resume..."],
   github: ["  Opening GitHub profile..."],
 };
 
@@ -122,6 +130,9 @@ export default function Terminal({ onClose }: { onClose: () => void }) {
 
       if (trimmed === "github") {
         window.open("https://github.com/Divyansh3105", "_blank");
+        newLines.push({ type: "output", text: "  ↗ Opened in new tab" });
+      } else if (trimmed === "resume") {
+        window.open("/resume.pdf", "_blank");
         newLines.push({ type: "output", text: "  ↗ Opened in new tab" });
       } else if (COMMANDS[trimmed]) {
         COMMANDS[trimmed].forEach((t) =>

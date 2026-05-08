@@ -9,7 +9,6 @@ export interface Project {
   stars?: number;
   featured?: boolean;
   emoji: string;
-  gradient: string;
 }
 
 export const projects: Project[] = [
@@ -25,7 +24,6 @@ export const projects: Project[] = [
     stars: 1,
     featured: true,
     emoji: "💬",
-    gradient: "from-cyan-500 to-blue-600",
   },
   {
     id: 2,
@@ -38,7 +36,6 @@ export const projects: Project[] = [
     stars: 1,
     featured: true,
     emoji: "⚡",
-    gradient: "from-violet-500 to-purple-700",
   },
   {
     id: 3,
@@ -51,7 +48,6 @@ export const projects: Project[] = [
     demo: "https://gitdevprofile.vercel.app/",
     featured: true,
     emoji: "🔍",
-    gradient: "from-emerald-500 to-teal-600",
   },
   {
     id: 4,
@@ -65,7 +61,6 @@ export const projects: Project[] = [
     stars: 1,
     featured: true,
     emoji: "🗡️",
-    gradient: "from-red-600 to-orange-500",
   },
   {
     id: 5,
@@ -79,7 +74,6 @@ export const projects: Project[] = [
     stars: 1,
     featured: true,
     emoji: "🌊",
-    gradient: "from-blue-400 to-cyan-500",
   },
   {
     id: 6,
@@ -90,7 +84,6 @@ export const projects: Project[] = [
     category: "tools",
     github: "https://github.com/Divyansh3105/Currency-Converter",
     emoji: "💱",
-    gradient: "from-green-400 to-emerald-500",
   },
   {
     id: 7,
@@ -101,7 +94,6 @@ export const projects: Project[] = [
     category: "frontend",
     github: "https://github.com/Divyansh3105/Recipe-Finder",
     emoji: "🍳",
-    gradient: "from-orange-400 to-amber-500",
   },
   {
     id: 8,
@@ -112,7 +104,6 @@ export const projects: Project[] = [
     category: "tools",
     github: "https://github.com/Divyansh3105/TODO-App",
     emoji: "✅",
-    gradient: "from-sky-400 to-blue-500",
   },
   {
     id: 9,
@@ -123,7 +114,6 @@ export const projects: Project[] = [
     category: "tools",
     github: "https://github.com/Divyansh3105/Expense-Tracker",
     emoji: "💰",
-    gradient: "from-yellow-400 to-orange-400",
   },
   {
     id: 10,
@@ -134,7 +124,6 @@ export const projects: Project[] = [
     category: "tools",
     github: "https://github.com/Divyansh3105/Password-Generator",
     emoji: "🔐",
-    gradient: "from-rose-500 to-pink-600",
   },
   {
     id: 11,
@@ -145,7 +134,6 @@ export const projects: Project[] = [
     category: "frontend",
     github: "https://github.com/Divyansh3105/Form-Validator",
     emoji: "📋",
-    gradient: "from-indigo-400 to-violet-500",
   },
   {
     id: 12,
@@ -156,7 +144,6 @@ export const projects: Project[] = [
     category: "frontend",
     github: "https://github.com/Divyansh3105/Quote-Generator",
     emoji: "💭",
-    gradient: "from-fuchsia-500 to-purple-600",
   },
   {
     id: 13,
@@ -165,9 +152,8 @@ export const projects: Project[] = [
       "Browser-based bookmark manager with local persistence and quick access to saved links.",
     tags: ["CSS", "JavaScript", "LocalStorage"],
     category: "tools",
-    github: "https://github.com/Divyansh3105/Bookmar-Saver",
+    github: "https://github.com/Divyansh3105/Bookmark-Saver",
     emoji: "🔖",
-    gradient: "from-teal-400 to-cyan-500",
   },
   {
     id: 14,
@@ -178,7 +164,6 @@ export const projects: Project[] = [
     category: "creative",
     github: "https://github.com/Divyansh3105/Confetti",
     emoji: "🎉",
-    gradient: "from-pink-400 to-rose-500",
   },
   {
     id: 15,
@@ -189,7 +174,6 @@ export const projects: Project[] = [
     category: "frontend",
     github: "https://github.com/Divyansh3105/cookie-consent",
     emoji: "🍪",
-    gradient: "from-amber-400 to-yellow-500",
   },
 ];
 

@@ -133,7 +133,7 @@ export default function About() {
                 {
                   icon: "🎓",
                   label: "College",
-                  value: "B.Tech CSE | Class of 2026",
+                  value: "B.Tech CSE | Class of 2027",
                 },
                 { icon: "📍", label: "Location", value: "India" },
                 { icon: "💼", label: "Status", value: "Open to Internships" },

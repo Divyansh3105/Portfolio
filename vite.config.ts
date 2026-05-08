@@ -28,7 +28,7 @@ export default defineConfig({
           if (id.includes('node_modules/@emailjs')) {
             return 'vendor-emailjs';
           }
-          if (id.includes('node_modules/typed.js') || id.includes('node_modules/vanilla-tilt')) {
+          if (id.includes('node_modules/vanilla-tilt')) {
             return 'vendor-misc';
           }
         },

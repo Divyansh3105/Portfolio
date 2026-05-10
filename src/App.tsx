@@ -135,6 +135,10 @@ function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-to-content">
+        Skip to content
+      </a>
+
       {/* UI overlays */}
       <div id="cursor-dot" />
       <div id="cursor-ring" />
@@ -146,7 +150,7 @@ function App() {
 
       {/* App */}
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <About />
         <Skills />

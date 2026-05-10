@@ -135,6 +135,13 @@ body {
 /* ── SELECTION ── */
 ::selection { background: hsla(185, 100%, 52%, 0.3); color: var(--text-primary); }
 
+/* ── FOCUS STATES ── */
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* ── TYPOGRAPHY ── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
@@ -145,6 +152,29 @@ h1, h2, h3, h4, h5, h6 {
 
 a { color: inherit; text-decoration: none; }
 img, svg { display: block; max-width: 100%; }
+
+/* ── SKIP TO CONTENT ── */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  padding: 1rem;
+  background: var(--bg-card);
+  color: var(--accent-cyan);
+  z-index: 10000;
+  transition: top 0.3s ease;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom-right-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid var(--accent-violet);
+}
 
 /* ── UTILITIES ── */
 .container {

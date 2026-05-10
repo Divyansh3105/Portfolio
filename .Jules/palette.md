@@ -1,0 +1,3 @@
+## 2025-05-10 - Keyboard Navigation Enhancements
+**Learning:** Found that the application lacked basic keyboard accessibility features. Specifically, there was no "Skip to content" link for screen reader and keyboard users to bypass the navigation, and many interactive elements (like `.btn` which had `outline: none;`) lacked visible focus indicators, making it hard to track focus via keyboard.
+**Action:** Always ensure that global focus states (e.g., using `:focus-visible`) are present to provide visual feedback for interactive elements. Incorporate a visually hidden (until focused) skip link at the top of the DOM structure that anchors to the main content area (`<main>`).

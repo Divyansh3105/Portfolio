@@ -1,0 +1,1 @@
+## 2026-05-11 - Mobile Menu ARIA Linkage\n**Learning:** Standard mobile hamburger menus often lack structural linkage between the toggle button and the drawer it controls, leaving screen reader users without state context.\n**Action:** Always use aria-expanded and aria-controls on menu toggle buttons, linking to the ID of the menu container.

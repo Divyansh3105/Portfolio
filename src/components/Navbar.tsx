@@ -80,6 +80,8 @@ export default function Navbar() {
           className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu-drawer"
         >
           <span />
           <span />
@@ -88,7 +90,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Drawer */}
-      <div className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}>
+      <div id="mobile-menu-drawer" className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}>
         <ul className={styles.drawerLinks}>
           {navLinks.map(link => (
             <li key={link.href}>

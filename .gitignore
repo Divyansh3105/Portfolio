@@ -1,16 +1,4 @@
-# ── Build outputs ───────────────────────────────────────────────────────────
-dist
-dist-ssr
-
-# ── Dependencies ─────────────────────────────────────────────────────────────
-node_modules
-
-# ── Environment secrets — NEVER commit real credentials ──────────────────────
-.env
-.env.*
-!.env.example
-
-# ── Logs ─────────────────────────────────────────────────────────────────────
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -19,25 +7,42 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# ── OS artefacts ─────────────────────────────────────────────────────────────
-.DS_Store
-Thumbs.db
-desktop.ini
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# ── Editor / IDE ──────────────────────────────────────────────────────────────
-.vscode/*
+# Dependency directories
+node_modules/
+jspm_packages/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor & OS files
+.vscode/
 !.vscode/extensions.json
-!.vscode/settings.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+Thumbs.db
 
-# ── TypeScript ───────────────────────────────────────────────────────────────
-*.tsbuildinfo
-
-# ── Vite / misc ──────────────────────────────────────────────────────────────
-*.local
-.cache
+# Cache & Temporary
+.cache/
+.vite/
+.eslintcache
+.stylelintcache

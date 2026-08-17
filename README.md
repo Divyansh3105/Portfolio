@@ -1,190 +1,132 @@
-<div align="center">
+# 🕸️ DIVYANSH GARG — Personal Portfolio Website
 
-# ✦ Divyansh Garg — Portfolio
+[![React](https://img.shields.io/badge/React-19.0.0-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![GSAP](https://img.shields.io/badge/GSAP-3.12.5-88CE02?logo=greensock&logoColor=white)](https://greensock.com/gsap/)
+[![Vite](https://img.shields.io/badge/Vite-6.0.0-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Full Stack Developer · B.Tech CSE · Open to Internships**
+A cinematic, high-performance personal portfolio website built for **Divyansh Garg** — Full-Stack Engineer, Systems Architect, and B.Tech Computer Science student at Graphic Era University.
 
-[![Live Site](https://img.shields.io/badge/Live%20Site-divyanshgarg.dev-00e5ff?style=for-the-badge&logo=netlify&logoColor=white)](https://divyanshgarg.dev)
-[![Built with React](https://img.shields.io/badge/React-19-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-8-646cff?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev)
-
-</div>
-
----
-
-## ✦ Overview
-
-A fully custom, animated developer portfolio built from scratch with React 19, TypeScript, Three.js, and GSAP. Featuring a live GitHub API integration, an interactive 3D hero canvas, a light/dark theme toggle, an easter-egg terminal, EmailJS-powered contact form, and a comprehensive SEO + structured-data setup.
+Designed with a spider-web-inspired visual motif, editorial typography, GSAP ScrollTrigger motion, custom Web Audio feedback, and direct EmailJS integration.
 
 ---
 
-## ✦ Tech Stack
+## ✨ Features
 
-| Layer | Technology |
-|---|---|
-| **Framework** | React 19 + TypeScript 6 |
-| **Build tool** | Vite 8 |
-| **3D / Canvas** | Three.js |
-| **Animations** | GSAP + ScrollTrigger, CSS animations |
-| **Tilt effect** | Vanilla Tilt |
-| **Email** | EmailJS (`@emailjs/browser`) |
-| **Styling** | Vanilla CSS Modules + CSS custom properties |
-| **Fonts** | Space Grotesk · Inter · JetBrains Mono |
-
----
-
-## ✦ Features
-
-- 🌐 **3D Hero Canvas** — interactive particle mesh rendered with Three.js
-- ⚡ **GSAP Scroll Animations** — fade-up reveals and staggered section headers
-- 🐙 **Live GitHub Integration** — real-time stars, forks, language, and last-updated pulled from the GitHub API (with 1-hour session-storage cache)
-- 🎨 **Light / Dark Theme** — `data-theme` toggle with full CSS variable coverage
-- 💬 **EmailJS Contact Form** — sends messages directly without a backend
-- 🎮 **Easter Egg Terminal** — type `DG` anywhere on the page to open a hidden terminal
-- 🃏 **Vanilla Tilt Cards** — 3D perspective tilt on project cards
-- 📱 **Fully Responsive** — mobile → desktop layouts
-- 🔍 **SEO-ready** — title, meta description, Open Graph, Twitter Card, canonical URL
-- 🧠 **JSON-LD Structured Data** — `Person`, `WebSite`, and `ItemList` schemas for Google rich results
-- 🗺 **Sitemap + robots.txt** — submitted to Google Search Console
-- 🔒 **Security headers** — `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` via Netlify
+- **🕸️ Spider-Web Visual Motif**: Subtle geometric silk web lines, suspended ceiling thread anchors, and ambient particle node mesh physics.
+- **🎬 GSAP & ScrollTrigger Choreography**:
+  - Ceiling-suspended circular profile image with natural pendulum swinging physics (`sine.inOut` easing) and soft crimson shadow glow.
+  - 3D perspective paragraph reveals (`rotateX` stagger).
+  - Exponential entrance timelines (`power4.out`).
+- **💼 Interactive Project Showcase**: Filterable showcase featuring real production projects (**TalkSpace**, **GravLang**, **Kesav Diamond**, **Public Utility Management System**) with detail specification modals.
+- **📧 EmailJS Direct Transmissions**: Native client-side form submission via EmailJS REST API delivering inquiries directly to Gmail inbox.
+- **🔊 Web Audio API Synthesizer**: Custom synthesized UI sound effects for hover, clicks, and thread plucks without external audio assets.
+- **🎯 Dual-Ring Trailing Cursor**: Interactive custom cursor ring with smooth inertia trailing and expansion over hoverable targets.
+- **📱 60FPS Mobile Optimization**: Throttled particle node counts and hardware-accelerated transforms (`translate3d`, `scale`, `opacity`) for smooth execution across all viewports.
 
 ---
 
-## ✦ Project Structure
+## 🛠️ Tech Stack
 
-```
-portfolio/
-├── public/
-│   ├── favicon.svg
-│   ├── og-image.png          # 1200×630 social preview card
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── _redirects            # Netlify SPA fallback
-├── src/
-│   ├── components/           # Hero, About, Skills, Projects, Journey, Contact …
-│   ├── data/
-│   │   └── projects.ts       # Static project metadata
-│   ├── hooks/
-│   │   ├── useGitHubRepos.ts # GitHub API + session cache
-│   │   └── useTheme.ts       # Light/dark theme persistence
-│   ├── App.tsx
-│   ├── index.css             # Global design system (CSS variables, utilities)
-│   └── main.tsx
-├── index.html                # SEO meta, JSON-LD, Google Fonts
-├── netlify.toml              # Build config + headers + caching rules
-├── vite.config.ts            # Chunk splitting, ES2020 target
-└── .env.example              # Required environment variable template
-```
+- **Frontend Core**: React 19, JavaScript (ESNext)
+- **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`), Vanilla CSS tokens
+- **Animations**: GSAP (GreenSock Animation Platform) & ScrollTrigger plugin
+- **Icons**: Lucide React + Inline SVG Components
+- **Audio**: HTML5 Web Audio API
+- **Form Engine**: EmailJS REST API
+- **Build Tool**: Vite 6
 
 ---
 
-## ✦ Getting Started
+## 🚀 Quick Start
 
-### Prerequisites
-
-- Node.js ≥ 18
-- npm ≥ 9
-
-### Local setup
-
+### 1. Clone the Repository
 ```bash
-# 1. Clone the repo
 git clone https://github.com/Divyansh3105/portfolio.git
 cd portfolio
+```
 
-# 2. Install dependencies
+### 2. Install Dependencies
+```bash
 npm install
+```
 
-# 3. Configure environment variables
-cp .env.example .env
-# Fill in your EmailJS credentials (see .env.example for instructions)
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory (see `.env.example`):
+```env
+VITE_EMAILJS_SERVICE_ID=service_22zn87a
+VITE_EMAILJS_TEMPLATE_ID=template_zsxyyth
+VITE_EMAILJS_PUBLIC_KEY=4x9C8FmZOMfeagK__
+```
 
-# 4. Start the dev server
+### 4. Start Development Server
+```bash
 npm run dev
 ```
+Open `http://localhost:5173/` in your browser.
 
-The dev server starts at `http://localhost:5173`.
-
----
-
-## ✦ Environment Variables
-
-Copy `.env.example` → `.env` and fill in your values:
-
-```env
-# EmailJS — https://emailjs.com (free: 200 emails/month)
-VITE_EMAILJS_SERVICE_ID=service_xxxxxxx
-VITE_EMAILJS_TEMPLATE_ID=template_xxxxxxx
-VITE_EMAILJS_PUBLIC_KEY=your_public_key_here
-
-# GitHub API token (optional — raises rate limit from 60 to 5,000 req/hr)
-VITE_GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-> **Without EmailJS configured**, the contact form runs in simulation mode (no email is sent, but the UI behaves identically).  
-> **Without a GitHub token**, the live project stats still load but are limited to 60 requests/hour.
-
----
-
-## ✦ Build & Preview
-
+### 5. Build for Production
 ```bash
-# Production build
 npm run build
-
-# Preview production build locally
 npm run preview
-
-# Lint
-npm run lint
 ```
 
-Build output goes to `dist/`. Vendor chunks are split automatically:
+---
 
-| Chunk | Gzip size |
-|---|---|
-| `vendor-three` (Three.js) | ~130 kB |
-| `vendor-react` | ~60 kB |
-| `vendor-gsap` | ~44 kB |
-| App code | ~18 kB |
+## 📁 Project Structure
+
+```text
+├── public/
+│   ├── favicon.svg             # Custom web icon
+│   └── resume.pdf              # Verified PDF resume
+├── src/
+│   ├── assets/                 # Project screenshots & portrait images
+│   │   ├── TalkSpace.png
+│   │   ├── GravLang.png
+│   │   ├── Public Utility Mangement.png
+│   │   ├── portrait.png
+│   │   └── hero_artwork.png
+│   ├── components/
+│   │   ├── Navbar.jsx          # Header navigation with audio toggle & resume link
+│   │   ├── Hero.jsx            # Full-screen interactive radial mask hero section
+│   │   ├── About.jsx           # Bio, B.Tech background & hanging profile frame
+│   │   ├── HangingProfile.jsx  # Suspended profile image with GSAP swinging physics
+│   │   ├── ParagraphReveal3D.jsx # 3D perspective text unroll component
+│   │   ├── TechPills.jsx       # Floating technology stack pills
+│   │   ├── SpiderWebDecorations.jsx # Rotating corner spider-web graphics
+│   │   ├── Projects.jsx        # Filterable project grid & modal detail viewer
+│   │   ├── ProjectModal.jsx    # Detailed project specification modal
+│   │   ├── Journey.jsx         # Career & education timeline with vertical silk thread
+│   │   ├── Skills.jsx          # Technical skills progress matrices
+│   │   ├── Contact.jsx         # EmailJS direct contact form & direct email copy
+│   │   ├── Footer.jsx          # Back to top button & social links
+│   │   ├── CustomCursor.jsx    # Dual-ring cursor trailing component
+│   │   ├── WebCanvas.jsx       # Ambient particle web mesh canvas
+│   │   └── SocialIcons.jsx     # SVGs for GitHub, LinkedIn, Twitter
+│   ├── utils/
+│   │   └── sound.js            # Web Audio API synthesizer
+│   ├── App.jsx                 # Master application component & active section tracker
+│   ├── index.css               # Tailwind CSS imports & custom keyframes
+│   └── main.jsx                # React root entry point
+├── .env                        # Environment variables (gitignored)
+├── .env.example                # Template for environment variables
+├── vite.config.js              # Vite configuration with Tailwind CSS plugin
+└── README.md                   # Project documentation
+```
 
 ---
 
-## ✦ Deployment
+## 👤 Author
 
-The project deploys to **Netlify** in one click via `netlify.toml`.
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Divyansh3105/portfolio)
-
-1. Connect your GitHub repo in the Netlify dashboard  
-2. Add environment variables (`VITE_EMAILJS_*` and optionally `VITE_GITHUB_TOKEN`)  
-3. Deploy — `netlify.toml` handles the rest automatically
+**Divyansh Garg**
+- 🎓 B.Tech Computer Science Student @ Graphic Era University, Dehradun
+- 📧 Email: [divyanshgarg3105@gmail.com](mailto:divyanshgarg3105@gmail.com)
+- 🐙 GitHub: [@Divyansh3105](https://github.com/Divyansh3105)
+- 💼 LinkedIn: [divyanshgarg3105](https://linkedin.com/in/divyanshgarg3105/)
 
 ---
 
-## ✦ Featured Projects
+## 📜 License
 
-| Project | Stack | Link |
-|---|---|---|
-| [TalkSpace](https://talkspace.up.railway.app) | React · Node.js · Socket.io · MongoDB · PWA | [GitHub](https://github.com/Divyansh3105/TalkSpace) |
-| [GravLang](https://github.com/Divyansh3105/GravLang) | Python · Compiler Design · Lexer · Parser | [GitHub](https://github.com/Divyansh3105/GravLang) |
-| [Github-Finder](https://gitdevprofile.vercel.app) | React · Vite · Chart.js · GitHub API | [GitHub](https://github.com/Divyansh3105/Github-Finder) |
-| [Assassin's Creed Fan Site](https://assassins-creed-tribute.netlify.app) | HTML · CSS · Animations | [GitHub](https://github.com/Divyansh3105/Assassins-Creed) |
-| [Slime Chronicles](https://slimechronicles.netlify.app) | Vanilla JS · CSS Animations | [GitHub](https://github.com/Divyansh3105/slimechronicles) |
-
----
-
-## ✦ License
-
-MIT © [Divyansh Garg](https://github.com/Divyansh3105)
-
----
-
-<div align="center">
-
-Crafted with ❤️ · Built with Vite + React + Three.js
-
-💡 **Psst** — visit the live site and type **D** then **G** on your keyboard
-
-</div>
+This project is licensed under the [MIT License](LICENSE).

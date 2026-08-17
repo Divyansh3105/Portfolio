@@ -18,70 +18,80 @@ export const Hero = () => {
   const parallaxImgRef = useRef(null);
   const metricsRef = useRef(null);
 
+  // Quick setters for smooth mouse lerping parallax without tween creation overhead
+  const xToRef = useRef(null);
+  const yToRef = useRef(null);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Cinematic Entrance Timeline with smooth exponential easing
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.4 } });
+      // Create quickTo setters for physically believable mouse inertia
+      if (parallaxImgRef.current) {
+        xToRef.current = gsap.quickTo(parallaxImgRef.current, 'x', { duration: 1.2, ease: 'power3.out' });
+        yToRef.current = gsap.quickTo(parallaxImgRef.current, 'y', { duration: 1.2, ease: 'power3.out' });
+      }
+
+      // Cinematic Entrance Timeline
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.3 } });
 
       tl.fromTo(
         badgeRef.current,
-        { opacity: 0, y: -15 },
-        { opacity: 1, y: 0, duration: 0.9 }
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 1.0 }
       )
         .fromTo(
           title1Ref.current,
-          { opacity: 0, y: 40, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' },
-          { opacity: 1, y: 0, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' },
-          '-=0.5'
+          { opacity: 0, y: 35 },
+          { opacity: 1, y: 0, duration: 1.2 },
+          '-=0.6'
         )
         .fromTo(
           title2Ref.current,
-          { opacity: 0, y: 40, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' },
-          { opacity: 1, y: 0, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' },
+          { opacity: 0, y: 35 },
+          { opacity: 1, y: 0, duration: 1.2 },
           '-=0.9'
         )
         .fromTo(
           subtitleRef.current,
-          { opacity: 0, y: 25 },
+          { opacity: 0, y: 20 },
           { opacity: 1, y: 0, duration: 1.0 },
-          '-=0.7'
+          '-=0.8'
         )
         .fromTo(
           ctaRef.current?.children || [],
           { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, stagger: 0.12, duration: 0.9 },
+          { opacity: 1, y: 0, stagger: 0.1, duration: 0.9 },
           '-=0.7'
         )
         .fromTo(
           metricsRef.current,
           { opacity: 0, y: 15 },
           { opacity: 1, y: 0, duration: 0.8 },
-          '-=0.5'
+          '-=0.6'
         )
         .fromTo(
           maskContainerRef.current,
-          { opacity: 0, scale: 0.96, y: 30 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.6, ease: 'power3.out' },
+          { opacity: 0, scale: 0.97, y: 25 },
+          { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'power3.out' },
           '-=1.4'
         );
 
-      // Subtle scroll-driven parallax depth
+      // Subtle scroll-driven depth
       gsap.to(containerRef.current, {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 1,
+          scrub: 1.2,
         },
-        y: 60,
-        opacity: 0.9,
+        y: 40,
+        opacity: 0.95,
       });
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Physically believable mouse inertia for artwork parallax
+  // Mouse inertia handler for artwork parallax
   const handleMouseMove = (e) => {
     if (!maskContainerRef.current) return;
     const rect = maskContainerRef.current.getBoundingClientRect();
@@ -94,15 +104,11 @@ export const Hero = () => {
     maskContainerRef.current.style.setProperty('--mouse-x', `${percentX}%`);
     maskContainerRef.current.style.setProperty('--mouse-y', `${percentY}%`);
 
-    if (parallaxImgRef.current) {
-      const moveX = (x - rect.width / 2) * 0.025;
-      const moveY = (y - rect.height / 2) * 0.025;
-      gsap.to(parallaxImgRef.current, {
-        x: moveX,
-        y: moveY,
-        duration: 1.2,
-        ease: 'power3.out',
-      });
+    if (xToRef.current && yToRef.current) {
+      const moveX = (x - rect.width / 2) * 0.02;
+      const moveY = (y - rect.height / 2) * 0.02;
+      xToRef.current(moveX);
+      yToRef.current(moveY);
     }
   };
 
@@ -113,7 +119,7 @@ export const Hero = () => {
       onMouseMove={handleMouseMove}
       className="relative min-h-screen pt-32 pb-20 flex flex-col justify-between overflow-hidden bg-[#fafafc]"
     >
-      {/* Restrained Ambient Spider Web Overlay */}
+      {/* Restrained Geometric Accent Overlay */}
       <svg
         className="absolute top-0 right-0 w-[550px] h-[550px] text-zinc-900/5 pointer-events-none z-0"
         viewBox="0 0 500 500"
@@ -123,7 +129,7 @@ export const Hero = () => {
         <line x1="500" y1="0" x2="150" y2="500" stroke="currentColor" strokeWidth="0.5" />
         <line x1="500" y1="0" x2="300" y2="500" stroke="currentColor" strokeWidth="0.5" />
         <circle cx="500" cy="0" r="180" stroke="#990000" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.2" />
-        <circle cx="500" cy="0" r="340" stroke="currentColor" strokeWidth="0.5" opacity="0.15" />
+        <circle cx="500" cy="0" r="340" stroke="currentColor" strokeWidth="0.5" opacity="0.12" />
       </svg>
 
       {/* Main Content Layout */}
@@ -132,28 +138,29 @@ export const Hero = () => {
         <div className="lg:col-span-7 flex flex-col justify-center gap-7">
           {/* Eyebrow badge */}
           <div ref={badgeRef} className="inline-flex items-center gap-3">
-            <span className="px-3.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase bg-[#990000]/10 text-[#990000] border border-[#990000]/25 flex items-center gap-2">
+            <span className="px-3.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase bg-[#990000]/10 text-[#990000] border border-[#990000]/20 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#990000]" />
               AVAILABLE FOR SELECT PROJECTS 2026
             </span>
-            <span className="text-xs font-mono text-zinc-400">// FULL-STACK & INTERACTIVE</span>
+            <span className="text-xs font-mono text-zinc-400">// FULL-STACK &amp; INTERACTIVE</span>
           </div>
 
           {/* Bold Editorial Headline */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 relative z-10">
             <h1
               ref={title1Ref}
-              className="text-5xl sm:text-7xl lg:text-8xl font-extrabold uppercase tracking-tighter leading-none text-zinc-950 font-syne"
+              className="text-4xl sm:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold uppercase tracking-tighter leading-none text-zinc-950 font-syne"
             >
               CREATIVE <span className="text-[#990000]">ARCHITECT</span>
             </h1>
             <h1
               ref={title2Ref}
-              className="text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight leading-none text-zinc-800 font-syne"
+              className="text-3xl sm:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-extrabold uppercase tracking-tight leading-none text-zinc-800 font-syne"
             >
               &amp; FULL-STACK <span className="font-serif-italic lowercase text-zinc-500 font-normal">&amp;</span> ENGINEER
             </h1>
           </div>
+
 
           {/* Subtitle */}
           <p
@@ -213,40 +220,40 @@ export const Hero = () => {
               '--mouse-y': '50%',
             }}
           >
-            {/* Base Layer Image (Monochrome sleek tech aesthetic) */}
+            {/* Base Layer Image */}
             <div className="absolute inset-0 bg-zinc-950">
               <img
                 ref={parallaxImgRef}
                 src={heroArtwork}
                 alt="Creative Developer Art"
-                className="w-full h-full object-cover grayscale contrast-110 opacity-75 transition-transform duration-700"
+                className="w-full h-full object-cover grayscale contrast-105 opacity-75 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-70" />
             </div>
 
-            {/* Revealing Layer (Color + Subtle Red Silk Overlay) */}
+            {/* Revealing Layer */}
             <div className="absolute inset-0 pointer-events-none hero-reveal-mask transition-opacity duration-300">
               <img
                 src={heroArtwork}
                 alt="Revealed Silk Mesh"
                 className="w-full h-full object-cover scale-105"
               />
-              <div className="absolute inset-0 bg-[#990000]/15 mix-blend-color-dodge" />
+              <div className="absolute inset-0 bg-[#990000]/10 mix-blend-color-dodge" />
             </div>
 
             {/* Subtle thread geometry line */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30" viewBox="0 0 400 500">
+            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 400 500">
               <line x1="0" y1="0" x2="400" y2="500" stroke="#990000" strokeWidth="0.8" strokeDasharray="3 3" />
               <circle cx="200" cy="250" r="90" stroke="#990000" strokeWidth="0.8" fill="none" />
             </svg>
 
             {/* Card Footer Badge */}
-            <div className="absolute bottom-5 left-5 right-5 p-3.5 rounded-xl bg-white/90 backdrop-blur-md border border-zinc-200 flex items-center justify-between text-xs font-mono">
+            <div className="absolute bottom-5 left-5 right-5 p-3.5 rounded-xl bg-white/90 backdrop-blur-md border border-zinc-200 flex items-center justify-between text-xs font-mono shadow-sm">
               <div className="flex items-center gap-2">
                 <Code size={14} className="text-[#990000]" />
                 <span className="font-bold text-zinc-900">INTERACTIVE MASK</span>
               </div>
-              <span className="text-[10px] text-zinc-500 uppercase">Move cursor to reveal</span>
+              <span className="text-[10px] text-zinc-500 uppercase">Hover to reveal</span>
             </div>
           </div>
         </div>
@@ -263,3 +270,4 @@ export const Hero = () => {
     </section>
   );
 };
+

@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { soundFx } from '../utils/sound';
 import portraitImg from '../assets/portrait.png';
 import { SpiderWebDecorations } from './SpiderWebDecorations';
 import { ParagraphReveal3D } from './ParagraphReveal3D';
 import { TechPills } from './TechPills';
 import { HangingProfile } from './HangingProfile';
-import { Cpu, Sparkles, Code2, Globe2, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Cpu, GraduationCap } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +14,6 @@ export const About = () => {
   const containerRef = useRef(null);
   const eyebrowRef = useRef(null);
   const headingRef = useRef(null);
-  const hangingProfileRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -24,31 +22,17 @@ export const About = () => {
           trigger: containerRef.current,
           start: 'top 75%',
         },
-        onComplete: () => {
-          if (hangingProfileRef.current) {
-            gsap.to(hangingProfileRef.current, {
-              rotation: 2.0,
-              transformOrigin: 'top center',
-              duration: 4.0,
-              ease: 'sine.inOut',
-              repeat: -1,
-              yoyo: true,
-            });
-          }
-        },
       });
 
       masterTl.fromTo(
         eyebrowRef.current,
         {
-          x: -60,
+          y: -15,
           opacity: 0,
-          clipPath: 'polygon(0 0, 0 100%, 0 100%, 0 0)',
         },
         {
-          x: 0,
+          y: 0,
           opacity: 1,
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
           duration: 0.9,
           ease: 'power3.out',
         }
@@ -57,35 +41,16 @@ export const About = () => {
       masterTl.fromTo(
         headingRef.current,
         {
-          y: 60,
+          y: 35,
           opacity: 0,
-          clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
         },
         {
           y: 0,
           opacity: 1,
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
           duration: 1.1,
           ease: 'power3.out',
         },
         '-=0.6'
-      );
-
-      masterTl.fromTo(
-        hangingProfileRef.current,
-        {
-          y: -800,
-          opacity: 0,
-          rotation: -4,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          rotation: 0,
-          duration: 2.0,
-          ease: 'elastic.out(1, 0.5)',
-        },
-        '-=0.8'
       );
     }, containerRef);
 
@@ -98,7 +63,7 @@ export const About = () => {
       ref={containerRef}
       className="relative py-28 bg-[#fafafc] text-zinc-900 border-t border-b border-zinc-200/80 overflow-hidden"
     >
-      {/* Animated Corner Spider-Web Decorations & Connecting Threads */}
+      {/* Animated Corner Vector Accent Decorations */}
       <SpiderWebDecorations />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
@@ -153,25 +118,25 @@ export const About = () => {
 
             {/* Core Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-start gap-3">
-                <Cpu className="w-5 h-5 text-[#990000] shrink-0 mt-1" />
+              <div className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-300 flex items-start gap-3.5">
+                <Cpu className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">13+ REST API Endpoints</h4>
-                  <p className="text-xs text-zinc-500 mt-1">JWT authentication, bcrypt hashing, Zustand &amp; Railway live CI/CD.</p>
+                  <p className="text-xs text-zinc-500 mt-1 leading-relaxed">JWT authentication, bcrypt hashing, Zustand &amp; Railway live CI/CD.</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-start gap-3">
-                <GraduationCap className="w-5 h-5 text-[#990000] shrink-0 mt-1" />
+              <div className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-300 flex items-start gap-3.5">
+                <GraduationCap className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">B.Tech Computer Science</h4>
-                  <p className="text-xs text-zinc-500 mt-1">Graphic Era University (GPA 8.5/10) &amp; AWS Certified.</p>
+                  <p className="text-xs text-zinc-500 mt-1 leading-relaxed">Graphic Era University (GPA 8.5/10) &amp; AWS Certified.</p>
                 </div>
               </div>
             </div>
 
             {/* Technology Stack Pills */}
-            <div className="pt-4 border-t border-zinc-200">
+            <div className="pt-4 border-t border-zinc-200/80">
               <p className="text-xs font-mono uppercase text-zinc-400 font-semibold mb-4">
                 // CORE VERIFIED SKILL STACK
               </p>
@@ -185,3 +150,4 @@ export const About = () => {
     </section>
   );
 };
+

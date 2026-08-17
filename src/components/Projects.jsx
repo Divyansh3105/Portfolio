@@ -3,21 +3,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { soundFx } from "../utils/sound";
 import { ProjectModal } from "./ProjectModal";
-import {
-  ArrowUpRight,
-  ExternalLink,
-  Code2,
-  Layers,
-  Filter,
-} from "lucide-react";
+import { ArrowUpRight, ExternalLink, Code2 } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
 import heroArtwork from "../assets/hero_artwork.png";
-import portraitImg from "../assets/portrait.png";
 import talkSpaceImg from "../assets/TalkSpace.png";
 import gravLangImg from "../assets/GravLang.png";
 import utilityImg from "../assets/Public Utility Mangement.png";
 
 gsap.registerPlugin(ScrollTrigger);
+
 
 export const Projects = () => {
   const containerRef = useRef(null);
@@ -156,13 +150,13 @@ export const Projects = () => {
       validCards.forEach((card, index) => {
         gsap.fromTo(
           card,
-          { opacity: 0, y: 50, scale: 0.97 },
+          { opacity: 0, y: 30, scale: 0.985 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.9,
-            delay: index * 0.08,
+            duration: 1.0,
+            delay: index * 0.09,
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
@@ -182,7 +176,7 @@ export const Projects = () => {
       ref={containerRef}
       className="relative py-28 bg-[#fafafc] text-zinc-900 border-b border-zinc-200/80 overflow-hidden"
     >
-      {/* Spider-web background vector overlay */}
+      {/* Background vector overlay */}
       <svg
         className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-[600px] text-zinc-900 opacity-5 pointer-events-none z-0"
         viewBox="0 0 1200 600"
@@ -194,7 +188,7 @@ export const Projects = () => {
           x2="1200"
           y2="300"
           stroke="currentColor"
-          strokeWidth="1"
+          strokeWidth="0.8"
         />
         <line
           x1="600"
@@ -202,14 +196,14 @@ export const Projects = () => {
           x2="600"
           y2="600"
           stroke="currentColor"
-          strokeWidth="1"
+          strokeWidth="0.8"
         />
         <circle
           cx="600"
           cy="300"
           r="150"
           stroke="#990000"
-          strokeWidth="1"
+          strokeWidth="0.8"
           strokeDasharray="4 4"
           fill="none"
         />
@@ -218,7 +212,7 @@ export const Projects = () => {
           cy="300"
           r="300"
           stroke="currentColor"
-          strokeWidth="1"
+          strokeWidth="0.8"
           fill="none"
         />
       </svg>
@@ -246,7 +240,7 @@ export const Projects = () => {
           </div>
 
           {/* Category Filter Tabs */}
-          <div className="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-full border border-zinc-200 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-full border border-zinc-200 shadow-xs">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -257,7 +251,7 @@ export const Projects = () => {
                 onMouseEnter={() => soundFx.playHover()}
                 className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 ${
                   selectedCategory === cat
-                    ? "bg-[#0f0f11] text-white shadow-md"
+                    ? "bg-[#0f0f11] text-white shadow-sm"
                     : "text-zinc-600 hover:text-[#990000]"
                 }`}
               >
@@ -273,7 +267,7 @@ export const Projects = () => {
             <div
               key={project.id}
               ref={(el) => (cardsRef.current[index] = el)}
-              className="group relative bg-white rounded-2xl border border-zinc-200/80 shadow-md hover:shadow-2xl hover:border-[#990000]/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col overflow-hidden"
+              className="group relative bg-white rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.07)] hover:border-[#990000]/50 hover:-translate-y-1 transition-all duration-500 flex flex-col overflow-hidden"
             >
               {/* Card Image Header */}
               <div
@@ -286,23 +280,23 @@ export const Projects = () => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                  className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700 ease-out"
                 />
 
                 {/* Gradient vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-80" />
 
-                {/* Spider Silk Anchor Tag */}
+                {/* Silk Anchor Tag */}
                 <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-zinc-200 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#990000] animate-ping" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#990000]" />
                   <span className="text-[10px] font-mono font-bold text-zinc-900 uppercase">
                     {project.category}
                   </span>
                 </div>
 
                 {/* View Details Button overlay on hover */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-xs">
-                  <span className="px-5 py-2.5 rounded-full bg-[#990000] text-white text-xs font-bold font-syne tracking-widest uppercase shadow-lg flex items-center gap-2">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400 bg-black/35 backdrop-blur-[2px]">
+                  <span className="px-5 py-2.5 rounded-full bg-[#990000] text-white text-xs font-bold font-syne tracking-widest uppercase shadow-md flex items-center gap-2">
                     <span>INSPECT SPECIFICATION</span>
                     <ArrowUpRight size={14} />
                   </span>
@@ -340,7 +334,7 @@ export const Projects = () => {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-zinc-100 text-zinc-700 border border-zinc-200"
+                        className="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-zinc-100/80 text-zinc-700 border border-zinc-200/80"
                       >
                         {tag}
                       </span>
@@ -396,3 +390,4 @@ export const Projects = () => {
     </section>
   );
 };
+

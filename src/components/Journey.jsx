@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { soundFx } from '../utils/sound';
-import { Briefcase, Calendar, MapPin, Award, CheckCircle2, GitBranch, GraduationCap } from 'lucide-react';
+import { MapPin, CheckCircle2, GraduationCap } from 'lucide-react';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,7 +67,7 @@ export const Journey = () => {
             trigger: containerRef.current,
             start: 'top 70%',
             end: 'bottom 40%',
-            scrub: true,
+            scrub: 1,
           },
         }
       );
@@ -77,12 +77,12 @@ export const Journey = () => {
         if (!node) return;
         gsap.fromTo(
           node,
-          { opacity: 0, x: index % 2 === 0 ? -40 : 40, scale: 0.95 },
+          { opacity: 0, x: index % 2 === 0 ? -30 : 30, scale: 0.97 },
           {
             opacity: 1,
             x: 0,
             scale: 1,
-            duration: 1,
+            duration: 1.1,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: node,
@@ -124,7 +124,7 @@ export const Journey = () => {
           {/* Vertical Silk Thread Center Line */}
           <div
             ref={lineRef}
-            className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#990000] via-zinc-800 to-[#990000] z-0"
+            className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#990000]/80 via-zinc-800/40 to-[#990000]/80 z-0"
           />
 
           {/* Timeline Nodes */}
@@ -140,12 +140,12 @@ export const Journey = () => {
                   } gap-8 relative`}
                 >
                   {/* Timeline Pin Node */}
-                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 rounded-full bg-white border-2 border-[#990000] shadow-md flex items-center justify-center z-20 group cursor-pointer">
-                    <div className="w-2 h-2 rounded-full bg-[#990000] animate-pulse" />
+                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-8 w-5 h-5 rounded-full bg-white border-2 border-[#990000] shadow-xs flex items-center justify-center z-20 group cursor-pointer">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#990000]" />
                   </div>
 
                   {/* Experience Card */}
-                  <div className="w-full md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 bg-white p-6 md:p-8 rounded-2xl border border-zinc-200/80 shadow-md hover:shadow-xl hover:border-[#990000]/40 transition-all duration-300 flex flex-col gap-4">
+                  <div className="w-full md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 bg-white p-6 md:p-8 rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-400 flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center justify-between text-xs font-mono text-[#990000]">
                         <span className="font-bold uppercase">// {item.period}</span>
@@ -182,7 +182,7 @@ export const Journey = () => {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-zinc-100 text-zinc-700 border border-zinc-200"
+                          className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-zinc-100/80 text-zinc-700 border border-zinc-200/80"
                         >
                           {tag}
                         </span>
@@ -198,3 +198,4 @@ export const Journey = () => {
     </section>
   );
 };
+

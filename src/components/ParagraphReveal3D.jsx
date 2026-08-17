@@ -17,7 +17,6 @@ export const ParagraphReveal3D = ({
       const validParagraphs = paragraphRefs.current.filter(Boolean);
       if (validParagraphs.length === 0) return;
 
-      // Create ScrollTrigger Timeline for 3D Paragraph Reveal
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -28,10 +27,10 @@ export const ParagraphReveal3D = ({
       tl.fromTo(
         validParagraphs,
         {
-          y: 40,
+          y: 25,
           opacity: 0,
-          rotateX: -45,
-          transformOrigin: '50% 100%',
+          rotateX: 12,
+          transformOrigin: '50% 0%',
         },
         {
           y: 0,
@@ -39,7 +38,7 @@ export const ParagraphReveal3D = ({
           rotateX: 0,
           duration: 1.1,
           stagger: stagger,
-          ease: 'back.out(1.4)',
+          ease: 'power3.out',
         }
       );
     }, containerRef);
@@ -65,3 +64,4 @@ export const ParagraphReveal3D = ({
     </div>
   );
 };
+

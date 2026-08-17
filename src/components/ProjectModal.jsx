@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { X, ExternalLink, Layers, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
+
 import { soundFx } from '../utils/sound';
 
 

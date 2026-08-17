@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { soundFx } from '../utils/sound';
-import { Cpu, Terminal, Layout, Database, Sparkles, Code, Server, Wrench } from 'lucide-react';
+import { Cpu, Layout, Database, Code } from 'lucide-react';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,13 +60,13 @@ export const Skills = () => {
         if (!cat) return;
         gsap.fromTo(
           cat,
-          { opacity: 0, y: 40, scale: 0.96 },
+          { opacity: 0, y: 30, scale: 0.98 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.8,
-            delay: index * 0.12,
+            duration: 0.9,
+            delay: index * 0.1,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: cat,
@@ -114,16 +115,16 @@ export const Skills = () => {
                   setActiveCategory(index);
                   soundFx.playHover();
                 }}
-                className={`p-8 rounded-2xl bg-white border transition-all duration-300 shadow-md flex flex-col justify-between gap-8 ${
+                className={`p-8 rounded-2xl bg-white border transition-all duration-400 flex flex-col justify-between gap-8 ${
                   activeCategory === index
-                    ? 'border-[#990000] shadow-xl ring-1 ring-[#990000]/20'
-                    : 'border-zinc-200/80 hover:border-zinc-400'
+                    ? 'border-[#990000]/70 shadow-[0_16px_36px_rgba(0,0,0,0.06)]'
+                    : 'border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:border-zinc-300'
                 }`}
               >
                 {/* Category Header */}
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-zinc-950 text-white flex items-center justify-center shadow-md">
+                    <div className="w-12 h-12 rounded-xl bg-zinc-950 text-white flex items-center justify-center shadow-xs">
                       <Icon size={22} className="text-[#990000]" />
                     </div>
                     <span className="text-xs font-mono font-bold text-zinc-400">
@@ -146,9 +147,9 @@ export const Skills = () => {
                       </div>
 
                       {/* Bar Track */}
-                      <div className="w-full h-2 rounded-full bg-zinc-100 overflow-hidden border border-zinc-200/60">
+                      <div className="w-full h-1.5 rounded-full bg-zinc-100 overflow-hidden border border-zinc-200/60">
                         <div
-                          className="h-full bg-gradient-to-r from-zinc-900 via-[#990000] to-[#990000] rounded-full transition-all duration-1000"
+                          className="h-full bg-gradient-to-r from-zinc-900 via-[#990000] to-[#990000] rounded-full transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
                           style={{ width: `${skill.level}%` }}
                         />
                       </div>
@@ -172,3 +173,4 @@ export const Skills = () => {
     </section>
   );
 };
+

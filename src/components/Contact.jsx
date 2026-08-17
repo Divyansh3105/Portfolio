@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { soundFx } from '../utils/sound';
-import { Mail, Send, Copy, Check, FileText, Phone, MapPin, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, Send, Copy, Check, FileText, Phone, MapPin, Loader2 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,8 +12,8 @@ export const Contact = () => {
   const [copied, setCopied] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
   const [formData, setFormData] = useState({
+
     name: '',
     email: '',
     projectType: 'Full-Stack Web App',
@@ -30,7 +30,7 @@ export const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(null);
+
 
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_22zn87a';
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_zsxyyth';
@@ -80,12 +80,12 @@ export const Contact = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         containerRef.current?.children || [],
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 25 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          stagger: 0.15,
+          duration: 1.0,
+          stagger: 0.12,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: containerRef.current,
@@ -97,6 +97,7 @@ export const Contact = () => {
 
     return () => ctx.revert();
   }, []);
+
 
   return (
     <section

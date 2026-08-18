@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const ParagraphReveal3D = ({
   paragraphs = [],
   className = '',
-  stagger = 0.15,
+  stagger = 0.12,
 }) => {
   const containerRef = useRef(null);
   const paragraphRefs = useRef([]);
@@ -20,23 +20,23 @@ export const ParagraphReveal3D = ({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 80%',
+          start: 'top 82%',
         },
       });
 
       tl.fromTo(
         validParagraphs,
         {
-          y: 25,
+          y: 20,
           opacity: 0,
-          rotateX: 12,
-          transformOrigin: '50% 0%',
+          rotateX: -15,
+          transformOrigin: '50% 100%',
         },
         {
           y: 0,
           opacity: 1,
           rotateX: 0,
-          duration: 1.1,
+          duration: 1.15,
           stagger: stagger,
           ease: 'power3.out',
         }
@@ -64,4 +64,3 @@ export const ParagraphReveal3D = ({
     </div>
   );
 };
-

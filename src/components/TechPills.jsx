@@ -7,12 +7,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const TechPills = ({
   technologies = [
-    'React',
+    'JavaScript',
+    'TypeScript',
+    'React.js',
     'Node.js',
-    'Express',
-    'PostgreSQL',
+    'Express.js',
+    'Python',
     'MongoDB',
-    'Docker',
+    'MySQL',
   ],
   className = '',
 }) => {
@@ -28,15 +30,14 @@ export const TechPills = ({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 85%',
+          start: 'top 88%',
         },
         onComplete: () => {
-          // 2. Continuous subtle floating animation (staggered randomly per pill)
+          // 2. Continuous subtle floating animation (physically smooth & natural)
           validPills.forEach((pill, index) => {
-            // Randomize floating distance (3px to 5px) and duration (2.2s to 3.2s)
-            const floatDistance = index % 2 === 0 ? -4 : 4;
-            const floatDuration = 2.2 + (index % 3) * 0.4;
-            const floatDelay = index * 0.12 + (index % 2) * 0.05;
+            const floatDistance = index % 2 === 0 ? -2.5 : 2.5;
+            const floatDuration = 3.2 + (index % 3) * 0.4;
+            const floatDelay = index * 0.08 + (index % 2) * 0.04;
 
             gsap.to(pill, {
               y: floatDistance,
@@ -50,21 +51,21 @@ export const TechPills = ({
         },
       });
 
-      // Entrance animation: scale 0.5 -> 1, opacity 0 -> 1, y 20 -> 0 with stagger: 0.1
+      // Refined entrance: smooth exponential scale & rise with zero harsh bounce
       tl.fromTo(
         validPills,
         {
-          scale: 0.5,
+          scale: 0.85,
           opacity: 0,
-          y: 20,
+          y: 16,
         },
         {
           scale: 1,
           opacity: 1,
           y: 0,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'back.out(1.4)', // Refined, smooth back.out easing
+          duration: 0.85,
+          stagger: 0.07,
+          ease: 'power3.out',
         }
       );
     }, containerRef);
@@ -82,7 +83,7 @@ export const TechPills = ({
           key={tech}
           ref={(el) => (pillsRef.current[index] = el)}
           onMouseEnter={() => soundFx.playHover()}
-          className="group relative px-5 py-2.5 rounded-full bg-white border border-zinc-200/90 shadow-sm hover:shadow-lg hover:border-[#990000] hover:bg-[#990000] transition-all duration-300 ease-out cursor-pointer flex items-center gap-2.5"
+          className="group relative px-5 py-2.5 rounded-full bg-white border border-zinc-200/90 shadow-sm hover:shadow-md hover:border-[#990000] hover:bg-[#990000] hover:-translate-y-0.5 transition-all duration-300 ease-out cursor-pointer flex items-center gap-2.5"
         >
           {/* Subtle Accent Dot */}
           <span className="w-2 h-2 rounded-full bg-[#990000] group-hover:bg-white transition-colors duration-300" />

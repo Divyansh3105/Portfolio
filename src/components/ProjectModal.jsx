@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import { X, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 
@@ -6,20 +7,65 @@ import { soundFx } from '../utils/sound';
 
 
 export const ProjectModal = ({ project, onClose }) => {
+  const backdropRef = useRef(null);
+  const modalRef = useRef(null);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') handleClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+
+    // GSAP entrance animation
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        backdropRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power2.out' }
+      );
+      gsap.fromTo(
+        modalRef.current,
+        { opacity: 0, scale: 0.96, y: 20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'expo.out', delay: 0.05 }
+      );
+    });
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      ctx.revert();
+    };
+  }, []);
+
+  const handleClose = () => {
+    // Animate out before unmounting
+    const tl = gsap.timeline({
+      onComplete: () => onClose(),
+    });
+    tl.to(modalRef.current, {
+      scale: 0.97,
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      ease: 'power2.in',
+    });
+    tl.to(backdropRef.current, {
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.in',
+    }, '-=0.2');
+  };
 
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/70 backdrop-blur-md animate-fade-in">
+    <div
+      ref={backdropRef}
+      onClick={handleClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/70 backdrop-blur-md"
+    >
       <div
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl border border-zinc-200 shadow-2xl flex flex-col"
+        ref={modalRef}
+        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl border border-zinc-200 shadow-2xl flex flex-col transform-gpu"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
@@ -32,11 +78,12 @@ export const ProjectModal = ({ project, onClose }) => {
           </div>
 
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               soundFx.playClick();
-              onClose();
+              handleClose();
             }}
-            className="p-2 rounded-full hover:bg-zinc-100 text-zinc-600 transition-colors"
+            className="p-2 rounded-full hover:bg-zinc-100 text-zinc-600 transition-colors duration-300"
           >
             <X size={20} />
           </button>
@@ -108,7 +155,7 @@ export const ProjectModal = ({ project, onClose }) => {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => soundFx.playClick()}
-                className="px-6 py-3 rounded-full bg-[#990000] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-black transition-colors shadow-md"
+                className="px-6 py-3 rounded-full bg-[#990000] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-black transition-colors duration-400 shadow-md"
               >
                 <span>LAUNCH LIVE APP</span>
                 <ExternalLink size={14} />
@@ -121,7 +168,7 @@ export const ProjectModal = ({ project, onClose }) => {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => soundFx.playClick()}
-                className="px-6 py-3 rounded-full border border-zinc-300 text-zinc-900 text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:border-[#990000] hover:text-[#990000] transition-colors"
+                className="px-6 py-3 rounded-full border border-zinc-300 text-zinc-900 text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:border-[#990000] hover:text-[#990000] transition-colors duration-400"
               >
                 <GithubIcon size={14} />
                 <span>VIEW SOURCE REPO</span>

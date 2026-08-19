@@ -24,74 +24,75 @@ export const Hero = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Create quickTo setters for physically believable mouse inertia
+      // Create quickTo setters with heavier inertia for physically believable weight
       if (parallaxImgRef.current) {
-        xToRef.current = gsap.quickTo(parallaxImgRef.current, 'x', { duration: 1.2, ease: 'power3.out' });
-        yToRef.current = gsap.quickTo(parallaxImgRef.current, 'y', { duration: 1.2, ease: 'power3.out' });
+        xToRef.current = gsap.quickTo(parallaxImgRef.current, 'x', { duration: 1.8, ease: 'power3.out' });
+        yToRef.current = gsap.quickTo(parallaxImgRef.current, 'y', { duration: 1.8, ease: 'power3.out' });
       }
 
-      // Cinematic Entrance Timeline
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.3 } });
+      // Cinematic Entrance Timeline — expo.out for dramatic deceleration
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
 
       tl.fromTo(
         badgeRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 1.0 }
+        { opacity: 0, y: -25 },
+        { opacity: 1, y: 0, duration: 1.4 }
       )
         .fromTo(
           title1Ref.current,
-          { opacity: 0, y: 35 },
-          { opacity: 1, y: 0, duration: 1.2 },
-          '-=0.6'
-        )
-        .fromTo(
-          title2Ref.current,
-          { opacity: 0, y: 35 },
-          { opacity: 1, y: 0, duration: 1.2 },
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, duration: 1.8 },
           '-=0.9'
         )
         .fromTo(
+          title2Ref.current,
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, duration: 1.8 },
+          '-=1.3'
+        )
+        .fromTo(
           subtitleRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1.0 },
-          '-=0.8'
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1.4 },
+          '-=1.2'
         )
         .fromTo(
           ctaRef.current?.children || [],
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.9 },
-          '-=0.7'
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, stagger: 0.14, duration: 1.2 },
+          '-=1.0'
         )
         .fromTo(
           metricsRef.current,
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          '-=0.6'
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1.1 },
+          '-=0.8'
         )
         .fromTo(
           maskContainerRef.current,
-          { opacity: 0, scale: 0.97, y: 25 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'power3.out' },
-          '-=1.4'
+          { opacity: 0, scale: 0.96, y: 30, clipPath: 'inset(0 100% 0 0)' },
+          { opacity: 1, scale: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 2.0, ease: 'expo.out' },
+          '-=1.6'
         );
 
-      // Subtle scroll-driven depth
+      // Dimensional scroll-driven exit — scale recession + Y drift
       gsap.to(containerRef.current, {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 1.2,
+          scrub: 1.5,
         },
-        y: 40,
-        opacity: 0.95,
+        y: 80,
+        scale: 0.97,
+        opacity: 0.92,
       });
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Mouse inertia handler for artwork parallax
+  // Mouse inertia handler for artwork parallax — increased multiplier for perceivable depth
   const handleMouseMove = (e) => {
     if (!maskContainerRef.current) return;
     const rect = maskContainerRef.current.getBoundingClientRect();
@@ -105,8 +106,8 @@ export const Hero = () => {
     maskContainerRef.current.style.setProperty('--mouse-y', `${percentY}%`);
 
     if (xToRef.current && yToRef.current) {
-      const moveX = (x - rect.width / 2) * 0.02;
-      const moveY = (y - rect.height / 2) * 0.02;
+      const moveX = (x - rect.width / 2) * 0.035;
+      const moveY = (y - rect.height / 2) * 0.035;
       xToRef.current(moveX);
       yToRef.current(moveY);
     }
@@ -170,23 +171,23 @@ export const Hero = () => {
             Engineering scalable web infrastructures, high-performance APIs, and immersive motion experiences. Threading complex backend logic with precision frontend aesthetics.
           </p>
 
-          {/* CTA buttons */}
+          {/* CTA buttons — spring-overshoot hover */}
           <div ref={ctaRef} className="flex flex-wrap items-center gap-4 pt-2">
             <a
               href="#projects"
               onClick={() => soundFx.playClick()}
               onMouseEnter={() => soundFx.playHover()}
-              className="group px-7 py-4 rounded-full bg-[#0f0f11] text-white text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-[#990000] hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 shadow-sm"
+              className="group px-7 py-4 rounded-full bg-[#0f0f11] text-white text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-[#990000] hover:-translate-y-1 hover:shadow-xl transition-[transform,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
             >
               <span>EXPLORE WORK</span>
-              <ArrowDownRight size={15} className="group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
+              <ArrowDownRight size={15} className="group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform duration-500" />
             </a>
 
             <a
               href="#contact"
               onClick={() => soundFx.playClick()}
               onMouseEnter={() => soundFx.playHover()}
-              className="group px-7 py-4 rounded-full border border-zinc-300 text-zinc-900 text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:border-[#990000] hover:text-[#990000] hover:-translate-y-0.5 transition-all duration-300"
+              className="group px-7 py-4 rounded-full border border-zinc-300 text-zinc-900 text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:border-[#990000] hover:text-[#990000] hover:-translate-y-1 transition-[transform,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
             >
               <Terminal size={14} className="text-[#990000]" />
               <span>THREAD CONNECTION</span>
@@ -214,7 +215,7 @@ export const Hero = () => {
         <div className="lg:col-span-5 flex justify-center items-center">
           <div
             ref={maskContainerRef}
-            className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-200/90 shadow-xl bg-zinc-950 group cursor-crosshair"
+            className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-200/90 shadow-xl hover:shadow-2xl bg-zinc-950 group cursor-crosshair transition-shadow duration-700"
             style={{
               '--mouse-x': '50%',
               '--mouse-y': '50%',
@@ -226,7 +227,7 @@ export const Hero = () => {
                 ref={parallaxImgRef}
                 src={heroArtwork}
                 alt="Creative Developer Art"
-                className="w-full h-full object-cover grayscale contrast-105 opacity-75 transition-transform duration-700"
+                className="w-full h-full object-cover grayscale contrast-105 opacity-75 transition-transform duration-900"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-70" />
             </div>
@@ -270,4 +271,3 @@ export const Hero = () => {
     </section>
   );
 };
-

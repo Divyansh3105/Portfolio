@@ -20,7 +20,7 @@ export const WebCanvas = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // Node points for ambient background texture
+    // Node points for ambient background texture — fewer, slower
     const isMobile = width < 768;
     const maxNodes = isMobile ? 14 : 32;
     const nodeCount = Math.min(Math.floor(Math.min(width, height) / 30), maxNodes);
@@ -29,8 +29,8 @@ export const WebCanvas = () => {
     const nodes = Array.from({ length: nodeCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * (isMobile ? 0.15 : 0.25),
-      vy: (Math.random() - 0.5) * (isMobile ? 0.15 : 0.25),
+      vx: (Math.random() - 0.5) * (isMobile ? 0.10 : 0.18),
+      vy: (Math.random() - 0.5) * (isMobile ? 0.10 : 0.18),
       radius: Math.random() * 1.2 + 0.8,
     }));
 
@@ -50,9 +50,9 @@ export const WebCanvas = () => {
     window.addEventListener('mousemove', handleMouseMove);
 
     const draw = () => {
-      // Smooth lerp interpolation for mouse
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      // Smoother lerp — 0.03 for more gradual tracking
+      mouse.x += (mouse.targetX - mouse.x) * 0.03;
+      mouse.y += (mouse.targetY - mouse.y) * 0.03;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -121,8 +121,7 @@ export const WebCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-60"
+      className="fixed inset-0 pointer-events-none z-0 opacity-40"
     />
   );
 };
-

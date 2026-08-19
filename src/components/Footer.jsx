@@ -14,7 +14,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Brand & Title */}
         <div className="flex items-center gap-4">
-          <div className="w-3 h-3 rounded-full bg-[#990000] animate-ping" />
+          <div className="w-3 h-3 rounded-full bg-[#990000] opacity-80" />
           <span className="text-sm font-bold font-syne uppercase tracking-wider">
             DIVYANSH GARG <span className="text-zinc-500">// FULL-STACK ENGINEER</span>
           </span>

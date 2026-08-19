@@ -9,6 +9,8 @@
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-circ: cubic-bezier(0, 0.55, 0.45, 1);
   }
 
   body {
@@ -50,7 +52,7 @@
 /* Image Grayscale to Color Transition */
 .grayscale-hover {
   filter: grayscale(100%) contrast(1.04);
-  transition: filter 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+  transition: filter 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
 }
 
 .grayscale-hover:hover {

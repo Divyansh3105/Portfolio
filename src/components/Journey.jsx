@@ -10,6 +10,7 @@ export const Journey = () => {
   const containerRef = useRef(null);
   const lineRef = useRef(null);
   const nodesRef = useRef([]);
+  const pinNodesRef = useRef([]);
 
   const milestones = [
     {
@@ -55,39 +56,59 @@ export const Journey = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Vertical line fill animation on scroll
+      // Vertical line fill animation on scroll — longer duration
       gsap.fromTo(
         lineRef.current,
         { scaleY: 0, transformOrigin: 'top center' },
         {
           scaleY: 1,
-          duration: 1.5,
+          duration: 2.0,
           ease: 'none',
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top 70%',
             end: 'bottom 40%',
-            scrub: 1,
+            scrub: 1.2,
           },
         }
       );
 
-      // Animate milestone nodes
+      // Animate milestone nodes — wider X-translation, expo.out
       nodesRef.current.forEach((node, index) => {
         if (!node) return;
         gsap.fromTo(
           node,
-          { opacity: 0, x: index % 2 === 0 ? -30 : 30, scale: 0.97 },
+          { opacity: 0, x: index % 2 === 0 ? -40 : 40, scale: 0.97 },
           {
             opacity: 1,
             x: 0,
             scale: 1,
-            duration: 1.1,
-            ease: 'power3.out',
+            duration: 1.4,
+            ease: 'expo.out',
             scrollTrigger: {
               trigger: node,
               start: 'top 85%',
             },
+          }
+        );
+      });
+
+      // Timeline pin nodes — fade in after their parent card
+      pinNodesRef.current.forEach((pin, index) => {
+        if (!pin) return;
+        gsap.fromTo(
+          pin,
+          { opacity: 0, scale: 0.5 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: nodesRef.current[index] || pin,
+              start: 'top 82%',
+            },
+            delay: 0.15,
           }
         );
       });
@@ -139,13 +160,16 @@ export const Journey = () => {
                     isEven ? 'md:flex-row-reverse' : ''
                   } gap-8 relative`}
                 >
-                  {/* Timeline Pin Node */}
-                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-8 w-5 h-5 rounded-full bg-white border-2 border-[#990000] shadow-xs flex items-center justify-center z-20 group cursor-pointer">
+                  {/* Timeline Pin Node — animated separately */}
+                  <div
+                    ref={(el) => (pinNodesRef.current[index] = el)}
+                    className="absolute left-4 md:left-1/2 -translate-x-1/2 top-8 w-5 h-5 rounded-full bg-white border-2 border-[#990000] shadow-xs flex items-center justify-center z-20 group cursor-pointer"
+                  >
                     <div className="w-1.5 h-1.5 rounded-full bg-[#990000]" />
                   </div>
 
-                  {/* Experience Card */}
-                  <div className="w-full md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 bg-white p-6 md:p-8 rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-400 flex flex-col gap-4">
+                  {/* Experience Card — spring-eased hover */}
+                  <div className="w-full md:w-[calc(50%-2.5rem)] ml-12 md:ml-0 bg-white p-6 md:p-8 rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center justify-between text-xs font-mono text-[#990000]">
                         <span className="font-bold uppercase">// {item.period}</span>
@@ -198,4 +222,3 @@ export const Journey = () => {
     </section>
   );
 };
-

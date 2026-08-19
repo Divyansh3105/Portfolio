@@ -47,9 +47,9 @@ export const CustomCursor = () => {
     window.addEventListener('mouseover', handleMouseOver);
 
     const render = () => {
-      // Smooth lerp lag for outer ring cursor
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
+      // Heavier lerp for physically trailing ring — 0.08 for more weight
+      ringX += (mouseX - ringX) * 0.08;
+      ringY += (mouseY - ringY) * 0.08;
 
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
@@ -79,20 +79,17 @@ export const CustomCursor = () => {
         }`}
       />
 
-      {/* Spider Silk Ring Cursor */}
+      {/* Spider Silk Ring Cursor — cleaner, no inner dot */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 rounded-full border border-[#990000]/50 pointer-events-none z-50 transition-all duration-300 ease-out flex items-center justify-center ${
+        className={`fixed top-0 left-0 rounded-full border pointer-events-none z-50 transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
           isHovered
             ? 'w-11 h-11 bg-[#990000]/05 border-[#990000] scale-105'
             : isClicking
             ? 'w-6 h-6 border-[#990000]'
-            : 'w-7 h-7 opacity-50'
+            : 'w-7 h-7 border-[#990000]/50 opacity-50'
         }`}
-      >
-        <div className={`w-1 h-1 bg-[#990000] rounded-full transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
-      </div>
+      />
     </>
   );
 };
-

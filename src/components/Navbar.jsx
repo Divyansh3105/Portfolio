@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import { soundFx } from '../utils/sound';
 import { Volume2, VolumeX, Menu, X, ArrowUpRight, FileText } from 'lucide-react';
 
@@ -6,6 +7,7 @@ export const Navbar = ({ activeSection }) => {
   const [scrolled, setScrolled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileNavRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +16,24 @@ export const Navbar = ({ activeSection }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // GSAP-staggered mobile menu entrance
+  useEffect(() => {
+    if (mobileMenuOpen && mobileNavRef.current) {
+      const links = mobileNavRef.current.querySelectorAll('.mobile-nav-link');
+      gsap.fromTo(
+        links,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'expo.out',
+        }
+      );
+    }
+  }, [mobileMenuOpen]);
 
   const handleAudioToggle = () => {
     const nextState = soundFx.toggleSound();
@@ -32,7 +52,7 @@ export const Navbar = ({ activeSection }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         scrolled
           ? 'py-3 bg-white/85 backdrop-blur-md border-b border-black/5 shadow-sm'
           : 'py-6 bg-transparent'
@@ -45,9 +65,9 @@ export const Navbar = ({ activeSection }) => {
           onClick={() => soundFx.playClick()}
           className="group flex items-center gap-3 text-lg font-bold tracking-tight uppercase font-syne text-[#0f0f11]"
         >
-          <div className="relative w-8 h-8 rounded-full border border-[#990000]/40 flex items-center justify-center group-hover:border-[#990000] transition-colors">
+          <div className="relative w-8 h-8 rounded-full border border-[#990000]/40 flex items-center justify-center group-hover:border-[#990000] transition-colors duration-500">
             <svg
-              className="w-4 h-4 text-[#990000] group-hover:rotate-45 transition-transform duration-500"
+              className="w-4 h-4 text-[#990000] group-hover:rotate-45 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -56,7 +76,8 @@ export const Navbar = ({ activeSection }) => {
               <path d="M12 2v20M2 12h20M5 5l14 14M5 19L19 5" opacity="0.4" />
               <circle cx="12" cy="12" r="3" fill="#990000" />
             </svg>
-            <div className="absolute -top-1 right-0 w-1.5 h-1.5 bg-[#990000] rounded-full animate-ping" />
+            {/* Static subtle indicator — replaces animate-ping */}
+            <div className="absolute -top-1 right-0 w-1.5 h-1.5 bg-[#990000] rounded-full opacity-80" />
           </div>
           <span>
             DIVYANSH<span className="text-[#990000]">.</span>GARG
@@ -73,13 +94,14 @@ export const Navbar = ({ activeSection }) => {
                 href={link.href}
                 onMouseEnter={() => soundFx.playHover()}
                 onClick={() => soundFx.playClick()}
-                className={`relative py-1 transition-colors hover:text-[#990000] ${
+                className={`relative py-1 transition-colors duration-300 hover:text-[#990000] ${
                   isActive ? 'text-[#990000]' : ''
                 }`}
               >
                 {link.label}
+                {/* Static indicator bar — replaces animate-pulse */}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#990000] animate-pulse" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#990000]" />
                 )}
               </a>
             );
@@ -94,7 +116,7 @@ export const Navbar = ({ activeSection }) => {
             rel="noreferrer"
             onClick={() => soundFx.playClick()}
             onMouseEnter={() => soundFx.playHover()}
-            className="hidden sm:inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] transition-colors duration-400"
           >
             <FileText size={14} className="text-[#990000]" />
             <span>RESUME</span>
@@ -104,7 +126,7 @@ export const Navbar = ({ activeSection }) => {
             onClick={handleAudioToggle}
             onMouseEnter={() => soundFx.playHover()}
             title={audioEnabled ? 'Mute Interaction Audio' : 'Unmute Interaction Audio'}
-            className="p-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-700 hover:text-[#990000] transition-colors"
+            className="p-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-700 hover:text-[#990000] transition-colors duration-400"
           >
             {audioEnabled ? <Volume2 size={16} /> : <VolumeX size={16} className="text-zinc-400" />}
           </button>
@@ -113,10 +135,10 @@ export const Navbar = ({ activeSection }) => {
             href="#contact"
             onClick={() => soundFx.playClick()}
             onMouseEnter={() => soundFx.playHover()}
-            className="hidden lg:inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm group"
+            className="hidden lg:inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] hover:-translate-y-1 hover:shadow-lg transition-[transform,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm group"
           >
             <span>CONNECT</span>
-            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-500" />
           </a>
 
           {/* Mobile Menu Toggle Button */}
@@ -135,7 +157,7 @@ export const Navbar = ({ activeSection }) => {
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 top-16 bg-white/95 backdrop-blur-xl z-50 flex flex-col p-8 justify-between">
-          <div className="flex flex-col gap-6">
+          <div ref={mobileNavRef} className="flex flex-col gap-6">
             <p className="text-xs uppercase tracking-widest text-[#990000] font-mono">
               // Navigation Strands
             </p>
@@ -147,7 +169,7 @@ export const Navbar = ({ activeSection }) => {
                   setMobileMenuOpen(false);
                   soundFx.playClick();
                 }}
-                className="text-2xl font-syne font-bold uppercase tracking-tight text-zinc-900 hover:text-[#990000]"
+                className="mobile-nav-link text-2xl font-syne font-bold uppercase tracking-tight text-zinc-900 hover:text-[#990000]"
               >
                 {link.label}
               </a>

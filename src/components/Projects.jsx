@@ -150,14 +150,15 @@ export const Projects = () => {
       validCards.forEach((card, index) => {
         gsap.fromTo(
           card,
-          { opacity: 0, y: 30, scale: 0.985 },
+          { opacity: 0, y: 45, scale: 0.985, rotateX: 2 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1.0,
-            delay: index * 0.09,
-            ease: "power3.out",
+            rotateX: 0,
+            duration: 1.3,
+            delay: index * 0.14,
+            ease: "expo.out",
             scrollTrigger: {
               trigger: card,
               start: "top 88%",
@@ -249,7 +250,7 @@ export const Projects = () => {
                   soundFx.playClick();
                 }}
                 onMouseEnter={() => soundFx.playHover()}
-                className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 ${
+                className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all duration-400 ${
                   selectedCategory === cat
                     ? "bg-[#0f0f11] text-white shadow-sm"
                     : "text-zinc-600 hover:text-[#990000]"
@@ -262,12 +263,12 @@ export const Projects = () => {
         </div>
 
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10" style={{ perspective: '1200px' }}>
           {filteredProjects.map((project, index) => (
             <div
               key={project.id}
               ref={(el) => (cardsRef.current[index] = el)}
-              className="group relative bg-white rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.07)] hover:border-[#990000]/50 hover:-translate-y-1 transition-all duration-500 flex flex-col overflow-hidden"
+              className="group relative bg-white rounded-2xl border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.07)] hover:border-[#990000]/50 hover:-translate-y-1.5 transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col overflow-hidden transform-gpu"
             >
               {/* Card Image Header */}
               <div
@@ -280,7 +281,7 @@ export const Projects = () => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700 ease-out"
+                  className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-900 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 />
 
                 {/* Gradient vignette */}
@@ -294,8 +295,8 @@ export const Projects = () => {
                   </span>
                 </div>
 
-                {/* View Details Button overlay on hover */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400 bg-black/35 backdrop-blur-[2px]">
+                {/* View Details Button overlay on hover — with Y-slide */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] bg-black/35 backdrop-blur-[2px]">
                   <span className="px-5 py-2.5 rounded-full bg-[#990000] text-white text-xs font-bold font-syne tracking-widest uppercase shadow-md flex items-center gap-2">
                     <span>INSPECT SPECIFICATION</span>
                     <ArrowUpRight size={14} />
@@ -318,7 +319,7 @@ export const Projects = () => {
                       soundFx.playClick();
                       setActiveModalProject(project);
                     }}
-                    className="text-2xl font-bold font-syne uppercase text-zinc-900 group-hover:text-[#990000] transition-colors cursor-pointer"
+                    className="text-2xl font-bold font-syne uppercase text-zinc-900 group-hover:text-[#990000] transition-colors duration-400 cursor-pointer"
                   >
                     {project.title}
                   </h3>
@@ -351,7 +352,7 @@ export const Projects = () => {
                           e.stopPropagation();
                           soundFx.playClick();
                         }}
-                        className="p-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-700 hover:text-[#990000] transition-colors"
+                        className="p-2 rounded-full border border-zinc-200 hover:border-[#990000] text-zinc-700 hover:text-[#990000] transition-colors duration-400"
                         title="View GitHub Repository"
                       >
                         <GithubIcon size={16} />
@@ -366,7 +367,7 @@ export const Projects = () => {
                           e.stopPropagation();
                           soundFx.playClick();
                         }}
-                        className="p-2 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] transition-colors"
+                        className="p-2 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] transition-colors duration-400"
                         title="Launch Live App"
                       >
                         <ExternalLink size={16} />
@@ -390,4 +391,3 @@ export const Projects = () => {
     </section>
   );
 };
-

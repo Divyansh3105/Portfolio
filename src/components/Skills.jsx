@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const Skills = () => {
   const containerRef = useRef(null);
   const categoriesRef = useRef([]);
+  const barRefsMap = useRef({});
   const [activeCategory, setActiveCategory] = useState(0);
 
   const skillCategories = [
@@ -56,21 +57,43 @@ export const Skills = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      categoriesRef.current.forEach((cat, index) => {
+      categoriesRef.current.forEach((cat, catIndex) => {
         if (!cat) return;
+
+        // Card entrance — wider stagger, deeper Y
         gsap.fromTo(
           cat,
-          { opacity: 0, y: 30, scale: 0.98 },
+          { opacity: 0, y: 40, scale: 0.98 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.9,
-            delay: index * 0.1,
-            ease: 'power3.out',
+            duration: 1.2,
+            delay: catIndex * 0.18,
+            ease: 'expo.out',
             scrollTrigger: {
               trigger: cat,
               start: 'top 85%',
+            },
+            onComplete: () => {
+              // Scroll-driven skill bar fill animation
+              const bars = barRefsMap.current[catIndex];
+              if (bars) {
+                const validBars = bars.filter(Boolean);
+                validBars.forEach((bar, barIndex) => {
+                  const level = skillCategories[catIndex].skills[barIndex]?.level || 0;
+                  gsap.fromTo(
+                    bar,
+                    { width: '0%' },
+                    {
+                      width: `${level}%`,
+                      duration: 1.4,
+                      delay: barIndex * 0.08,
+                      ease: 'expo.out',
+                    }
+                  );
+                });
+              }
             },
           }
         );
@@ -107,6 +130,10 @@ export const Skills = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {skillCategories.map((category, index) => {
             const Icon = category.icon;
+            // Initialize bar refs for this category
+            if (!barRefsMap.current[index]) {
+              barRefsMap.current[index] = [];
+            }
             return (
               <div
                 key={category.title}
@@ -115,7 +142,7 @@ export const Skills = () => {
                   setActiveCategory(index);
                   soundFx.playHover();
                 }}
-                className={`p-8 rounded-2xl bg-white border transition-all duration-400 flex flex-col justify-between gap-8 ${
+                className={`p-8 rounded-2xl bg-white border transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col justify-between gap-8 ${
                   activeCategory === index
                     ? 'border-[#990000]/70 shadow-[0_16px_36px_rgba(0,0,0,0.06)]'
                     : 'border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:border-zinc-300'
@@ -137,9 +164,9 @@ export const Skills = () => {
                   </h3>
                 </div>
 
-                {/* Progress Skill Bars */}
+                {/* Progress Skill Bars — GSAP-animated on scroll */}
                 <div className="flex flex-col gap-5">
-                  {category.skills.map((skill) => (
+                  {category.skills.map((skill, skillIndex) => (
                     <div key={skill.name} className="flex flex-col gap-2">
                       <div className="flex items-center justify-between text-xs font-mono">
                         <span className="font-semibold text-zinc-800">{skill.name}</span>
@@ -149,8 +176,12 @@ export const Skills = () => {
                       {/* Bar Track */}
                       <div className="w-full h-1.5 rounded-full bg-zinc-100 overflow-hidden border border-zinc-200/60">
                         <div
-                          className="h-full bg-gradient-to-r from-zinc-900 via-[#990000] to-[#990000] rounded-full transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                          style={{ width: `${skill.level}%` }}
+                          ref={(el) => {
+                            if (!barRefsMap.current[index]) barRefsMap.current[index] = [];
+                            barRefsMap.current[index][skillIndex] = el;
+                          }}
+                          className="h-full bg-gradient-to-r from-zinc-900 via-[#990000] to-[#990000] rounded-full"
+                          style={{ width: '0%' }}
                         />
                       </div>
                     </div>
@@ -173,4 +204,3 @@ export const Skills = () => {
     </section>
   );
 };
-

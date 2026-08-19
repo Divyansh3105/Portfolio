@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const Contact = () => {
   const containerRef = useRef(null);
+  const formCardRef = useRef(null);
   const [copied, setCopied] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,21 +79,44 @@ export const Contact = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        containerRef.current?.children || [],
-        { opacity: 0, y: 25 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.0,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 80%',
-          },
-        }
-      );
+      // Main content children — wider stagger, deeper Y, expo easing
+      const directChildren = containerRef.current ? Array.from(containerRef.current.querySelectorAll(':scope > .max-w-7xl > *')) : [];
+      if (directChildren.length > 0) {
+        gsap.fromTo(
+          directChildren,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.3,
+            stagger: 0.18,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 80%',
+            },
+          }
+        );
+      }
+
+      // Form card — subtle scale entrance
+      if (formCardRef.current) {
+        gsap.fromTo(
+          formCardRef.current,
+          { scale: 0.985, opacity: 0, y: 30 },
+          {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            duration: 1.4,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: formCardRef.current,
+              start: 'top 85%',
+            },
+          }
+        );
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -129,7 +153,7 @@ export const Contact = () => {
           </div>
 
           <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase font-syne text-zinc-950 tracking-tight">
-            LET’S THREAD A <span className="font-serif-italic text-[#990000] font-normal lowercase">new</span> PROJECT
+            LET'S THREAD A <span className="font-serif-italic text-[#990000] font-normal lowercase">new</span> PROJECT
           </h2>
         </div>
 
@@ -155,7 +179,7 @@ export const Contact = () => {
                   <button
                     onClick={handleCopyEmail}
                     onMouseEnter={() => soundFx.playHover()}
-                    className="px-4 py-2 rounded-full bg-[#0f0f11] text-white text-xs font-bold font-mono tracking-wider uppercase flex items-center gap-2 hover:bg-[#990000] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shrink-0"
+                    className="px-4 py-2 rounded-full bg-[#0f0f11] text-white text-xs font-bold font-mono tracking-wider uppercase flex items-center gap-2 hover:bg-[#990000] hover:-translate-y-1 hover:shadow-lg transition-[transform,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shrink-0"
                   >
                     {copied ? (
                       <>
@@ -197,7 +221,7 @@ export const Contact = () => {
                   rel="noreferrer"
                   onClick={() => soundFx.playClick()}
                   onMouseEnter={() => soundFx.playHover()}
-                  className="px-5 py-3 rounded-full bg-white border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] hover:-translate-y-1 hover:shadow-md text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 shadow-sm"
+                  className="px-5 py-3 rounded-full bg-white border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] hover:-translate-y-1 hover:shadow-lg text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-[transform,box-shadow,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
                 >
                   <GithubIcon size={16} />
                   <span>GITHUB / DIVYANSH3105</span>
@@ -209,7 +233,7 @@ export const Contact = () => {
                   rel="noreferrer"
                   onClick={() => soundFx.playClick()}
                   onMouseEnter={() => soundFx.playHover()}
-                  className="px-5 py-3 rounded-full bg-white border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] hover:-translate-y-1 hover:shadow-md text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 shadow-sm"
+                  className="px-5 py-3 rounded-full bg-white border border-zinc-200 hover:border-[#990000] text-zinc-800 hover:text-[#990000] hover:-translate-y-1 hover:shadow-lg text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-[transform,box-shadow,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
                 >
                   <LinkedinIcon size={16} />
                   <span>LINKEDIN</span>
@@ -221,7 +245,7 @@ export const Contact = () => {
                   rel="noreferrer"
                   onClick={() => soundFx.playClick()}
                   onMouseEnter={() => soundFx.playHover()}
-                  className="px-5 py-3 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] hover:-translate-y-1 hover:shadow-md text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 shadow-sm"
+                  className="px-5 py-3 rounded-full bg-[#0f0f11] text-white hover:bg-[#990000] hover:-translate-y-1 hover:shadow-lg text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-[transform,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
                 >
                   <FileText size={16} />
                   <span>RESUME PDF</span>
@@ -230,8 +254,8 @@ export const Contact = () => {
             </div>
           </div>
 
-          {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-2xl border border-zinc-200 shadow-xl">
+          {/* Right Column: Contact Form — scale entrance */}
+          <div ref={formCardRef} className="lg:col-span-7 bg-white p-8 md:p-10 rounded-2xl border border-zinc-200 shadow-xl">
             {formSubmitted ? (
               <div className="py-16 flex flex-col items-center justify-center text-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
@@ -248,7 +272,7 @@ export const Contact = () => {
                     setFormSubmitted(false);
                     setFormData({ name: '', email: '', projectType: 'Full-Stack Web App', message: '' });
                   }}
-                  className="mt-4 px-6 py-2.5 rounded-full bg-[#0f0f11] text-white text-xs font-mono font-bold uppercase hover:-translate-y-0.5 transition-transform"
+                  className="mt-4 px-6 py-2.5 rounded-full bg-[#0f0f11] text-white text-xs font-mono font-bold uppercase hover:-translate-y-0.5 transition-transform duration-400"
                 >
                   SEND ANOTHER MESSAGE
                 </button>
@@ -267,7 +291,7 @@ export const Contact = () => {
                       placeholder="e.g. Sarah Jenkins"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-colors"
+                      className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-[border-color,box-shadow] duration-400"
                     />
                   </div>
 
@@ -282,7 +306,7 @@ export const Contact = () => {
                       placeholder="sarah@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-colors"
+                      className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-[border-color,box-shadow] duration-400"
                     />
                   </div>
                 </div>
@@ -295,7 +319,7 @@ export const Contact = () => {
                   <select
                     value={formData.projectType}
                     onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-[border-color,box-shadow] duration-400"
                   >
                     <option value="Full-Stack Web App">Full-Stack Web Application (React / Node.js)</option>
                     <option value="Shopify Storefront">Shopify E-Commerce Storefront</option>
@@ -315,7 +339,7 @@ export const Contact = () => {
                     placeholder="Tell me about your goals, timelines, and technical requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-colors resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-sans text-zinc-900 focus:outline-none focus:border-[#990000] focus:ring-1 focus:ring-[#990000] transition-[border-color,box-shadow] duration-400 resize-none"
                   />
                 </div>
 
@@ -324,7 +348,7 @@ export const Contact = () => {
                   type="submit"
                   disabled={isSubmitting}
                   onMouseEnter={() => soundFx.playHover()}
-                  className="w-full py-4 rounded-full bg-[#990000] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0f0f11] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg group disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-4 rounded-full bg-[#990000] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#0f0f11] hover:-translate-y-1 hover:shadow-2xl transition-[transform,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-lg group disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -334,7 +358,7 @@ export const Contact = () => {
                   ) : (
                     <>
                       <span>TRANSMIT MESSAGE TO DIVYANSH</span>
-                      <Send size={16} className="group-hover:translate-x-1 transition-transform" />
+                      <Send size={16} className="group-hover:translate-x-1 transition-transform duration-500" />
                     </>
                   )}
                 </button>

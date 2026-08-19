@@ -29,7 +29,7 @@ export const SpiderWebDecorations = ({ className = '' }) => {
         tl.fromTo(
           threads,
           { scaleY: 0, opacity: 0, transformOrigin: 'top center' },
-          { scaleY: 1, opacity: 0.5, duration: 1.2, ease: 'power3.out' }
+          { scaleY: 1, opacity: 0.5, duration: 1.6, ease: 'expo.out' }
         );
       }
 
@@ -37,8 +37,8 @@ export const SpiderWebDecorations = ({ className = '' }) => {
         tl.fromTo(
           webs,
           { y: -30, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 0.14, scale: 1, duration: 1.4, ease: 'power3.out' },
-          threads.length > 0 ? '-=0.9' : 0
+          { y: 0, opacity: 0.14, scale: 1, duration: 1.8, ease: 'expo.out' },
+          threads.length > 0 ? '-=1.1' : 0
         );
       }
     }, containerRef);
@@ -117,4 +117,3 @@ export const SpiderWebDecorations = ({ className = '' }) => {
     </div>
   );
 };
-

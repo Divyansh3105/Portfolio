@@ -14,6 +14,7 @@ export const About = () => {
   const containerRef = useRef(null);
   const eyebrowRef = useRef(null);
   const headingRef = useRef(null);
+  const cardsRef = useRef([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,31 +28,73 @@ export const About = () => {
       masterTl.fromTo(
         eyebrowRef.current,
         {
-          y: -15,
+          y: -25,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 0.9,
-          ease: 'power3.out',
+          duration: 1.2,
+          ease: 'expo.out',
         }
       );
 
       masterTl.fromTo(
         headingRef.current,
         {
-          y: 35,
+          y: 55,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1.1,
-          ease: 'power3.out',
+          duration: 1.5,
+          ease: 'expo.out',
         },
-        '-=0.6'
+        '-=0.7'
       );
+
+      // Scroll-driven parallax depth — heading and eyebrow at different rates
+      gsap.to(eyebrowRef.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+        y: -20,
+      });
+
+      gsap.to(headingRef.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+        y: -12,
+      });
+
+      // Feature cards — individual ScrollTrigger entrances with stagger
+      const validCards = cardsRef.current.filter(Boolean);
+      validCards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 30, scale: 0.96 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.2,
+            delay: index * 0.15,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+            },
+          }
+        );
+      });
     }, containerRef);
 
     return () => ctx.revert();
@@ -113,12 +156,15 @@ export const About = () => {
                 "I am a final-year B.Tech Computer Science student at Graphic Era University (GPA: 8.5/10) with hands-on experience building full-stack web applications, REST API architectures, and custom compiler pipelines.",
                 "From architecting TalkSpace—a real-time PWA messaging platform live on Railway—to building GravLang (an interpreted programming language built from scratch in Python) and delivering a custom Shopify storefront for a luxury jewelry client, I blend theoretical CS fundamentals with production software execution."
               ]}
-              stagger={0.15}
+              stagger={0.2}
             />
 
             {/* Core Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-300 flex items-start gap-3.5">
+              <div
+                ref={(el) => (cardsRef.current[0] = el)}
+                className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-start gap-3.5"
+              >
                 <Cpu className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">13+ REST API Endpoints</h4>
@@ -126,7 +172,10 @@ export const About = () => {
                 </div>
               </div>
 
-              <div className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-300 flex items-start gap-3.5">
+              <div
+                ref={(el) => (cardsRef.current[1] = el)}
+                className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-start gap-3.5"
+              >
                 <GraduationCap className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">B.Tech Computer Science</h4>
@@ -150,4 +199,3 @@ export const About = () => {
     </section>
   );
 };
-

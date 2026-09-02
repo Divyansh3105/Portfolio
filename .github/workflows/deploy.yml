@@ -41,11 +41,9 @@ jobs:
       # GitHub Pages has no rewrite rules; a 404.html copy keeps deep links working.
       - run: cp dist/index.html dist/404.html
 
+      # Pages must already be enabled with source "GitHub Actions"; the
+      # workflow's GITHUB_TOKEN lacks the admin rights to create the site.
       - uses: actions/configure-pages@v5
-        with:
-          # Turns Pages on (source: GitHub Actions) if it isn't already,
-          # so the deploy job has a Pages site to publish into.
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v4
         with:

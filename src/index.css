@@ -1,101 +1,139 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------ */
+@theme {
+  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Light, papery neutrals */
+  --color-bone: #f4f3f1;
+  --color-paper: #fafaf8;
+  --color-ash: #e6e4e0;
+  --color-smoke: #cfccc6;
+  --color-graphite: #6b6862;
+
+  /* Ink + accent */
+  --color-ink: #0a0a0a;
+  --color-carbon: #141414;
+  --color-blood: #c10f1b;
+  --color-blood-deep: #7c0a12;
+  --color-blood-soft: #e8636d;
+
+  --ease-web: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --font-syne: 'Syne', sans-serif;
-    --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --ease-out-circ: cubic-bezier(0, 0.55, 0.45, 1);
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #fafafc;
-    color: #111116;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
-  h1, h2, h3, .font-syne {
-    font-family: var(--font-syne);
+  ::selection {
+    background: var(--color-blood);
+    color: var(--color-paper);
   }
 
-  .font-serif-italic {
-    font-family: var(--font-serif);
-    font-style: italic;
+  /* Thin, unobtrusive scrollbar that matches the palette */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ash);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border: 3px solid var(--color-ash);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-blood);
   }
 
-  .font-mono-tech {
-    font-family: var(--font-mono);
+  :focus-visible {
+    outline: 2px solid var(--color-blood);
+    outline-offset: 3px;
   }
 }
 
-/* Spider web geometric subtle pattern background */
-.bg-spider-grid {
-  background-size: 48px 48px;
-  background-image: 
-    radial-gradient(circle, rgba(153, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+/* ------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------ */
+@utility text-balance {
+  text-wrap: balance;
 }
 
-.bg-spider-radial {
-  background: radial-gradient(circle at 50% 50%, rgba(153, 0, 0, 0.03) 0%, rgba(250, 250, 252, 0) 70%);
+@utility display-tight {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.84;
+  letter-spacing: -0.035em;
 }
 
-/* Image Grayscale to Color Transition */
-.grayscale-hover {
-  filter: grayscale(100%) contrast(1.04);
-  transition: filter 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
-.grayscale-hover:hover {
-  filter: grayscale(0%) contrast(1);
+/* ------------------------------------------------------------------
+   Animation primitives (ambient CSS motion only; GSAP owns the rest)
+   ------------------------------------------------------------------ */
+@keyframes marquee-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
-/* Mask reveal container */
-.hero-reveal-mask {
-  mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);
+.marquee-track {
+  animation: marquee-slide 32s linear infinite;
 }
 
-/* Text stroke style */
-.text-stroke-red {
-  -webkit-text-stroke: 1.5px #990000;
-  color: transparent;
-}
 
-.text-stroke-dark {
-  -webkit-text-stroke: 1.5px #111116;
-  color: transparent;
-}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
 
-/* Silk string line */
-.silk-line {
-  background: linear-gradient(180deg, rgba(153, 0, 0, 0.7) 0%, rgba(17, 17, 22, 0.15) 100%);
-}
+  .marquee-track {
+    animation: none;
+  }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
+  /* Safety net: the hero hides these until its timeline runs. If motion is
+     off, show them even before GSAP has had a chance to. */
+  .hero-anim {
+    visibility: visible !important;
+  }
 
-::-webkit-scrollbar-track {
-  background: #fafafc;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
-
-::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #990000;
-}
-

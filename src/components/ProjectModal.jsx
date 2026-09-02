@@ -1,177 +1,244 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { X, ExternalLink, CheckCircle2 } from 'lucide-react';
-import { GithubIcon } from './SocialIcons';
+import { useCallback, useEffect, useRef } from "react";
+import { gsap, prefersReducedMotion } from "../lib/gsap";
+import { sound } from "../lib/sound";
+import { CloseIcon, ExternalLink, GithubIcon } from "./Icons";
+import ProjectPlate from "./ProjectPlate";
 
-import { soundFx } from '../utils/sound';
+/**
+ * Full specification for one project.
+ *
+ * The previous build had this idea and the right content — full description,
+ * highlights, stack, live and source links — but rendered it as a plain div
+ * with no dialog semantics: no focus management, no focus trap, and Escape
+ * handled through a closure that captured a stale `handleClose`. This version
+ * keeps the content and fixes all of that, in V2's type and palette.
+ */
+export default function ProjectModal({ project, onClose }) {
+  const backdrop = useRef(null);
+  const panel = useRef(null);
+  const closer = useRef(null);
+  const opener = useRef(null);
+  const closing = useRef(false);
 
+  /** Animate out, then unmount — guarded so a double-trigger can't stack. */
+  const close = useCallback(() => {
+    if (closing.current) return;
+    closing.current = true;
 
-export const ProjectModal = ({ project, onClose }) => {
-  const backdropRef = useRef(null);
-  const modalRef = useRef(null);
+    if (prefersReducedMotion()) {
+      onClose();
+      return;
+    }
+
+    gsap
+      .timeline({ onComplete: onClose })
+      .to(panel.current, {
+        scale: 0.97,
+        opacity: 0,
+        y: 10,
+        duration: 0.3,
+        ease: "power2.in",
+      })
+      .to(backdrop.current, { opacity: 0, duration: 0.25 }, "-=0.2");
+  }, [onClose]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') handleClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
+    opener.current = document.activeElement;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    // Compensating for the vanished scrollbar stops the page behind the
+    // modal from jolting sideways as it opens.
+    document.body.style.paddingRight = `${scrollbar}px`;
 
-    // GSAP entrance animation
+    closer.current?.focus();
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+
+      // Keep focus inside the dialog while it is open.
+      const focusable = panel.current?.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        backdropRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4, ease: 'power2.out' }
-      );
-      gsap.fromTo(
-        modalRef.current,
-        { opacity: 0, scale: 0.96, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'expo.out', delay: 0.05 }
-      );
+      if (prefersReducedMotion()) return;
+      gsap.from(backdrop.current, { opacity: 0, duration: 0.35 });
+      gsap.from(panel.current, {
+        opacity: 0,
+        scale: 0.96,
+        y: 22,
+        duration: 0.6,
+        ease: "expo.out",
+        delay: 0.05,
+      });
     });
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      opener.current?.focus?.();
       ctx.revert();
     };
-  }, []);
-
-  const handleClose = () => {
-    // Animate out before unmounting
-    const tl = gsap.timeline({
-      onComplete: () => onClose(),
-    });
-    tl.to(modalRef.current, {
-      scale: 0.97,
-      opacity: 0,
-      y: 10,
-      duration: 0.3,
-      ease: 'power2.in',
-    });
-    tl.to(backdropRef.current, {
-      opacity: 0,
-      duration: 0.25,
-      ease: 'power2.in',
-    }, '-=0.2');
-  };
+  }, [close]);
 
   if (!project) return null;
 
   return (
     <div
-      ref={backdropRef}
-      onClick={handleClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/70 backdrop-blur-md"
+      ref={backdrop}
+      onClick={close}
+      className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto bg-ink/80 p-4 backdrop-blur-sm sm:items-center md:p-8"
     >
       <div
-        ref={modalRef}
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl border border-zinc-200 shadow-2xl flex flex-col transform-gpu"
+        ref={panel}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`modal-${project.id}`}
         onClick={(e) => e.stopPropagation()}
+        className="relative my-auto w-full max-w-4xl border border-ink/12 bg-paper shadow-[0_40px_80px_-24px_rgba(10,10,10,0.55)]"
       >
-        {/* Header Bar */}
-        <div className="sticky top-0 z-10 px-6 py-4 bg-white/90 backdrop-blur-md border-b border-zinc-200 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-[#990000]/10 text-[#990000] border border-[#990000]/30">
+        {/* ---------------- header ---------------- */}
+        <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-ash bg-paper/95 px-5 py-4 backdrop-blur-sm sm:px-8">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="label-mono bg-blood px-2.5 py-1 text-paper">
               {project.category}
             </span>
-            <span className="text-xs font-mono text-zinc-500">// {project.year}</span>
+            <span className="label-mono text-ink/45">{project.index}</span>
+            <span className="label-mono text-ink/45">{project.year}</span>
           </div>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              soundFx.playClick();
-              handleClose();
+            ref={closer}
+            type="button"
+            aria-label="Close project details"
+            onClick={() => {
+              sound.click();
+              close();
             }}
-            className="p-2 rounded-full hover:bg-zinc-100 text-zinc-600 transition-colors duration-300"
+            onMouseEnter={() => sound.hover()}
+            className="flex h-10 w-10 shrink-0 items-center justify-center border border-ink/15 text-ink transition-colors duration-300 hover:border-blood hover:bg-blood hover:text-paper"
           >
-            <X size={20} />
+            <CloseIcon size={18} />
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 md:p-10 flex flex-col gap-8">
-          {/* Media Preview Container */}
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 border border-zinc-200 shadow-lg group">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-60" />
-            
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-xs font-mono">
-              <span className="bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
-                ARCHITECTURE ARCHIVE v2.4
-              </span>
-              <span className="bg-[#990000] px-3 py-1 rounded-full font-bold uppercase">
-                {project.status || 'PRODUCTION LIVE'}
-              </span>
-            </div>
+        {/* ---------------- body ---------------- */}
+        <div className="flex flex-col gap-10 px-5 py-8 sm:px-8 md:px-10 md:py-10">
+          {/* The index plate is cropped to 4:3 to sit in a row; here there is
+              room for the whole shot, so it runs at its own ratio with none
+              of the plate's caption chrome over it. */}
+          <div className="relative">
+            {project.image ? (
+              <img
+                src={project.image}
+                alt={`${project.name} interface`}
+                loading="lazy"
+                decoding="async"
+                className="block w-full border border-ink/10 bg-ink"
+              />
+            ) : (
+              <ProjectPlate project={project} active />
+            )}
+            <span className="label-mono absolute bottom-4 right-4 bg-paper px-3 py-1.5 text-ink">
+              {project.status}
+            </span>
           </div>
 
-          {/* Title & Description */}
-          <div className="flex flex-col gap-3">
-            <h2 className="text-3xl sm:text-4xl font-extrabold uppercase font-syne text-zinc-900">
-              {project.title}
-            </h2>
-            <p className="text-base text-zinc-600 leading-relaxed font-normal">
-              {project.fullDescription || project.description}
-            </p>
-          </div>
-
-          {/* Key Highlights */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-zinc-100">
-            {project.highlights?.map((highlight, idx) => (
-              <div key={idx} className="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-50 border border-zinc-200/60">
-                <CheckCircle2 size={16} className="text-[#990000] shrink-0 mt-0.5" />
-                <span className="text-xs font-semibold text-zinc-800">{highlight}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Tech Stack Pills */}
           <div>
-            <p className="text-xs font-mono font-bold uppercase text-zinc-400 mb-3">
-              // TECHNICAL STACK USED
+            <h2
+              id={`modal-${project.id}`}
+              className="display-tight text-[clamp(2rem,5.5vw,3.4rem)]"
+            >
+              {project.name}
+            </h2>
+            <p className="mt-5 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
+              {project.detail}
             </p>
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-md text-xs font-mono font-bold bg-zinc-100 text-zinc-800 border border-zinc-200"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
           </div>
 
-          {/* Modal Actions */}
-          <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-zinc-200">
-            {project.liveUrl && (
+          {project.highlights?.length > 0 && (
+            <div className="border-t border-ash pt-8">
+              <p className="label-mono mb-5 text-ink/45">What it took</p>
+              <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {project.highlights.map((point) => (
+                  <li
+                    key={point}
+                    className="flex items-start gap-3 border border-ink/10 bg-bone p-4"
+                  >
+                    <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rotate-45 bg-blood" />
+                    <span className="text-[0.88rem] leading-relaxed text-ink/80">
+                      {point}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="border-t border-ash pt-8">
+            <p className="label-mono mb-4 text-ink/45">Stack</p>
+            <ul className="flex flex-wrap gap-2">
+              {project.stack.map((tech) => (
+                <li
+                  key={tech}
+                  className="border border-ink/15 bg-bone px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.06em] text-ink/75"
+                >
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 border-t border-ash pt-8">
+            {project.href && (
               <a
-                href={project.liveUrl}
+                href={project.href}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => soundFx.playClick()}
-                className="px-6 py-3 rounded-full bg-[#990000] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-black transition-colors duration-400 shadow-md"
+                onClick={() => sound.click()}
+                onMouseEnter={() => sound.hover()}
+                className="group relative flex items-center gap-3 overflow-hidden bg-ink px-6 py-3.5 text-paper"
               >
-                <span>LAUNCH LIVE APP</span>
-                <ExternalLink size={14} />
+                <span className="label-mono relative z-10">
+                  {project.repo === project.href ? "View source" : "Open live"}
+                </span>
+                <ExternalLink size={15} className="relative z-10" />
+                <span className="absolute inset-0 -translate-y-full bg-blood transition-transform duration-500 ease-web group-hover:translate-y-0" />
               </a>
             )}
 
-            {project.githubUrl && (
+            {project.repo && project.repo !== project.href && (
               <a
-                href={project.githubUrl}
+                href={project.repo}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => soundFx.playClick()}
-                className="px-6 py-3 rounded-full border border-zinc-300 text-zinc-900 text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:border-[#990000] hover:text-[#990000] transition-colors duration-400"
+                onClick={() => sound.click()}
+                onMouseEnter={() => sound.hover()}
+                className="flex items-center gap-3 border border-ink/20 px-6 py-3.5 text-ink transition-colors duration-300 hover:border-blood hover:text-blood"
               >
-                <GithubIcon size={14} />
-                <span>VIEW SOURCE REPO</span>
+                <GithubIcon size={15} />
+                <span className="label-mono">Source</span>
               </a>
             )}
           </div>
@@ -179,4 +246,4 @@ export const ProjectModal = ({ project, onClose }) => {
       </div>
     </div>
   );
-};
+}

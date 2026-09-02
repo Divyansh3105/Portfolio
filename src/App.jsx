@@ -1,65 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Projects } from './components/Projects';
-import { Journey } from './components/Journey';
-import { Skills } from './components/Skills';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
-import { WebCanvas } from './components/WebCanvas';
-import { CustomCursor } from './components/CustomCursor';
+import { useEffect } from "react";
+import { ScrollTrigger } from "./lib/gsap";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Cursor from "./components/Cursor";
+import Hero from "./components/Hero";
+import Marquee from "./components/Marquee";
+import Nav from "./components/Nav";
+import Path from "./components/Path";
+import Work from "./components/Work";
 
-export function App() {
-  const [activeSection, setActiveSection] = useState('hero');
-
+export default function App() {
+  /* Web fonts change the height of every display heading, so trigger
+     positions measured before they land are wrong. Re-measure once. */
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'about', 'projects', 'journey', 'skills', 'contact'];
-      const scrollPos = window.scrollY + 200;
-
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
+    let cancelled = false;
+    document.fonts?.ready.then(() => {
+      if (!cancelled) ScrollTrigger.refresh();
+    });
+    return () => {
+      cancelled = true;
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#fafafc] text-[#0f0f11] font-sans selection:bg-[#990000] selection:text-white overflow-x-hidden">
-      {/* Custom Spider Silk Cursor */}
-      <CustomCursor />
+    <>
+      <a
+        href="#about"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"
+      >
+        Skip to content
+      </a>
 
-      {/* Interactive Web Mesh Physics Canvas */}
-      <WebCanvas />
+      <Cursor />
+      <Nav />
 
-      {/* Navigation Header */}
-      <Navbar activeSection={activeSection} />
-
-      {/* Main Content Sections */}
-      <main className="relative z-10">
+      <main>
         <Hero />
         <About />
-        <Projects />
-        <Journey />
-        <Skills />
-        <Contact />
+        <Marquee />
+        <Work />
+        <Path />
       </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+      <Contact />
+    </>
   );
 }
-
-export default App;

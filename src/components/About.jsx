@@ -1,101 +1,221 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import portraitImg from '../assets/portrait.png';
-import { SpiderWebDecorations } from './SpiderWebDecorations';
-import { ParagraphReveal3D } from './ParagraphReveal3D';
-import { TechPills } from './TechPills';
-import { HangingProfile } from './HangingProfile';
-import { Cpu, GraduationCap } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import { gsap, prefersReducedMotion } from "../lib/gsap";
+import { about, skillGroups } from "../data/site";
+import { sound } from "../lib/sound";
+import portrait from "../assets/portrait.png";
+import { Spider, Thread, WebCorner, WebOrb } from "./WebDecor";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export const About = () => {
-  const containerRef = useRef(null);
-  const eyebrowRef = useRef(null);
-  const headingRef = useRef(null);
-  const cardsRef = useRef([]);
+/**
+ * Two-column about block.
+ *
+ * One master timeline drives the entrance in a fixed order: background webs
+ * drop in, the eyebrow slides in from the left, the heading wipes up, the
+ * portrait drops from the ceiling, the paragraphs tip into place, then the
+ * toolkit pills pop. Nothing loops until that timeline finishes -- the
+ * swing, the web rotation, the glow pulse, the pill float all start from a
+ * single callback at its end, so the choreography never has to compete with
+ * ambient motion on the way in.
+ */
+export default function About() {
+  const root = useRef(null);
+  const pendulum = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const masterTl = gsap.timeline({
+      const reduced = prefersReducedMotion();
+      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+      // Distances tuned per breakpoint so the drops read as real travel
+      // without overshooting a short mobile viewport.
+      const webDrop = isDesktop ? 150 : 70;
+      const profileDrop = isDesktop ? -320 : -170;
+      const eyebrowShift = isDesktop ? -80 : -50;
+      const headingRise = isDesktop ? 14 : 22;
+
+      /* ================= entrance ================= */
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+          trigger: root.current,
+          start: "top 72%",
+          once: true,
         },
+        defaults: { ease: "power3.out" },
       });
 
-      masterTl.fromTo(
-        eyebrowRef.current,
-        {
-          y: -25,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'expo.out',
-        }
-      );
-
-      masterTl.fromTo(
-        headingRef.current,
-        {
-          y: 55,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: 'expo.out',
-        },
-        '-=0.7'
-      );
-
-      // Scroll-driven parallax depth — heading and eyebrow at different rates
-      gsap.to(eyebrowRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-        y: -20,
-      });
-
-      gsap.to(headingRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-        y: -12,
-      });
-
-      // Feature cards — individual ScrollTrigger entrances with stagger
-      const validCards = cardsRef.current.filter(Boolean);
-      validCards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 30, scale: 0.96 },
+      tl
+        // 1. Background webs drop from above.
+        .addLabel("webs")
+        .from(
+          ".about-bg-web",
           {
+            y: -webDrop,
+            opacity: 0,
+            duration: 1.6,
+            stagger: 0.18,
+            ease: "elastic.out(1, 0.55)",
+          },
+          "webs",
+        )
+        // 2. Eyebrow slides in from the left under a clip-path wipe.
+        .addLabel("eyebrow", "webs+=0.55")
+        .fromTo(
+          ".about-eyebrow",
+          { x: eyebrowShift, opacity: 0, clipPath: "inset(0 100% 0 0)" },
+          {
+            x: 0,
             opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.2,
-            delay: index * 0.15,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 88%',
-            },
-          }
+            clipPath: "inset(0 0% 0 0)",
+            duration: 0.85,
+            ease: "power4.out",
+          },
+          "eyebrow",
+        )
+        // 3. Heading rises from below under its own clip-path reveal.
+        .addLabel("heading", "eyebrow+=0.35")
+        .from(
+          ".about-heading-line",
+          {
+            clipPath: "inset(0 0 105% 0)",
+            yPercent: headingRise,
+            duration: 1.05,
+            stagger: 0.13,
+            ease: "expo.out",
+          },
+          "heading",
+        )
+        // 4. The portrait drops from the ceiling on its thread.
+        .addLabel("profile", "heading+=0.3")
+        .from(
+          ".about-thread",
+          {
+            scaleY: 0,
+            transformOrigin: "top center",
+            duration: 0.8,
+            ease: "power2.in",
+          },
+          "profile",
+        )
+        .from(
+          ".about-frame",
+          { y: profileDrop, opacity: 0, duration: 1.9, ease: "elastic.out(1, 0.42)" },
+          "profile+=0.18",
+        )
+        // 5. Paragraphs tip up into place, one after another.
+        .addLabel("copy", "profile+=0.55")
+        .from(
+          ".about-copy p",
+          {
+            rotateX: -45,
+            y: 40,
+            opacity: 0,
+            // Bottom-anchored so each line tips up toward the reader rather
+            // than folding down away from them.
+            transformOrigin: "50% 100%",
+            duration: 1,
+            stagger: 0.15,
+            ease: "back.out(1.4)",
+          },
+          "copy",
+        )
+        .from(
+          ".about-stat",
+          { y: 24, opacity: 0, duration: 0.7, stagger: 0.09 },
+          "copy+=0.5",
+        )
+        // 6. Toolkit pills scale up from half size. The stagger is tight and
+        // capped: there are two dozen pills across three groups, and a
+        // per-pill delay long enough to read on six would run for seconds
+        // here.
+        .addLabel("pills", "copy+=0.85")
+        .from(
+          ".about-pill",
+          {
+            scale: 0.5,
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            stagger: { each: 0.035, amount: 0.8 },
+            // A gentle overshoot rather than a hard bounce -- see "do not
+            // bounce aggressively" in the pill spec.
+            ease: "back.out(1.5)",
+          },
+          "pills",
         );
-      });
-    }, containerRef);
+
+      /* ================= ambient (starts once entrance finishes) ================= */
+      const startAmbient = () => {
+        // 7. The whole pendulum -- thread and frame -- keeps swinging.
+        gsap.fromTo(
+          pendulum.current,
+          { rotation: -2.1 },
+          {
+            rotation: 2.1,
+            transformOrigin: "50% 0%",
+            duration: 4.6,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          },
+        );
+
+        // 8. Background webs turn slowly, forever.
+        gsap.to(".about-bg-web", {
+          rotation: 360,
+          duration: 260,
+          repeat: -1,
+          ease: "none",
+          transformOrigin: "50% 50%",
+        });
+        gsap.to(".about-bg-orb", {
+          rotation: -360,
+          duration: 190,
+          repeat: -1,
+          ease: "none",
+          transformOrigin: "50% 50%",
+        });
+
+        // 9. A slow breathing glow behind the frame reads as a shadow pulse.
+        gsap.to(".about-glow", {
+          scale: 1.09,
+          opacity: 0.75,
+          duration: 3.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+
+        // 10. Each pill floats on its own randomized cycle, so the row never
+        // reads as one repeating mechanical pattern.
+        gsap.utils.toArray(".about-pill").forEach((pill) => {
+          gsap.to(pill, {
+            y: gsap.utils.random(-8, -4),
+            duration: gsap.utils.random(2.6, 3.8),
+            delay: gsap.utils.random(0, 1.2),
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        });
+
+        // Slow vertical drift as the section passes through the viewport.
+        gsap.to(".about-bg-orb-wrap", {
+          yPercent: -14,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      };
+
+      if (reduced) {
+        tl.progress(1);
+      } else {
+        tl.call(startAmbient);
+      }
+    }, root);
 
     return () => ctx.revert();
   }, []);
@@ -103,99 +223,151 @@ export const About = () => {
   return (
     <section
       id="about"
-      ref={containerRef}
-      className="relative py-28 bg-[#fafafc] text-zinc-900 border-t border-b border-zinc-200/80 overflow-hidden"
+      ref={root}
+      className="relative overflow-hidden border-t border-ash bg-bone py-24 md:py-36"
     >
-      {/* Animated Corner Vector Accent Decorations */}
-      <SpiderWebDecorations />
+      {/* ---------- low-opacity background webs ---------- */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <WebCorner
+          corner="tl"
+          size={300}
+          className="about-bg-web -left-14! -top-10! text-ink/12"
+        />
+        <WebCorner
+          corner="tr"
+          size={300}
+          className="about-bg-web -right-14! -top-10! text-blood/14"
+        />
+        <div className="about-bg-orb-wrap absolute left-[-14%] bottom-[-18%]">
+          <WebOrb
+            size={620}
+            spokes={16}
+            rings={9}
+            className="about-bg-orb block text-ink/7"
+          />
+        </div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Eyebrow Label with Small Spider Graphic */}
-        <div ref={eyebrowRef} className="flex items-center gap-3 mb-12">
-          <div className="w-8 h-8 rounded-full bg-[#990000]/10 border border-[#990000]/30 flex items-center justify-center">
-            <svg className="w-4 h-4 text-[#990000]" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="12" cy="10" r="3" />
-              <circle cx="12" cy="16" r="4" />
-              <path
-                d="M9 9 C6 7, 4 4, 3 2 M15 9 C18 7, 20 4, 21 2 M8 11 C5 11, 3 10, 2 8 M16 11 C19 11, 21 10, 22 8 M8 15 C5 16, 3 18, 2 21 M16 15 C19 16, 21 18, 22 21"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                fill="none"
+      <div className="relative mx-auto grid max-w-[112rem] grid-cols-1 items-start gap-16 px-5 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:gap-20 xl:gap-28">
+        {/* ================= left: hanging portrait ================= */}
+        <div className="relative flex justify-center">
+          {/* Anchor bar the thread is tied to. */}
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-0 h-px w-40 -translate-x-1/2 bg-linear-to-r from-transparent via-ink/30 to-transparent"
+          />
+
+          <div
+            ref={pendulum}
+            className="relative flex w-full flex-col items-center"
+          >
+            <Thread className="about-thread h-24 md:h-32" />
+
+            <div className="about-frame group relative isolate">
+              {/* Breathing glow. */}
+              <span
+                aria-hidden="true"
+                className="about-glow absolute inset-[-14%] -z-10 rounded-full bg-[radial-gradient(circle,var(--color-blood)_0%,transparent_66%)] opacity-30 blur-2xl"
               />
-            </svg>
+
+              <div className="relative aspect-square w-[16rem] overflow-hidden rounded-full border border-ink/12 sm:w-76 xl:w-92">
+                <img
+                  src={portrait}
+                  alt="Divyansh Garg"
+                  loading="lazy"
+                  className="h-full w-full object-cover grayscale contrast-110 transition-all duration-700 ease-web group-hover:scale-[1.04] group-hover:grayscale-0"
+                />
+                <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-paper/25" />
+              </div>
+
+              {/* Dashed orbit ring + a spider riding it. */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 100 100"
+                className="pointer-events-none absolute inset-[-7%] h-[114%] w-[114%] text-ink/18"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="49"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="0.35"
+                  strokeDasharray="2 5"
+                />
+              </svg>
+
+              <span className="label-mono absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap bg-bone px-3 text-ink/50">
+                Meerut &middot; India
+              </span>
+            </div>
           </div>
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#990000]">
-            02 // ABOUT DIVYANSH GARG
-          </span>
         </div>
 
-        {/* Desktop Two-Column Responsive Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Ceiling Suspended Swinging Profile Image */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center relative pt-4">
-            <HangingProfile imageSrc={portraitImg} altText="Divyansh Garg Profile" />
+        {/* ================= right: copy ================= */}
+        <div className="lg:pt-6">
+          <p className="about-eyebrow label-mono mb-8 flex items-center gap-3 text-blood">
+            <Spider size={16} withDragline />
+            <span>About</span>
+            <span className="h-px w-14 bg-blood/35" />
+            <span className="text-ink/45">01</span>
+          </p>
+
+          <h2 className="display-tight text-[clamp(1.9rem,4.6vw,4.4rem)] italic">
+            {about.heading.map((line, i) => (
+              <span
+                key={line}
+                className="about-heading-line block"
+                style={{ color: i === 1 ? "var(--color-blood)" : undefined }}
+              >
+                {line}
+              </span>
+            ))}
+          </h2>
+
+          <div
+            className="about-copy mt-9 max-w-2xl space-y-5 text-[0.98rem] leading-[1.75] text-graphite sm:text-[1.03rem]"
+            style={{ perspective: "1000px" }}
+          >
+            {about.paragraphs.map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
+            ))}
           </div>
 
-          {/* Right Column: Heading, Paragraphs, Feature Cards, Tech Pills */}
-          <div className="lg:col-span-7 flex flex-col justify-center gap-8">
-            <h2
-              ref={headingRef}
-              className="text-3xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-tight text-zinc-950 font-syne"
-            >
-              CRAFTING SCALABLE{' '}
-              <span className="font-serif-italic text-[#990000] font-normal lowercase">
-                full-stack
-              </span>{' '}
-              SYSTEMS &amp; ARCHITECTURE
-            </h2>
-
-            {/* 3D Paragraph Reveal with Divyansh's Background */}
-            <ParagraphReveal3D
-              paragraphs={[
-                "I am a final-year B.Tech Computer Science student at Graphic Era University (GPA: 8.5/10) with hands-on experience building full-stack web applications, REST API architectures, and custom compiler pipelines.",
-                "From architecting TalkSpace—a real-time PWA messaging platform live on Railway—to building GravLang (an interpreted programming language built from scratch in Python) and delivering a custom Shopify storefront for a luxury jewelry client, I blend theoretical CS fundamentals with production software execution."
-              ]}
-              stagger={0.2}
-            />
-
-            {/* Core Feature Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div
-                ref={(el) => (cardsRef.current[0] = el)}
-                className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-start gap-3.5"
-              >
-                <Cpu className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">13+ REST API Endpoints</h4>
-                  <p className="text-xs text-zinc-500 mt-1 leading-relaxed">JWT authentication, bcrypt hashing, Zustand &amp; Railway live CI/CD.</p>
-                </div>
+          <dl className="mt-11 flex flex-wrap gap-x-12 gap-y-6 border-y border-ash py-7">
+            {about.stats.map((s) => (
+              <div key={s.label} className="about-stat">
+                <dt className="label-mono mb-1.5 text-ink/45">{s.label}</dt>
+                <dd className="display-tight text-[2.1rem] leading-none">
+                  {s.value}
+                </dd>
               </div>
+            ))}
+          </dl>
 
-              <div
-                ref={(el) => (cardsRef.current[1] = el)}
-                className="p-4.5 rounded-xl bg-white border border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)] hover:border-[#990000]/40 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-start gap-3.5"
-              >
-                <GraduationCap className="w-5 h-5 text-[#990000] shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold font-syne uppercase text-zinc-900">B.Tech Computer Science</h4>
-                  <p className="text-xs text-zinc-500 mt-1 leading-relaxed">Graphic Era University (GPA 8.5/10) &amp; AWS Certified.</p>
-                </div>
+          {/* Grouped rather than one flat wall of nouns, so the toolkit reads
+              as three areas of competence. */}
+          <div className="mt-11 space-y-7">
+            {skillGroups.map((group) => (
+              <div key={group.title}>
+                <p className="label-mono mb-3.5 text-ink/45">{group.title}</p>
+                <ul className="flex flex-wrap gap-2">
+                  {group.items.map((skill) => (
+                    <li key={skill}>
+                      <span
+                        onMouseEnter={() => sound.hover()}
+                        className="about-pill inline-block cursor-default border border-ink/15 bg-paper px-4 py-2 font-mono text-[0.72rem] tracking-[0.06em] text-ink/75 shadow-[0_0_0_0_rgba(193,15,27,0)] transition-[color,background-color,border-color,box-shadow] duration-300 hover:border-blood hover:bg-blood hover:text-paper hover:shadow-[0_6px_16px_-4px_rgba(193,15,27,0.45)]"
+                      >
+                        {skill}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-
-            {/* Technology Stack Pills */}
-            <div className="pt-4 border-t border-zinc-200/80">
-              <p className="text-xs font-mono uppercase text-zinc-400 font-semibold mb-4">
-                // CORE VERIFIED SKILL STACK
-              </p>
-              <TechPills
-                technologies={['JavaScript', 'TypeScript', 'React.js', 'Node.js', 'Express.js', 'Python', 'MongoDB', 'MySQL']}
-              />
-            </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
-};
+}

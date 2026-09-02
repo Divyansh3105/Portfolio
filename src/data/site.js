@@ -23,7 +23,8 @@ export const profile = {
   github: "https://github.com/Divyansh3105",
   linkedin: "https://www.linkedin.com/in/divyanshgarg3105",
   live: "https://divyanshgarg3105.netlify.app",
-  resume: "/resume.pdf",
+  // BASE_URL is "/" locally and on Netlify, "/<repo>/" on GitHub Pages.
+  resume: `${import.meta.env.BASE_URL}resume.pdf`,
   repoCount: 25,
 };
 

@@ -24,7 +24,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/divyanshgarg3105",
   live: "https://divyanshgarg3105.netlify.app",
   // BASE_URL is "/" locally and on Netlify, "/<repo>/" on GitHub Pages.
-  resume: `${import.meta.env.BASE_URL}resume.pdf`,
+  resume: `${import.meta.env.BASE_URL}Divyansh_Garg_Resume.pdf.pdf`,
   repoCount: 25,
 };
 
@@ -111,7 +111,15 @@ export const projects = [
       "Real-time messaging and 1:1 video calls via the Stream SDK",
       "PWA frontend on Zustand + TanStack Query with automated CI/CD",
     ],
-    stack: ["React 19", "Node", "Express", "MongoDB", "Stream SDK", "JWT", "PWA"],
+    stack: [
+      "React 19",
+      "Node",
+      "Express",
+      "MongoDB",
+      "Stream SDK",
+      "JWT",
+      "PWA",
+    ],
     href: "https://talkspace-i5d2.onrender.com/",
     repo: "https://github.com/Divyansh3105/TalkSpace",
     tone: "ink",
@@ -295,8 +303,16 @@ export const experience = [
 ];
 
 export const certifications = [
-  { name: "AWS Cloud Practitioner Essentials", issuer: "Amazon Web Services", year: "2026" },
-  { name: "Generative AI: Introduction and Applications", issuer: "IBM", year: "2025" },
+  {
+    name: "AWS Cloud Practitioner Essentials",
+    issuer: "Amazon Web Services",
+    year: "2026",
+  },
+  {
+    name: "Generative AI: Introduction and Applications",
+    issuer: "IBM",
+    year: "2025",
+  },
   { name: "Fundamentals of UI/UX Design", issuer: "Microsoft", year: "2025" },
   { name: "Claude 101", issuer: "Anthropic", year: "2025" },
 ];

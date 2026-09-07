@@ -28,7 +28,7 @@ const links = [
   },
   {
     label: "Résumé",
-    value: "resume.pdf",
+    value: "Divyansh_Garg_Resume.pdf.pdf",
     href: profile.resume,
     icon: FileIcon,
   },
@@ -152,7 +152,11 @@ export default function Contact() {
           { yPercent: -100, opacity: 0, duration: 1.5, ease: "expo.out" },
           "-=1.2",
         )
-        .from(".contact-foot", { opacity: 0, duration: 0.8, stagger: 0.06 }, "-=0.8");
+        .from(
+          ".contact-foot",
+          { opacity: 0, duration: 0.8, stagger: 0.06 },
+          "-=0.8",
+        );
 
       if (reduced) tl.progress(1);
 
@@ -229,8 +233,8 @@ export default function Contact() {
             <p className="max-w-md text-[0.98rem] leading-[1.75] text-paper/60">
               I&apos;m looking for a team where I can ship real product from day
               one — internships or entry-level engineering roles. Freelance and
-              collaboration are open too. The form goes straight to my inbox;
-              so does the address.
+              collaboration are open too. The form goes straight to my inbox; so
+              does the address.
             </p>
 
             <div className="contact-mail mt-10">
@@ -263,10 +267,16 @@ export default function Contact() {
                 const external = link.href.startsWith("http");
                 return (
                   <li key={link.label} className="contact-link">
-                    <p className="label-mono mb-2 text-paper/40">{link.label}</p>
+                    <p className="label-mono mb-2 text-paper/40">
+                      {link.label}
+                    </p>
                     <a
                       href={link.href}
-                      target={external || link.href.endsWith(".pdf") ? "_blank" : undefined}
+                      target={
+                        external || link.href.endsWith(".pdf")
+                          ? "_blank"
+                          : undefined
+                      }
                       rel={external ? "noreferrer" : undefined}
                       onClick={() => sound.click()}
                       onMouseEnter={() => sound.hover()}

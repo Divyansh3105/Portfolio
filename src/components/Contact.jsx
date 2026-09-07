@@ -28,7 +28,7 @@ const links = [
   },
   {
     label: "Résumé",
-    value: "Divyansh_Garg_Resume.pdf.pdf",
+    value: "Divyansh_Garg_Resume.pdf",
     href: profile.resume,
     icon: FileIcon,
   },

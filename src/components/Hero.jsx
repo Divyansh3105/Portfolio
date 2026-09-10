@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap, hasFinePointer, prefersReducedMotion } from "../lib/gsap";
 import { profile } from "../data/site";
-import portrait from "../assets/portrait.png";
+import portrait from "../assets/portrait.webp";
 import { Spider, WebCorner, WebDrape, WebOrb } from "./WebDecor";
 import WebMesh from "./WebMesh";
 import { sound } from "../lib/sound";
@@ -257,6 +257,10 @@ export default function Hero() {
             <img
               src={portrait}
               alt={`${profile.first} ${profile.last}`}
+              width="1000"
+              height="1252"
+              fetchPriority="high"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover grayscale contrast-110 brightness-[0.97]"
             />
 
@@ -278,6 +282,9 @@ export default function Hero() {
               <img
                 src={portrait}
                 alt=""
+                width="1000"
+                height="1252"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover saturate-[1.15]"
               />
               <span className="absolute inset-0 bg-blood/15 mix-blend-multiply" />

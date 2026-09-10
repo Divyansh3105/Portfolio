@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "../lib/gsap";
 import { about, skillGroups } from "../data/site";
 import { sound } from "../lib/sound";
-import portrait from "../assets/portrait.png";
+import portrait from "../assets/portrait.webp";
 import { Spider, Thread, WebCorner, WebOrb } from "./WebDecor";
 
 /**
@@ -275,6 +275,7 @@ export default function About() {
                   src={portrait}
                   alt="Divyansh Garg"
                   loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover grayscale contrast-110 transition-all duration-700 ease-web group-hover:scale-[1.04] group-hover:grayscale-0"
                 />
                 <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-paper/25" />

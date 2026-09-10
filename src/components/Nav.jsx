@@ -7,9 +7,12 @@ import { Spider } from "./WebDecor";
 
 export default function Nav() {
   const root = useRef(null);
+  const panel = useRef(null);
+  const burger = useRef(null);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
   const [audible, setAudible] = useState(sound.enabled);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -26,10 +29,63 @@ export default function Nav() {
     return () => ctx.revert();
   }, []);
 
+  /**
+   * The mobile panel is a modal in everything but name, so it gets the same
+   * hygiene ProjectModal already has: scroll lock, Escape, a Tab trap and
+   * focus restored to the trigger. Without the trap, Tab walked straight out
+   * of the panel and into the page behind it.
+   */
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    // Compensating for the vanished scrollbar stops the page behind the
+    // panel from jolting sideways as it opens.
+    document.body.style.paddingRight = `${scrollbar}px`;
+
+    const trigger = burger.current;
+    panel.current?.focus();
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+
+      const focusable = panel.current?.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      // The panel itself holds focus on open, so it counts as "before the
+      // first item" - otherwise Shift+Tab straight after opening walks
+      // backwards out of the trap.
+      const atStart =
+        document.activeElement === first ||
+        document.activeElement === panel.current;
+
+      if (e.shiftKey && atStart) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
     return () => {
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      trigger?.focus?.();
     };
   }, [open]);
 
@@ -70,10 +126,38 @@ export default function Nav() {
     return () => observer.disconnect();
   }, []);
 
+  /**
+   * `mix-blend-difference` inverts the header against whatever is behind it,
+   * which is legible over the flat bone and ink sections but collapses over
+   * mid-tones: paper (250) against a mid-grey (~125) differences to ~125,
+   * i.e. the same grey it sits on. The portraits and project shots are full
+   * of those greys. Past the hero the header therefore gets a solid ink
+   * scrim, so the difference is always taken against #0a0a0a and the links
+   * stay near-white.
+   *
+   * A scroll listener is fine here where the scroll spy needed an observer:
+   * this reads `scrollY` against a constant and touches no layout.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => sound.subscribe(setAudible), []);
 
   return (
     <>
+      {/* Painted below the header and outside its blend, so the header's
+          difference is taken against a known colour rather than the page. */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none fixed inset-x-0 top-0 z-40 h-18 bg-ink transition-opacity duration-500 ease-web md:h-22 ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
       <header ref={root} className="fixed inset-x-0 top-0 z-50 mix-blend-difference">
         <div className="mx-auto flex max-w-[112rem] items-center justify-between px-5 py-5 sm:px-8 md:py-7">
           <a
@@ -154,20 +238,22 @@ export default function Nav() {
             </a>
 
             <button
+              ref={burger}
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
+              aria-controls="mobile-menu"
               onClick={() => {
                 sound.click();
                 setOpen((v) => !v);
               }}
-              className="nav-item flex h-9 w-9 flex-col items-center justify-center gap-[5px] text-paper md:hidden"
+              className="nav-item flex h-9 w-9 flex-col items-center justify-center gap-1.25 text-paper md:hidden"
             >
               <span
-                className={`h-px w-6 bg-current transition-transform duration-400 ease-web ${open ? "translate-y-[3px] rotate-45" : ""}`}
+                className={`h-px w-6 bg-current transition-transform duration-400 ease-web ${open ? "translate-y-0.75 rotate-45" : ""}`}
               />
               <span
-                className={`h-px w-6 bg-current transition-transform duration-400 ease-web ${open ? "-translate-y-[3px] -rotate-45" : ""}`}
+                className={`h-px w-6 bg-current transition-transform duration-400 ease-web ${open ? "-translate-y-0.75 -rotate-45" : ""}`}
               />
             </button>
           </div>
@@ -176,7 +262,15 @@ export default function Nav() {
 
       {/* Rendered outside the header so it is not caught by the blend mode. */}
       {open && (
-        <div className="fixed inset-0 z-[60] flex flex-col justify-between bg-ink px-6 pb-10 pt-28 md:hidden">
+        <div
+          ref={panel}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          tabIndex={-1}
+          className="fixed inset-0 z-60 flex flex-col justify-between bg-ink px-6 pb-10 pt-28 outline-none md:hidden"
+        >
           <ul className="flex flex-col gap-1">
             {nav.map((item, i) => (
               <li key={item.href}>

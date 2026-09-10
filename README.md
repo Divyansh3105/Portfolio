@@ -21,6 +21,7 @@ way across.
 | Fonts | Archivo (display) · IBM Plex Mono (labels) |
 | Mail | EmailJS REST endpoint (no SDK) |
 | Deploy | Netlify (`netlify.toml` + SPA redirect) |
+| CI | GitHub Actions — lint + build on every push and PR |
 
 No animation, icon, or utility libraries beyond those — every web, spider,
 icon and generated project plate is drawn from code.
@@ -54,6 +55,17 @@ npm run build
 ```bash
 npm run lint
 ```
+
+`oxlint` runs with the `jsx-a11y` plugin enabled. Two suppressions are
+deliberate, and scoped in `.oxlintrc.json` rather than waved through:
+
+- `prefer-tag-over-role` is off project-wide. The dialogs and the contact
+  form's status region implement their semantics by hand; swapping in native
+  `<dialog>`/`<output>` would change focus and backdrop behaviour that is
+  already correct.
+- The click-handler rules are off **for `ProjectModal.jsx` only**. Its
+  backdrop closes on click as a convenience, and Escape is the keyboard path,
+  handled in the same component. A clickable `div` anywhere else still fails.
 
 ## Layout
 

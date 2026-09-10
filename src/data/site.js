@@ -23,7 +23,7 @@ export const profile = {
   github: "https://github.com/Divyansh3105",
   linkedin: "https://www.linkedin.com/in/divyanshgarg3105",
   live: "https://divyanshgarg3105.netlify.app",
-  // BASE_URL is "/" locally and on Netlify, "/<repo>/" on GitHub Pages.
+  // BASE_URL is "/" - the site is served from the root on Netlify.
   resume: `${import.meta.env.BASE_URL}Divyansh_Garg_Resume.pdf`,
   repoCount: 25,
 };
@@ -36,7 +36,7 @@ export const about = {
     "I'm a B.Tech CSE student at Graphic Era Hill University (8.5/10 GPA) graduating in 2027, and I teach frontend fundamentals to new developers at Blaze Forge. Right now I'm looking for a team where I can ship real product from day one.",
   ],
   stats: [
-    { value: "25", label: "Public repos" },
+    { value: String(profile.repoCount), label: "Public repos" },
     { value: "8.5", label: "GPA / 10" },
     { value: "2027", label: "B.Tech CSE" },
     { value: "2", label: "Roles shipped" },

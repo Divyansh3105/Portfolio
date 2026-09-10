@@ -294,6 +294,18 @@ export default function Contact() {
 
           {/* ================= right: the form ================= */}
           <div className="contact-form border border-paper/12 bg-paper/[0.03] p-6 sm:p-9">
+            {/* Always mounted, so the polite region is present before its
+                text changes - a region that appears at the same moment as
+                its message is announced inconsistently. Errors are left to
+                the assertive role="alert" below so they aren't said twice. */}
+            <p className="sr-only" role="status" aria-live="polite">
+              {state === "sending"
+                ? "Sending your message."
+                : state === "sent"
+                  ? "Message sent. I usually reply within a day."
+                  : ""}
+            </p>
+
             {state === "sent" ? (
               <div className="flex min-h-96 flex-col items-center justify-center gap-5 text-center">
                 <span className="flex h-16 w-16 items-center justify-center rounded-full border border-blood-soft text-blood-soft">
@@ -316,7 +328,11 @@ export default function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={submit} className="flex flex-col gap-6">
+              <form
+                onSubmit={submit}
+                aria-busy={state === "sending"}
+                className="flex flex-col gap-6"
+              >
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="flex flex-col gap-2">
                     <label

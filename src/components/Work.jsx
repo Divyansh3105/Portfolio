@@ -161,7 +161,7 @@ export default function Work() {
             </h2>
           </div>
           <p className="work-intro max-w-sm text-[0.95rem] leading-relaxed text-graphite">
-            Seven of {profile.repoCount} public repositories. A language, a
+            {projects.length} of {profile.repoCount} public repositories. A language, a
             real-time platform, a billing system in production, a storefront for
             a paying client — picked because each one taught me something the
             next one needed.

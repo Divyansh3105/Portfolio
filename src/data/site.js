@@ -321,6 +321,7 @@ export const nav = [
   { label: "About", href: "#about", id: "about" },
   { label: "Work", href: "#work", id: "work" },
   { label: "Path", href: "#path", id: "path" },
+  { label: "Skills", href: "#skills", id: "skills" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
 

@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import Nav from "./components/Nav";
 import Path from "./components/Path";
+import Skills from "./components/Skills";
 import Work from "./components/Work";
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
         <Marquee />
         <Work />
         <Path />
+        <Skills />
       </main>
 
       <Contact />

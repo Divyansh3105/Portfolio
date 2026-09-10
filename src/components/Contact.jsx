@@ -217,7 +217,7 @@ export default function Contact() {
           <Spider size={16} withDragline className="contact-spider" />
           <span>Contact</span>
           <span className="h-px w-14 bg-blood-soft/35" />
-          <span className="text-paper/40">04</span>
+          <span className="text-paper/40">05</span>
         </p>
 
         <h2 className="display-tight text-[clamp(2.8rem,11vw,10rem)]">

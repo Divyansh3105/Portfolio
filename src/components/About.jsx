@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "../lib/gsap";
-import { about, skillGroups } from "../data/site";
-import { sound } from "../lib/sound";
+import { about } from "../data/site";
 import portrait from "../assets/portrait.webp";
 import { Spider, Thread, WebCorner, WebOrb } from "./WebDecor";
 
@@ -10,11 +9,13 @@ import { Spider, Thread, WebCorner, WebOrb } from "./WebDecor";
  *
  * One master timeline drives the entrance in a fixed order: background webs
  * drop in, the eyebrow slides in from the left, the heading wipes up, the
- * portrait drops from the ceiling, the paragraphs tip into place, then the
- * toolkit pills pop. Nothing loops until that timeline finishes -- the
- * swing, the web rotation, the glow pulse, the pill float all start from a
- * single callback at its end, so the choreography never has to compete with
- * ambient motion on the way in.
+ * portrait drops from the ceiling, then the paragraphs and stats tip into
+ * place. Nothing loops until that timeline finishes -- the swing, the web
+ * rotation and the glow pulse all start from a single callback at its end,
+ * so the choreography never has to compete with ambient motion on the way
+ * in.
+ *
+ * The toolkit used to close this section; it now has its own, in Skills.jsx.
  */
 export default function About() {
   const root = useRef(null);
@@ -121,30 +122,11 @@ export default function About() {
           ".about-stat",
           { y: 24, opacity: 0, duration: 0.7, stagger: 0.09 },
           "copy+=0.5",
-        )
-        // 6. Toolkit pills scale up from half size. The stagger is tight and
-        // capped: there are two dozen pills across three groups, and a
-        // per-pill delay long enough to read on six would run for seconds
-        // here.
-        .addLabel("pills", "copy+=0.85")
-        .from(
-          ".about-pill",
-          {
-            scale: 0.5,
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            stagger: { each: 0.035, amount: 0.8 },
-            // A gentle overshoot rather than a hard bounce -- see "do not
-            // bounce aggressively" in the pill spec.
-            ease: "back.out(1.5)",
-          },
-          "pills",
         );
 
       /* ================= ambient (starts once entrance finishes) ================= */
       const startAmbient = () => {
-        // 7. The whole pendulum -- thread and frame -- keeps swinging.
+        // 6. The whole pendulum -- thread and frame -- keeps swinging.
         gsap.fromTo(
           pendulum.current,
           { rotation: -2.1 },
@@ -158,7 +140,7 @@ export default function About() {
           },
         );
 
-        // 8. Background webs turn slowly, forever.
+        // 7. Background webs turn slowly, forever.
         gsap.to(".about-bg-web", {
           rotation: 360,
           duration: 260,
@@ -174,7 +156,7 @@ export default function About() {
           transformOrigin: "50% 50%",
         });
 
-        // 9. A slow breathing glow behind the frame reads as a shadow pulse.
+        // 8. A slow breathing glow behind the frame reads as a shadow pulse.
         gsap.to(".about-glow", {
           scale: 1.09,
           opacity: 0.75,
@@ -182,19 +164,6 @@ export default function About() {
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
-        });
-
-        // 10. Each pill floats on its own randomized cycle, so the row never
-        // reads as one repeating mechanical pattern.
-        gsap.utils.toArray(".about-pill").forEach((pill) => {
-          gsap.to(pill, {
-            y: gsap.utils.random(-8, -4),
-            duration: gsap.utils.random(2.6, 3.8),
-            delay: gsap.utils.random(0, 1.2),
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-          });
         });
 
         // Slow vertical drift as the section passes through the viewport.
@@ -345,28 +314,6 @@ export default function About() {
               </div>
             ))}
           </dl>
-
-          {/* Grouped rather than one flat wall of nouns, so the toolkit reads
-              as three areas of competence. */}
-          <div className="mt-11 space-y-7">
-            {skillGroups.map((group) => (
-              <div key={group.title}>
-                <p className="label-mono mb-3.5 text-ink/45">{group.title}</p>
-                <ul className="flex flex-wrap gap-2">
-                  {group.items.map((skill) => (
-                    <li key={skill}>
-                      <span
-                        onMouseEnter={() => sound.hover()}
-                        className="about-pill inline-block cursor-default border border-ink/15 bg-paper px-4 py-2 font-mono text-[0.72rem] tracking-[0.06em] text-ink/75 shadow-[0_0_0_0_rgba(193,15,27,0)] transition-[color,background-color,border-color,box-shadow] duration-300 hover:border-blood hover:bg-blood hover:text-paper hover:shadow-[0_6px_16px_-4px_rgba(193,15,27,0.45)]"
-                      >
-                        {skill}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

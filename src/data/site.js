@@ -5,13 +5,24 @@
  * live/repo links, achievements and certification issuers.
  */
 
+/* Two sizes per shot. `image` is the full-width plate the modal shows; the
+   `-thumb` at 800w is what the index plates use, and they are the hot path -
+   seven of them render inline on touch. Serving the 1600w file into a 352px
+   slot was costing roughly 800KB a visit for imagery nobody had opened yet. */
 import talkspaceImg from "../assets/talkspace.webp";
+import talkspaceThumb from "../assets/talkspace-thumb.webp";
 import gravlangImg from "../assets/gravlang.webp";
+import gravlangThumb from "../assets/gravlang-thumb.webp";
 import utilityImg from "../assets/utility.webp";
+import utilityThumb from "../assets/utility-thumb.webp";
 import kesavImg from "../assets/kesav.webp";
+import kesavThumb from "../assets/kesav-thumb.webp";
 import cipherImg from "../assets/cipher.webp";
+import cipherThumb from "../assets/cipher-thumb.webp";
 import gitfinderImg from "../assets/gitfinder.webp";
+import gitfinderThumb from "../assets/gitfinder-thumb.webp";
 import solarImg from "../assets/solar.webp";
+import solarThumb from "../assets/solar-thumb.webp";
 
 export const profile = {
   first: "Divyansh",
@@ -105,6 +116,7 @@ export const projects = [
     year: "2026",
     status: "Live in production",
     image: talkspaceImg,
+    thumb: talkspaceThumb,
     summary:
       "A full-stack communication platform with auth-based onboarding, live chat, 1:1 video calls, a friend-request graph, an installable PWA shell and a CI/CD deploy pipeline.",
     detail:
@@ -136,6 +148,7 @@ export const projects = [
     year: "2026",
     status: "Open source",
     image: gravlangImg,
+    thumb: gravlangThumb,
     summary:
       "An interpreted programming language built from scratch in Python — custom lexer, recursive-descent parser, AST, tree-walking interpreter, OOP support, a GUI IDE and CLI execution.",
     detail:
@@ -160,6 +173,7 @@ export const projects = [
     year: "2026",
     status: "Shipped for client",
     image: kesavImg,
+    thumb: kesavThumb,
     summary:
       "A custom Shopify storefront for a luxury diamond-jewelry brand, delivered end to end across a three-month engagement — theme architecture, catalog, checkout and QA.",
     detail:
@@ -182,6 +196,7 @@ export const projects = [
     year: "2026",
     status: "In progress",
     image: cipherImg,
+    thumb: cipherThumb,
     summary:
       "A multi-persona AI assistant with three switchable personalities, text and voice interaction, long-term memory and document-grounded RAG over a FastAPI + Postgres backend.",
     detail:
@@ -205,6 +220,7 @@ export const projects = [
     year: "2025",
     status: "Live",
     image: utilityImg,
+    thumb: utilityThumb,
     summary:
       "A PHP/MySQL application that runs billing, payments and records for electricity and water services, with separate admin, employee and customer dashboards.",
     detail:
@@ -228,6 +244,7 @@ export const projects = [
     year: "2026",
     status: "Live",
     image: gitfinderImg,
+    thumb: gitfinderThumb,
     summary:
       "A developer-profile dashboard over the GitHub REST API — repository search, language breakdowns and contribution charts rendered with Chart.js.",
     detail:
@@ -251,6 +268,7 @@ export const projects = [
     year: "2026",
     status: "Live",
     image: solarImg,
+    thumb: solarThumb,
     summary:
       "An interactive 3D solar system with orbital mechanics, built entirely in HTML and CSS — no JavaScript, no framework, just transforms and keyframes.",
     detail:

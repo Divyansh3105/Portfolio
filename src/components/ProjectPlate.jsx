@@ -22,7 +22,7 @@ export default function ProjectPlate({ project, className = "", active = false }
         className={`relative isolate aspect-[4/3] w-full overflow-hidden bg-ink ${className}`}
       >
         <img
-          src={project.image}
+          src={project.thumb ?? project.image}
           alt=""
           loading="lazy"
           decoding="async"

@@ -257,8 +257,8 @@ export default function Hero() {
             <img
               src={portrait}
               alt={`${profile.first} ${profile.last}`}
-              width="1000"
-              height="1252"
+              width="768"
+              height="962"
               fetchPriority="high"
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover grayscale contrast-110 brightness-[0.97]"
@@ -282,8 +282,8 @@ export default function Hero() {
               <img
                 src={portrait}
                 alt=""
-                width="1000"
-                height="1252"
+                width="768"
+                height="962"
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover saturate-[1.15]"
               />

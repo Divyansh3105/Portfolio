@@ -46,6 +46,9 @@ const EMPTY = {
   email: "",
   projectType: projectTypes[0],
   message: "",
+  // Honeypot. Left empty by anyone who can see the form; filled by the kind
+  // of bot that walks the DOM and completes every input it finds.
+  company: "",
 };
 
 export default function Contact() {
@@ -71,6 +74,15 @@ export default function Contact() {
 
   const submit = async (e) => {
     e.preventDefault();
+
+    // Anything in the honeypot means this was not a person. Report the same
+    // success a real send gets rather than an error: telling a bot which
+    // field caught it is how it learns to skip that field next time.
+    if (form.company) {
+      setState("sent");
+      return;
+    }
+
     setState("sending");
 
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -392,6 +404,28 @@ export default function Contact() {
                       </option>
                     ))}
                   </select>
+                </div>
+
+                {/* Off-screen rather than display:none - some bots skip
+                    fields they can tell are hidden. aria-hidden and
+                    tabIndex -1 keep it away from screen readers and the tab
+                    order, so nobody using the form ever meets it. */}
+                <div
+                  aria-hidden="true"
+                  className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+                >
+                  <label htmlFor="contact-company">
+                    Company (leave this field empty)
+                  </label>
+                  <input
+                    id="contact-company"
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={form.company}
+                    onChange={field("company")}
+                  />
                 </div>
 
                 <div className="flex flex-col gap-2">

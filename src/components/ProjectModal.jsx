@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "../lib/gsap";
 import { sound } from "../lib/sound";
-import { CloseIcon, ExternalLink, GithubIcon } from "./Icons";
+import { ArrowUpRight, CloseIcon, ExternalLink, GithubIcon } from "./Icons";
 import ProjectPlate from "./ProjectPlate";
 
 /**
@@ -211,6 +211,19 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 border-t border-ash pt-8">
+            {project.caseStudy && (
+              <a
+                href={project.caseStudy}
+                onClick={() => sound.click()}
+                onMouseEnter={() => sound.hover()}
+                className="group relative flex items-center gap-3 overflow-hidden bg-blood px-6 py-3.5 text-paper"
+              >
+                <span className="label-mono relative z-10">Read case study</span>
+                <ArrowUpRight size={15} className="relative z-10" />
+                <span className="absolute inset-0 -translate-y-full bg-ink transition-transform duration-500 ease-web group-hover:translate-y-0" />
+              </a>
+            )}
+
             {project.href && (
               <a
                 href={project.href}

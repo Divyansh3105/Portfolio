@@ -146,6 +146,7 @@ export const projects = [
       "Ships with both a desktop GUI IDE and a CLI runner",
     ],
     stack: ["Python", "Interpreter", "AST", "Tkinter", "CLI"],
+    caseStudy: "/gravlang/",
     href: "https://github.com/Divyansh3105/GravLang",
     repo: "https://github.com/Divyansh3105/GravLang",
     tone: "blood",

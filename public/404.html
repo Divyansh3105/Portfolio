@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F4F3F1" />
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <title>404 — Divyansh Garg</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;900&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Self-contained on purpose: a 404 that depends on a content-hashed
+       bundle is a 404 that breaks the next time the bundle is rebuilt. -->
+  <style>
+    :root {
+      --bone: #f4f3f1;
+      --ink: #0a0a0a;
+      --graphite: #6b6862;
+      --blood: #c10f1b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 1.25rem;
+      background: var(--bone);
+      color: var(--ink);
+      font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { width: 100%; max-width: 112rem; margin: 0 auto; }
+
+    .label {
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blood);
+    }
+
+    h1 {
+      margin: 1.5rem 0 0;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.84;
+      letter-spacing: -0.035em;
+      font-size: clamp(4rem, 22vw, 18rem);
+    }
+
+    p {
+      margin: 1.75rem 0 0;
+      max-width: 34rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--graphite);
+    }
+
+    hr { margin: 2.5rem 0 0; border: 0; border-top: 1px solid rgba(10, 10, 10, 0.2); }
+
+    nav { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+    a {
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 1.75rem;
+      border: 1px solid rgba(10, 10, 10, 0.25);
+      color: var(--ink);
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    a.primary { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+    a:hover { background: var(--blood); border-color: var(--blood); color: var(--bone); }
+    a:focus-visible { outline: 2px solid var(--blood); outline-offset: 3px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <p class="label">Error &middot; 404</p>
+    <h1>Dead<br />link.</h1>
+    <hr />
+    <p>
+      That page isn&rsquo;t here — it either moved or never existed. The work,
+      the writing and the contact details are all one click away.
+    </p>
+    <nav>
+      <a class="primary" href="/">Back to the portfolio</a>
+      <a href="/#work">Selected work</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</body>
+
+</html>

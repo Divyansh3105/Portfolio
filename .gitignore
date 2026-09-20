@@ -28,3 +28,6 @@ dist-ssr
 .env.local
 
 .claude
+
+# SSR bundle, an intermediate of the prerender step
+dist-ssr

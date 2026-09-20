@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { gsap, hasFinePointer, prefersReducedMotion } from "../lib/gsap";
+import { gsap, prefersReducedMotion, useAnimatedPointer } from "../lib/gsap";
 import { sound } from "../lib/sound";
 import { profile, projects } from "../data/site";
 import ProjectModal from "./ProjectModal";
@@ -23,14 +23,14 @@ export default function Work() {
   const preview = useRef(null);
   const [active, setActive] = useState(null);
   const [openProject, setOpenProject] = useState(null);
-  // Client-only app -- safe to read matchMedia straight from render, and it
-  // never needs to change after mount, so a state slot would be unnecessary.
-  const fine = hasFinePointer() && !prefersReducedMotion();
+  // false while prerendering and on the first client render, which is the
+  // touch variant: inline plates in each row rather than one on the cursor.
+  // See useAnimatedPointer for why it cannot simply read matchMedia here.
+  const fine = useAnimatedPointer();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const reduced = prefersReducedMotion();
-      let cleanup;
 
       /* ---------- entrance ---------- */
       const head = gsap.timeline({
@@ -82,28 +82,37 @@ export default function Work() {
         });
       }
 
-      /* ---------- cursor-tracked preview ---------- */
-      const node = preview.current;
-      if (node && hasFinePointer() && !reduced) {
-        gsap.set(node, { xPercent: -50, yPercent: -50 });
-        const toX = gsap.quickTo(node, "x", { duration: 0.6, ease: "power3" });
-        const toY = gsap.quickTo(node, "y", { duration: 0.6, ease: "power3" });
-
-        const onMove = (e) => {
-          const rect = root.current.getBoundingClientRect();
-          toX(e.clientX - rect.left);
-          toY(e.clientY - rect.top);
-        };
-        const host = root.current;
-        host.addEventListener("pointermove", onMove, { passive: true });
-        cleanup = () => host.removeEventListener("pointermove", onMove);
-      }
-
-      return () => cleanup?.();
     }, root);
 
     return () => ctx.revert();
   }, []);
+
+  /* ---------- cursor-tracked preview ---------- */
+  /* Separate from the entrance effect, and keyed on `fine`: the plate is not
+     in the DOM until `fine` turns true, so a []-deps effect would run while
+     the ref is still null and silently never attach the tracker. */
+  useEffect(() => {
+    if (!fine) return;
+    const node = preview.current;
+    const host = root.current;
+    if (!node || !host) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(node, { xPercent: -50, yPercent: -50 });
+      const toX = gsap.quickTo(node, "x", { duration: 0.6, ease: "power3" });
+      const toY = gsap.quickTo(node, "y", { duration: 0.6, ease: "power3" });
+
+      const onMove = (e) => {
+        const rect = host.getBoundingClientRect();
+        toX(e.clientX - rect.left);
+        toY(e.clientY - rect.top);
+      };
+      host.addEventListener("pointermove", onMove, { passive: true });
+      return () => host.removeEventListener("pointermove", onMove);
+    }, root);
+
+    return () => ctx.revert();
+  }, [fine]);
 
   /* Fade the floating plate in and out as rows are entered and left. */
   useEffect(() => {

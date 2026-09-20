@@ -1,30 +1,33 @@
 import { useEffect, useRef } from "react";
-import { gsap, hasFinePointer, prefersReducedMotion } from "../lib/gsap";
+import { gsap, useAnimatedPointer } from "../lib/gsap";
 import { MARK_SKILLS } from "../lib/brands";
 import { BrandMark } from "./BrandIcons";
 
 /** How many trail marks exist. They are recycled, so this is also the cap. */
-const TRAIL = 18;
+const TRAIL = MARK_SKILLS.length;
 /** Pointer travel, in px, between one mark and the next. */
 const STEP = 74;
 
 /* Slots are assigned their skill once, at module load, so emitting a mark
    never touches React state - a trail that re-rendered the tree on every
-   pointermove would cost far more than it is worth. Shuffled so the cycle
-   does not read as a fixed repeating sequence. */
-const TRAIL_SKILLS = (() => {
-  const out = [...MARK_SKILLS];
-  for (let i = out.length - 1; i > 0; i -= 1) {
+   pointermove would cost far more than it is worth.
+
+   The order here is fixed rather than shuffled: this markup is prerendered at
+   build time, and a Math.random() at module load would deal a different hand
+   in Node than in the browser, so the HTML being hydrated would not match.
+   The shuffle now happens over slot *indices* inside the effect, which keeps
+   the per-load variety it was there for without touching what is rendered. */
+const TRAIL_SKILLS = MARK_SKILLS;
+
+/** Fisher-Yates over 0..n-1. */
+const shuffledSlots = (n) => {
+  const out = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [out[i], out[j]] = [out[j], out[i]];
   }
-  return out.slice(0, TRAIL);
-})();
-
-/* This is a client-only, non-SSR app, so reading matchMedia directly during
-   render (rather than via useState+useEffect) never risks a hydration
-   mismatch, and the value never needs to change after mount. */
-const enabled = () => hasFinePointer() && !prefersReducedMotion();
+  return out;
+};
 
 /**
  * A small trailing ring that swells over anything clickable. Mouse/trackpad
@@ -35,9 +38,17 @@ export default function Cursor() {
   const ring = useRef(null);
   const dot = useRef(null);
   const trail = useRef([]);
+  // Nothing is rendered until there is a pointer to follow. That keeps 24
+  // brand marks' worth of path data - the single largest block of markup on
+  // the page - out of the prerendered HTML and out of touch devices' DOM,
+  // where none of it was ever going to be seen.
+  const on = useAnimatedPointer();
 
+  /* Keyed on `on`, not []: while it is false this component renders null, so
+     every ref below is still null and there is nothing to animate. The effect
+     has to run on the pass where the marks actually mount. */
   useEffect(() => {
-    if (!enabled()) return;
+    if (!on) return;
 
     const ctx = gsap.context(() => {
       gsap.set([ring.current, dot.current, ...trail.current], {
@@ -72,10 +83,11 @@ export default function Cursor() {
       let lastX = null;
       let lastY = null;
       let travelled = 0;
+      const order = shuffledSlots(TRAIL);
       let slot = 0;
 
       const shed = (x, y) => {
-        const el = trail.current[slot];
+        const el = trail.current[order[slot]];
         slot = (slot + 1) % TRAIL;
         if (!el) return;
 
@@ -152,9 +164,9 @@ export default function Cursor() {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [on]);
 
-  if (!enabled()) return null;
+  if (!on) return null;
 
   return (
     <>

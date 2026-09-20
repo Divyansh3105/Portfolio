@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -35,5 +36,32 @@ export const prefersReducedMotion = () =>
 export const hasFinePointer = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(pointer: fine)").matches;
+
+const subscribePointer = (onChange) => {
+  const queries = [
+    window.matchMedia("(pointer: fine)"),
+    window.matchMedia("(prefers-reduced-motion: reduce)"),
+  ];
+  queries.forEach((q) => q.addEventListener("change", onChange));
+  return () =>
+    queries.forEach((q) => q.removeEventListener("change", onChange));
+};
+
+/**
+ * "There is a real pointer and motion is welcome" — the condition behind
+ * every cursor-driven effect on the site.
+ *
+ * A hook rather than a bare call because the pages are prerendered at build
+ * time, where there is no window to ask. The server snapshot is false, so the
+ * first client render agrees with the HTML it hydrates and React swaps to the
+ * real answer immediately afterward. It also means a visitor who changes
+ * their reduced-motion setting is respected without a reload.
+ */
+export const useAnimatedPointer = () =>
+  useSyncExternalStore(
+    subscribePointer,
+    () => hasFinePointer() && !prefersReducedMotion(),
+    () => false,
+  );
 
 export { gsap, ScrollTrigger };

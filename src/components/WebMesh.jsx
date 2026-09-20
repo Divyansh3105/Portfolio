@@ -133,8 +133,11 @@ export default function WebMesh({ className = "" }) {
     };
   }, []);
 
-  if (prefersReducedMotion() || !hasFinePointer()) return null;
-
+  // The element is always rendered, even where nothing will draw on it: the
+  // effect above is what decides whether the mesh runs, and a render-time
+  // branch on matchMedia would disagree with the prerendered HTML, which is
+  // produced without a window. An unused canvas is inert - aria-hidden,
+  // pointer-events-none, and never painted into.
   return (
     <canvas
       ref={canvas}

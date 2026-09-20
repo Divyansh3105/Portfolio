@@ -3,12 +3,14 @@ import { WebOrb } from "./WebDecor";
 /**
  * A project's cover.
  *
- * Where the older build had a real screenshot it is used, drained to
- * greyscale so the set reads as one system rather than six competing UIs, and
- * captioned over a gradient. Projects with no shot (CIPHER, the CSS
- * experiments) fall back to art generated from the project's own index and
- * name — a web orb and a ruled grid — which is honest about being a plate
- * rather than pretending to be product imagery.
+ * Where a project has a real screenshot it is used, drained to greyscale so
+ * the set reads as one system rather than a row of competing UIs, and
+ * captioned over a gradient. A project with no shot falls back to art
+ * generated from its own index and name — a web orb and a ruled grid — which
+ * is honest about being a plate rather than pretending to be product imagery.
+ * Every project carries a shot today, so that branch is a guard, not a path
+ * anything currently takes. (Deliberately not naming projects here: this
+ * comment has gone stale twice from doing that.)
  */
 export default function ProjectPlate({ project, className = "", active = false }) {
   const dark = project.tone === "ink";

@@ -9,6 +9,9 @@ import talkspaceImg from "../assets/talkspace.webp";
 import gravlangImg from "../assets/gravlang.webp";
 import utilityImg from "../assets/utility.webp";
 import kesavImg from "../assets/kesav.webp";
+import cipherImg from "../assets/cipher.webp";
+import gitfinderImg from "../assets/gitfinder.webp";
+import solarImg from "../assets/solar.webp";
 
 export const profile = {
   first: "Divyansh",
@@ -177,6 +180,7 @@ export const projects = [
     category: "AI",
     year: "2026",
     status: "In progress",
+    image: cipherImg,
     summary:
       "A multi-persona AI assistant with three switchable personalities, text and voice interaction, long-term memory and document-grounded RAG over a FastAPI + Postgres backend.",
     detail:
@@ -222,6 +226,7 @@ export const projects = [
     category: "Frontend",
     year: "2026",
     status: "Live",
+    image: gitfinderImg,
     summary:
       "A developer-profile dashboard over the GitHub REST API — repository search, language breakdowns and contribution charts rendered with Chart.js.",
     detail:
@@ -244,6 +249,7 @@ export const projects = [
     category: "Frontend",
     year: "2026",
     status: "Live",
+    image: solarImg,
     summary:
       "An interactive 3D solar system with orbital mechanics, built entirely in HTML and CSS — no JavaScript, no framework, just transforms and keyframes.",
     detail:

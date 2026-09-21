@@ -43,12 +43,47 @@ before(async () => {
  * document: the heading `Talk<span>Space</span>` has no space in it and is
  * read as one word, so a word-level check has to strip tags to nothing.
  */
+const ENTITIES = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  middot: "·",
+  mdash: "—",
+  ndash: "–",
+  rsquo: "’",
+  lsquo: "‘",
+  copy: "©",
+  uarr: "↑",
+  larr: "←",
+  rarr: "→",
+  hellip: "…",
+};
+
+/**
+ * Entities are decoded, not deleted.
+ *
+ * Deleting them was wrong in the same way replacing tags with a space was:
+ * it silently rewrites the document. "internships &amp; entry-level" became
+ * "internships  entry-level", so a search for the real sentence failed
+ * against a page that renders it perfectly.
+ */
+function decodeEntities(text) {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) =>
+      String.fromCodePoint(parseInt(hex, 16)),
+    )
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&([a-z]+);/gi, (whole, name) => ENTITIES[name.toLowerCase()] ?? whole);
+}
+
 function textOf(source, joiner) {
   const body = source.slice(source.indexOf('<div id="root">'));
-  return body
-    .replace(/<svg[\s\S]*?<\/svg>/g, joiner)
-    .replace(/<[^>]+>/g, joiner)
-    .replace(/&[a-z]+;/g, joiner)
+  return decodeEntities(
+    body.replace(/<svg[\s\S]*?<\/svg>/g, joiner).replace(/<[^>]+>/g, joiner),
+  )
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -152,6 +187,21 @@ describe("analytics", () => {
       const token = JSON.parse(tags[0].replaceAll("&quot;", '"')).token;
       assert.match(token, /^[0-9a-f]{32}$/, "token is not a CF site token");
     }
+  });
+});
+
+describe("availability", () => {
+  test("the home page says it is open to work, without JavaScript", () => {
+    // Hardcoded rather than imported from site.js: that module reads
+    // import.meta.env and the __REPO_COUNT__ define, so it only resolves
+    // inside Vite. If the wording changes, change it here too - deliberately,
+    // because this is the line the whole site exists to deliver.
+    assert.ok(
+      wordsOf(html["dist/index.html"]).includes(
+        "Open to SWE internships & entry-level roles",
+      ),
+      "the availability line is missing from the rendered markup",
+    );
   });
 });
 

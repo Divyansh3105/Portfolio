@@ -139,6 +139,21 @@
   animation: marquee-slide 32s linear infinite;
 }
 
+/* The halo behind the availability dot. Two stacked circles: one solid, one
+   expanding outward and fading, so the status reads as live rather than
+   printed. */
+@keyframes status-ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.status-ping {
+  animation: status-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -147,6 +162,14 @@
 
   .marquee-track {
     animation: none;
+  }
+
+  /* Left as a plain dot rather than a pulsing one. The blanket rule below
+     would collapse it to a single 0.001ms cycle anyway, which ends with the
+     halo scaled up and fully transparent - the same result, but by accident. */
+  .status-ping {
+    animation: none;
+    opacity: 0;
   }
 
   /* Safety net: the hero hides these until its timeline runs. If motion is

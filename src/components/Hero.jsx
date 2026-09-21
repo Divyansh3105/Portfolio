@@ -306,12 +306,27 @@ export default function Hero() {
 
       {/* ---------------- foreground type ---------------- */}
       <div className="pointer-events-none relative mx-auto flex h-full max-w-[112rem] flex-col justify-end px-5 pb-10 sm:px-8 md:pb-14">
-        <p className="hero-eyebrow hero-anim label-mono invisible mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-ink/60">
-          <Spider size={15} withDragline className="text-blood" />
-          <span>{profile.location}</span>
-          <span className="hidden h-px w-8 bg-ink/25 sm:block" />
-          <span>{profile.status}</span>
-        </p>
+        {/* Availability used to sit here in the same 11px label style as the
+            scroll cue and the section numbers - the most consequential line
+            on the page set as decoration. It is now a status in its own
+            right: accent colour, its own frame, and a live dot. Location
+            stays a label, because location is genuinely secondary. */}
+        <div className="hero-eyebrow hero-anim invisible mb-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <p className="inline-flex items-center gap-3 border border-blood/35 bg-blood/[0.07] px-3.5 py-2 text-blood">
+            <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+              <span className="status-ping absolute inline-flex h-full w-full rounded-full bg-blood/70" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blood" />
+            </span>
+            <span className="font-mono text-[0.74rem] font-medium uppercase leading-none tracking-[0.15em] sm:text-[0.8rem]">
+              {profile.status}
+            </span>
+          </p>
+
+          <p className="label-mono flex items-center gap-3 text-ink/55">
+            <Spider size={14} withDragline className="text-blood/70" />
+            <span>{profile.location}</span>
+          </p>
+        </div>
 
         <h1 className="hero-anim invisible">
           <span className="sr-only">

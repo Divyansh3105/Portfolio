@@ -30,4 +30,10 @@ jobs:
 
       - run: npm run lint
 
-      - run: npm run build
+      # Only Chromium. The suite checks behaviour, not rendering differences
+      # between engines, so the other two would be download time for nothing.
+      - run: npx playwright install --with-deps chromium
+
+      # `npm test` builds first - the build-output and browser tests both
+      # assert against dist/ - so there is no separate build step to run.
+      - run: npm test

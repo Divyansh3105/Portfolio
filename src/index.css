@@ -1,11 +1,37 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
+   Fonts, self-hosted.
+
+   These used to come from Google: a preconnect, then a stylesheet from
+   fonts.googleapis.com, then the woff2 files from fonts.gstatic.com - three
+   hops across two origins, each with its own DNS lookup and TLS handshake,
+   all of it in front of the display face the largest heading is set in.
+   Served from our own origin the chain is one hop shorter and needs no new
+   connection at all, and no visitor is announced to a third party to read
+   a portfolio.
+
+   Archivo is the variable cut, so one file covers 400 through 900 instead of
+   four static weights; only the italic needs a second file. IBM Plex Mono has
+   no variable build, so its two weights stay separate. Each of these sheets
+   declares the same face once per unicode subset, so a browser fetches only
+   the ranges the page actually uses - latin here, and nothing else.
+   ------------------------------------------------------------------ */
+@import "@fontsource-variable/archivo/wght.css";
+@import "@fontsource-variable/archivo/wght-italic.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+/* ------------------------------------------------------------------
    Design tokens
    ------------------------------------------------------------------ */
 @theme {
-  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* "Archivo Variable" is what the variable cut registers itself as; the
+     static "Archivo" is kept behind it so a cached copy still resolves. */
+  --font-display: "Archivo Variable", "Archivo", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Light, papery neutrals */

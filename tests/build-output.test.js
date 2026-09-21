@@ -155,6 +155,47 @@ describe("analytics", () => {
   });
 });
 
+describe("fonts", () => {
+  test("no page reaches out to Google for them", () => {
+    // Self-hosting is the whole point; a stray link would quietly reinstate
+    // two third-party origins, two handshakes, and the privacy cost.
+    for (const page of PAGES) {
+      assert.doesNotMatch(
+        html[page.path],
+        /fonts\.(googleapis|gstatic)\.com/,
+        `${page.route} still loads fonts from Google`,
+      );
+    }
+  });
+
+  test("each page preloads the display face, with crossorigin", () => {
+    for (const page of PAGES) {
+      const preloads = [
+        ...html[page.path].matchAll(/<link rel="preload"[^>]*as="font"[^>]*>/g),
+      ].map((m) => m[0]);
+
+      assert.equal(
+        preloads.length,
+        1,
+        `${page.route} should preload exactly one face, not ${preloads.length}`,
+      );
+      // Without crossorigin the preload does not match the real anonymous
+      // font request, so the browser ignores it and downloads the file twice.
+      assert.match(preloads[0], /crossorigin/);
+      assert.match(preloads[0], /href="\/assets\/[^"]+\.woff2"/);
+    }
+  });
+
+  test("the preloaded file is one the build actually emitted", async () => {
+    const href = html["dist/index.html"].match(
+      /<link rel="preload"[^>]*as="font"[^>]*href="([^"]+)"/,
+    )[1];
+    // A hardcoded filename would go stale the moment the font changed, and a
+    // preload for a missing file fails silently.
+    await readFile(resolve(ROOT, "dist", href.replace(/^\//, "")));
+  });
+});
+
 describe("the error page", () => {
   test("404.html is published and asks not to be indexed", async () => {
     const source = await readFile(resolve(ROOT, "dist/404.html"), "utf8");
@@ -162,5 +203,8 @@ describe("the error page", () => {
     // Self-contained on purpose: it must not depend on a hashed bundle that
     // will not exist the next time the site is rebuilt.
     assert.doesNotMatch(source, /\/assets\//);
+    // Which rules out the bundled webfonts too, so it must not ask for them
+    // from anywhere else either.
+    assert.doesNotMatch(source, /fonts\.(googleapis|gstatic)\.com/);
   });
 });

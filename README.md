@@ -18,7 +18,7 @@ way across.
 | Framework | React 19 + Vite |
 | Styling | Tailwind CSS v4 (`@theme` design tokens in `src/index.css`) |
 | Motion | GSAP 3 + ScrollTrigger |
-| Fonts | Archivo (display) · IBM Plex Mono (labels) |
+| Fonts | Archivo Variable (display) · IBM Plex Mono (labels), self-hosted |
 | Mail | EmailJS REST endpoint (no SDK) |
 | Deploy | Netlify (`netlify.toml` + SPA redirect) |
 | CI | GitHub Actions — lint + build on every push and PR |
@@ -63,8 +63,9 @@ fallbacks, assertions about what the build actually publishes, and a browser
 pass over the built site with Playwright.
 
 The browser tests are hermetic. Every request that is not to the local test
-server is aborted, so nothing depends on Google Fonts, Cloudflare or EmailJS
-being reachable, and no test can send real mail.
+server is aborted, so nothing depends on Cloudflare or EmailJS being
+reachable, and no test can send real mail. Fonts are served from the same
+origin, so they load in tests exactly as they do in production.
 
 Each one was checked by breaking the thing it guards: removing the prerender
 step fails five assertions, removing the honeypot guard fails the spam test,

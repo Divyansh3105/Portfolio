@@ -70,6 +70,53 @@ function ogCacheBusting(key) {
   }
 }
 
+
+/**
+ * Preloads the one face the first screenful is actually set in.
+ *
+ * Without this the browser cannot know the font exists until it has fetched
+ * and parsed the stylesheet, found the @font-face and matched a unicode
+ * range - so the request starts a full round trip late, and on a phone that
+ * is the difference between text appearing and text swapping in. Preloading
+ * starts it while the HTML is still being read.
+ *
+ * Only the upright display face. The italic is a handful of words and is not
+ * what anyone is waiting to read, and preloading both would just have them
+ * compete for the same bandwidth. `crossorigin` is required rather than
+ * decorative: fonts are fetched anonymously, and a preload whose CORS mode
+ * does not match the real request is ignored and fetched again.
+ *
+ * The filename is content-hashed, so it is read back out of the bundle
+ * instead of written down - if it were written down it would be wrong the
+ * first time the font changed, and silently: a preload for a file that no
+ * longer exists fails quietly.
+ */
+function preloadDisplayFont(pattern) {
+  return {
+    name: 'preload-display-font',
+    apply: 'build',
+    transformIndexHtml(html, ctx) {
+      const file = Object.keys(ctx.bundle ?? {}).find((name) =>
+        pattern.test(name),
+      )
+      if (!file) return
+      return [
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            as: 'font',
+            type: 'font/woff2',
+            href: `/${file}`,
+            crossorigin: '',
+          },
+          injectTo: 'head-prepend',
+        },
+      ]
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(async ({ isSsrBuild, mode }) => ({
   plugins: [
@@ -80,6 +127,7 @@ export default defineConfig(async ({ isSsrBuild, mode }) => ({
         CF_BEACON_TOKEN,
     ),
     ogCacheBusting(await ogCacheKey()),
+    preloadDisplayFont(/archivo-latin-wght-normal-[\w-]+\.woff2$/),
   ],
   // Resolved once per Vite invocation and baked into the bundle, so the
   // number costs a visitor nothing at runtime and cannot be forgotten.

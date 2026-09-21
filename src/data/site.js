@@ -39,7 +39,10 @@ export const profile = {
   live: "https://divyanshgarg3105.netlify.app",
   // BASE_URL is "/" - the site is served from the root on Netlify.
   resume: `${import.meta.env.BASE_URL}Divyansh_Garg_Resume.pdf`,
-  repoCount: 25,
+  // Counted by the build from the GitHub API rather than typed here, because
+  // a number that only changes when someone remembers to change it is a
+  // number that is quietly wrong most of the time. See scripts/build-facts.js.
+  repoCount: __REPO_COUNT__,
 };
 
 export const about = {

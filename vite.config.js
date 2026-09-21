@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { ogCacheKey, repoCount } from './scripts/build-facts.js'
 
 
 /**
@@ -54,8 +55,23 @@ function cloudflareAnalytics(token) {
   }
 }
 
+
+/**
+ * Rewrites the og:image and twitter:image cache key to the image's content
+ * hash, across every HTML shell. Previously a `?v=2` in six places that had
+ * to be bumped by hand, in lockstep, or link previews went stale forever.
+ */
+function ogCacheBusting(key) {
+  return {
+    name: 'og-cache-busting',
+    transformIndexHtml(html) {
+      return html.replace(/og\.png\?v=[^"']*/g, `og.png?v=${key}`)
+    },
+  }
+}
+
 // https://vite.dev/config/
-export default defineConfig(({ isSsrBuild, mode }) => ({
+export default defineConfig(async ({ isSsrBuild, mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
@@ -63,7 +79,13 @@ export default defineConfig(({ isSsrBuild, mode }) => ({
       loadEnv(mode, import.meta.dirname, '').VITE_CF_BEACON_TOKEN ||
         CF_BEACON_TOKEN,
     ),
+    ogCacheBusting(await ogCacheKey()),
   ],
+  // Resolved once per Vite invocation and baked into the bundle, so the
+  // number costs a visitor nothing at runtime and cannot be forgotten.
+  define: {
+    __REPO_COUNT__: await repoCount(),
+  },
   build: {
     // The SSR pass takes its entry from the command line, so the multi-page
     // input applies to the client build only - handing it both would make

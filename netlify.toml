@@ -26,11 +26,15 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    # Origins, in order: the Google Fonts stylesheet, its woff2 files, and the
-    # EmailJS endpoint the contact form posts to. Nothing else is third party.
+    # Third-party origins, and nothing else is: the Google Fonts stylesheet and
+    # its woff2 files, the EmailJS endpoint the contact form posts to, and
+    # Cloudflare Web Analytics - which needs two entries, because the beacon is
+    # served from static.cloudflareinsights.com but reports to
+    # cloudflareinsights.com/cdn-cgi/rum. Allowing only the script origin lets
+    # it load and then silently fail to send anything.
     # 'unsafe-inline' on style-src is required - Tailwind is a stylesheet, but
     # GSAP writes inline `style` attributes on every element it animates.
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 
 # Content-hashed filenames, so they can never go stale.
 [[headers]]

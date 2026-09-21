@@ -38,6 +38,16 @@ cp .env.example .env
 `VITE_EMAILJS_PUBLIC_KEY`. With any of them missing the form shows its error
 state and points the visitor at the mailto address instead of failing silently.
 
+`VITE_CF_BEACON_TOKEN` is the Cloudflare Web Analytics site token. Unset — as
+in CI, and in any clone of this repo — no beacon is injected at all, so builds
+stay clean rather than shipping a tag with a placeholder in it. For production
+the token is set in Netlify's own environment variables, not in a file here.
+
+Cloudflare Web Analytics is cookieless and needs no consent banner. It records
+page views, referrers, countries and Core Web Vitals per path — enough to tell
+whether the case studies are being read. It has no custom events, so clicks on
+the résumé or the contact form are not measured by it.
+
 ## Running it
 
 ```bash

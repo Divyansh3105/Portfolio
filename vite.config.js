@@ -5,28 +5,45 @@ import tailwindcss from '@tailwindcss/vite'
 
 
 /**
- * Cloudflare Web Analytics, injected into every page at build time.
+ * Cloudflare Web Analytics site token.
  *
- * A plugin rather than the tag pasted into each of the three HTML shells,
- * for one reason: it emits nothing when no token is configured. The `%VITE_%`
- * substitution Vite does in index.html leaves the placeholder text in place
- * when a variable is unset, so a CI build - which has no .env - would ship a
- * beacon tag whose token is the literal string `%VITE_CF_BEACON_TOKEN%`.
+ * Committed deliberately. This is not a secret - it identifies the site and
+ * is readable in the page source of everything that uses it, including this
+ * site once deployed. Keeping it here means the beacon works from a clean
+ * clone and from any build host without a dashboard step to forget, which is
+ * the failure this would otherwise have: an unset variable looks exactly like
+ * nobody visiting. VITE_CF_BEACON_TOKEN overrides it if a separate property
+ * is ever wanted for previews.
+ */
+const CF_BEACON_TOKEN = '0a447798cbdb4e3f9f269db18da4c49d'
+
+/**
+ * Cloudflare Web Analytics, injected into every built page.
  *
- * The token is not a secret; it identifies the site and is visible in the
- * HTML of every site that uses this. It lives in the environment so it can
- * differ between a local build and production, not to hide it.
+ * A plugin rather than the tag pasted into each of the three HTML shells:
+ * one place, all three pages, and it can decline to emit anything.
+ *
+ * `type="module"` matches the snippet Cloudflare hands out. A classic
+ * deferred script also works against the current beacon.min.js, but if they
+ * ever ship real module syntax in it, loading it as a classic script breaks
+ * with a parse error and reports nothing - so this follows the vendor.
+ *
+ * `apply: "build"` keeps it out of `vite dev`. The site is registered against
+ * its Netlify hostname, so a beacon fired from localhost is rejected at the
+ * far end anyway; all it would do is put a CORS error in the console on every
+ * dev page load.
  */
 function cloudflareAnalytics(token) {
   return {
     name: 'cloudflare-analytics',
+    apply: 'build',
     transformIndexHtml() {
       if (!token) return
       return [
         {
           tag: 'script',
           attrs: {
-            defer: true,
+            type: 'module',
             src: 'https://static.cloudflareinsights.com/beacon.min.js',
             'data-cf-beacon': JSON.stringify({ token }),
           },
@@ -42,9 +59,10 @@ export default defineConfig(({ isSsrBuild, mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    // Third argument '' so the token is read without needing a VITE_ prefix
-    // rule change here; it is prefixed anyway for consistency with the rest.
-    cloudflareAnalytics(loadEnv(mode, import.meta.dirname, '').VITE_CF_BEACON_TOKEN),
+    cloudflareAnalytics(
+      loadEnv(mode, import.meta.dirname, '').VITE_CF_BEACON_TOKEN ||
+        CF_BEACON_TOKEN,
+    ),
   ],
   build: {
     // The SSR pass takes its entry from the command line, so the multi-page

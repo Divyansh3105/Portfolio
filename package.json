@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "npm run build && node --test \"tests/*.test.js\""
+    "test": "npm run build:test && node --test \"tests/*.test.js\"",
+    "build:test": "vite build --mode test && vite build --ssr src/entry-server.jsx --outDir dist-ssr --mode test && node scripts/prerender.js"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

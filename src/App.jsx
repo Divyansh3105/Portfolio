@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import Nav from "./components/Nav";
 import Path from "./components/Path";
+import Proof from "./components/Proof";
 import Skills from "./components/Skills";
 import Work from "./components/Work";
 
@@ -38,6 +39,10 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        {/* Directly after the About copy that claims I wrote a language
+            rather than reading about one - so the claim and its evidence
+            are adjacent rather than a scroll apart. */}
+        <Proof />
         <Marquee />
         <Work />
         <Path />

@@ -155,6 +155,31 @@ describe("analytics", () => {
   });
 });
 
+describe("the code specimen", () => {
+  test("real source is on the home page, not just claims about it", () => {
+    // Tag-free, because each keyword is wrapped in its own span for colour -
+    // so `def _add_sub` is never contiguous in the raw markup even though it
+    // is exactly what the page displays.
+    const code = wordsOf(html["dist/index.html"]);
+    // Verbatim from gravlang/core/parser.py. If this drifts from the repo it
+    // should be corrected there and here, not quietly reworded to fit.
+    assert.ok(code.includes("def _add_sub(self):"), "signature missing");
+    assert.ok(code.includes("ast.BinOp(left=left"), "node construction missing");
+  });
+
+  test("it is prerendered, so it reads as code without JavaScript", () => {
+    // Which also means the home page carries the words a search engine would
+    // need to believe there is engineering here, not only design.
+    const text = wordsOf(html["dist/index.html"]);
+    assert.ok(text.includes("_mul_div"), "the snippet should be in the markup");
+    assert.match(text, /Recursive descent/);
+  });
+
+  test("it sends the reader on to the case study", () => {
+    assert.match(html["dist/index.html"], /href="\/gravlang\/"/);
+  });
+});
+
 describe("fonts", () => {
   test("no page reaches out to Google for them", () => {
     // Self-hosting is the whole point; a stray link would quietly reinstate

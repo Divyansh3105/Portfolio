@@ -46,7 +46,7 @@ export const about = {
   heading: ["Interface to", "infrastructure,", "end to end."],
   paragraphs: [
     "I build full-stack products from the interface down to the backend, and I go looking for the engineering problems no tutorial covers. When I wanted to understand how languages actually work, I didn't read about it — I wrote GravLang, an interpreted language in Python with its own lexer, parser, AST and tree-walking interpreter.",
-    "That instinct runs through everything: TalkSpace, a real-time platform with 13+ REST endpoints, JWT auth and WebRTC video calls; a PHP/MySQL billing system running in production on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
+    "That instinct runs through everything: TalkSpace, a real-time platform with 16 REST endpoints, JWT auth and WebRTC video calls; a PHP/MySQL billing system running in production on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
     "I'm a B.Tech CSE student at Graphic Era Hill University (8.5/10 GPA) graduating in 2027, and I teach frontend fundamentals to new developers at Blaze Forge. Right now I'm looking for a team where I can ship real product from day one.",
   ],
   stats: [
@@ -120,9 +120,9 @@ export const projects = [
     summary:
       "A full-stack communication platform with auth-based onboarding, live chat, 1:1 video calls, a friend-request graph, an installable PWA shell and a CI/CD deploy pipeline.",
     detail:
-      "TalkSpace is a production full-stack communication app built on React 19, Node, Express and MongoDB. It ships 13+ REST endpoints behind JWT auth with bcrypt hashing, Zustand and TanStack Query for client state, Stream SDK for messaging and video, an installable PWA shell, and automated deploys through GitHub Actions.",
+      "TalkSpace is a production full-stack communication app built on React 19, Node, Express and MongoDB. It ships 16 REST endpoints behind JWT auth with bcrypt hashing, Zustand and TanStack Query for client state, Stream SDK for messaging and video, an installable PWA shell, and automated deploys through GitHub Actions.",
     highlights: [
-      "13+ REST endpoints behind JWT auth with bcrypt password hashing",
+      "16 REST endpoints behind JWT auth with bcrypt password hashing",
       "Real-time messaging and 1:1 video calls via the Stream SDK",
       "PWA frontend on Zustand + TanStack Query with automated CI/CD",
     ],
@@ -135,6 +135,7 @@ export const projects = [
       "JWT",
       "PWA",
     ],
+    caseStudy: "/talkspace/",
     href: "https://talkspace-i5d2.onrender.com/",
     repo: "https://github.com/Divyansh3105/TalkSpace",
     tone: "ink",

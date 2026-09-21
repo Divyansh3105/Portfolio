@@ -18,6 +18,7 @@ const MARKER = '<div id="root"></div>';
 const shells = {
   main: "dist/index.html",
   gravlang: "dist/gravlang/index.html",
+  talkspace: "dist/talkspace/index.html",
 };
 
 const { pages } = await import(

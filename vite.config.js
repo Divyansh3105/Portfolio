@@ -13,13 +13,14 @@ export default defineConfig(({ isSsrBuild }) => ({
     rollupOptions: isSsrBuild
       ? {}
       : {
-        // Multi-page build. The case study is a document, not an app route,
-        // so it gets its own entry instead of a router dependency bought for
-        // one page. Vite emits dist/gravlang/index.html, served at
-        // /gravlang/.
+        // Multi-page build. The case studies are documents, not app routes,
+        // so each gets its own entry instead of a router dependency bought
+        // for two pages. Vite emits dist/<name>/index.html, served at
+        // /<name>/.
         input: {
           main: resolve(import.meta.dirname, 'index.html'),
           gravlang: resolve(import.meta.dirname, 'gravlang/index.html'),
+          talkspace: resolve(import.meta.dirname, 'talkspace/index.html'),
         },
       },
   },

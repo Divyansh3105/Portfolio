@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
 import App from "./App.jsx";
-import CaseStudy from "./components/CaseStudy.jsx";
+import GravLangCase from "./components/GravLangCase.jsx";
+import TalkSpaceCase from "./components/TalkSpaceCase.jsx";
 
 /**
  * Build-time render of each page, consumed by scripts/prerender.js.
@@ -25,7 +26,13 @@ export const pages = {
   gravlang: () =>
     renderToString(
       <StrictMode>
-        <CaseStudy />
+        <GravLangCase />
+      </StrictMode>,
+    ),
+  talkspace: () =>
+    renderToString(
+      <StrictMode>
+        <TalkSpaceCase />
       </StrictMode>,
     ),
 };

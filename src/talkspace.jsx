@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import "./index.css";
-import GravLangCase from "./components/GravLangCase.jsx";
+import TalkSpaceCase from "./components/TalkSpaceCase.jsx";
 
 const container = document.getElementById("root");
 const tree = (
   <StrictMode>
-    <GravLangCase />
+    <TalkSpaceCase />
   </StrictMode>
 );
 

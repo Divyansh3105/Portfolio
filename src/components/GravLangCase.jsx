@@ -1,13 +1,12 @@
-import { profile } from "../data/site";
-import { ArrowUpRight, ExternalLink } from "./Icons";
+import { CaseFooter, CaseHeader, Slab } from "./CaseChrome";
 
 /**
  * The GravLang case study — a standalone page at /gravlang/.
  *
- * Built as its own Vite entry rather than behind a router: the site has
- * exactly one of these, and a router would be a dependency bought for a
- * single route. Every token stream and AST on this page is verbatim output
- * from the interpreter, not prose about it.
+ * Built as its own Vite entry rather than behind a router. There are two of
+ * these now; a router still costs more than the two entries do, and they are
+ * documents rather than app routes. Every token stream and AST on this page
+ * is verbatim output from the interpreter, not prose about it.
  */
 
 /** Real output of Lexer("let total = price * 2 + 5;").tokenize(). */
@@ -87,45 +86,12 @@ const DEMOS = [
 
 const REPO = "https://github.com/Divyansh3105/GravLang";
 
-/* ── small building blocks ──────────────────────────────────────── */
-
-function Slab({ children }) {
-  return (
-    <pre className="overflow-x-auto border border-ink/15 bg-paper p-4 font-mono text-[0.78rem] leading-[1.85] text-ink/85">
-      {children}
-    </pre>
-  );
-}
-
 /* ── page ───────────────────────────────────────────────────────── */
 
 export default function CaseStudy() {
   return (
     <>
-      <a
-        href="#lede"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"
-      >
-        Skip to content
-      </a>
-
-      {/* ── header ── */}
-      <header className="sticky top-0 z-50 border-b border-ink/10 bg-bone/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-10">
-          <a href="/" className="label-mono text-ink transition-colors hover:text-blood">
-            Divyansh<span className="text-blood">/</span>Garg
-          </a>
-          <a
-            href="/#work"
-            className="label-mono group flex items-center gap-2 text-ink/55 transition-colors hover:text-ink"
-          >
-            <span className="transition-transform duration-500 ease-web group-hover:-translate-x-1">
-              &larr;
-            </span>
-            Back to work
-          </a>
-        </div>
-      </header>
+      <CaseHeader />
 
       <main>
         {/* ── hero ── */}
@@ -473,53 +439,13 @@ except Exception as e:
           </div>
         </section>
 
-        {/* ── footer cta ── */}
-        <section className="bg-ink text-paper">
-          <div className="mx-auto max-w-6xl px-5 py-16 md:px-10 md:py-20">
-            <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="label-mono text-paper/45">Source</p>
-                <p className="display-tight mt-4 text-[clamp(1.8rem,5vw,3rem)]">
-                  Read the code
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={REPO}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group relative flex items-center gap-3 overflow-hidden border border-paper/25 px-6 py-3.5"
-                >
-                  <span className="label-mono relative z-10">GitHub</span>
-                  <ExternalLink size={15} className="relative z-10" />
-                  <span className="absolute inset-0 -translate-y-full bg-blood transition-transform duration-500 ease-web group-hover:translate-y-0" />
-                </a>
-
-                <a
-                  href="/#work"
-                  className="group relative flex items-center gap-3 overflow-hidden bg-paper px-6 py-3.5 text-ink"
-                >
-                  <span className="label-mono relative z-10">All work</span>
-                  <ArrowUpRight size={15} className="relative z-10" />
-                  <span className="absolute inset-0 -translate-y-full bg-blood transition-transform duration-500 ease-web group-hover:translate-y-0 group-hover:text-paper" />
-                </a>
-              </div>
-            </div>
-
-            <p className="mt-14 border-t border-paper/15 pt-6 font-mono text-[0.72rem] leading-relaxed text-paper/45">
-              Python 3.8+ &middot; MIT &middot; 285 tests &middot; pyright clean &middot;
-              GitHub Actions for CI and release builds &middot; MkDocs documentation.
-              <br />
-              Token stream and AST above are verbatim output from the current
-              implementation.
-            </p>
-
-            <p className="mt-6 font-mono text-[0.72rem] text-paper/35">
-              &copy; {new Date().getFullYear()} {profile.first} {profile.last}
-            </p>
-          </div>
-        </section>
+        <CaseFooter repo={REPO}>
+          Python 3.8+ &middot; MIT &middot; 285 tests &middot; pyright clean &middot;
+          GitHub Actions for CI and release builds &middot; MkDocs documentation.
+          <br />
+          Token stream and AST above are verbatim output from the current
+          implementation.
+        </CaseFooter>
       </main>
     </>
   );

@@ -195,10 +195,10 @@ export const projects = [
     id: "cipher",
     index: "04",
     name: "CIPHER",
-    kicker: "AI assistant · in progress",
+    kicker: "AI assistant",
     category: "AI",
     year: "2026",
-    status: "In progress",
+    status: "Open source",
     image: cipherImg,
     thumb: cipherThumb,
     summary:

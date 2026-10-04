@@ -7,7 +7,7 @@
 
 /* Two sizes per shot. `image` is the full-width plate the modal shows; the
    `-thumb` at 800w is what the index plates use, and they are the hot path -
-   seven of them render inline on touch. Serving the 1600w file into a 352px
+   eight of them render inline on touch. Serving the 1600w file into a 352px
    slot was costing roughly 800KB a visit for imagery nobody had opened yet. */
 import talkspaceImg from "../assets/talkspace.webp";
 import talkspaceThumb from "../assets/talkspace-thumb.webp";
@@ -17,6 +17,8 @@ import utilityImg from "../assets/utility.webp";
 import utilityThumb from "../assets/utility-thumb.webp";
 import kesavImg from "../assets/kesav.webp";
 import kesavThumb from "../assets/kesav-thumb.webp";
+import playdexImg from "../assets/playdex.webp";
+import playdexThumb from "../assets/playdex-thumb.webp";
 import cipherImg from "../assets/cipher.webp";
 import cipherThumb from "../assets/cipher-thumb.webp";
 import gitfinderImg from "../assets/gitfinder.webp";
@@ -192,8 +194,32 @@ export const projects = [
     tone: "blood",
   },
   {
-    id: "cipher",
+    id: "playdex",
     index: "04",
+    name: "Playdex",
+    kicker: "Desktop app",
+    category: "Desktop",
+    year: "2026",
+    status: "Released · v1.3",
+    image: playdexImg,
+    thumb: playdexThumb,
+    summary:
+      "Finding a game used to mean opening Steam, Epic and GOG one at a time to check which launcher had it. Playdex reads all three into one library, and flags the games I own on more than one store.",
+    detail:
+      "Playdex is an Electron desktop app that merges Steam, Epic and GOG into a single library without logging into anything — it reads each launcher's own local files: Steam's appinfo.vdf and app manifests, Epic's catalog cache and install manifests, and GOG Galaxy's SQLite database. On top of that it tracks playtime, maps disk usage per drive, finds duplicate purchases across stores and launches each game through its own launcher.",
+    highlights: [
+      "Read-only parsers for three launchers' local formats — no logins, no network server",
+      "Duplicate finder for games owned on more than one store, plus disk space per drive",
+      "Sandboxed renderer over a narrow IPC bridge; installer built and checksummed in CI",
+    ],
+    stack: ["Electron", "JavaScript", "Node", "SQLite", "IPC", "GitHub Actions"],
+    href: "https://github.com/Divyansh3105/playdex",
+    repo: "https://github.com/Divyansh3105/playdex",
+    tone: "ink",
+  },
+  {
+    id: "cipher",
+    index: "05",
     name: "CIPHER",
     kicker: "AI assistant",
     category: "AI",
@@ -217,7 +243,7 @@ export const projects = [
   },
   {
     id: "utility",
-    index: "05",
+    index: "06",
     name: "Public Utility Management",
     kicker: "Production system",
     category: "Full-stack",
@@ -241,7 +267,7 @@ export const projects = [
   },
   {
     id: "gitfinder",
-    index: "06",
+    index: "07",
     name: "GitHub Finder",
     kicker: "Data dashboard",
     category: "Frontend",
@@ -265,7 +291,7 @@ export const projects = [
   },
   {
     id: "solar",
-    index: "07",
+    index: "08",
     name: "SolarExplorer",
     kicker: "CSS experiment",
     category: "Frontend",

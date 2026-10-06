@@ -51,7 +51,7 @@ export const about = {
   heading: ["Interface to", "infrastructure,", "end to end."],
   paragraphs: [
     "I build full-stack products from the interface down to the backend, and I go looking for the engineering problems no tutorial covers. When I wanted to understand how languages actually work, I didn't read about it — I wrote GravLang, an interpreted language in Python with its own lexer, parser, AST and tree-walking interpreter.",
-    "That instinct runs through everything: TalkSpace, a real-time platform with 16 REST endpoints, JWT auth and WebRTC video calls; a PHP/MySQL billing system running in production on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
+    "That instinct runs through everything: TalkSpace, a real-time platform with cookie-based JWT auth, Google sign-in and 1:1 video calls; Playdex, a desktop app now on the Microsoft Store; a PHP/MySQL billing system running in production on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
     "I'm a B.Tech CSE student at Graphic Era Hill University (8.5/10 GPA) graduating in 2027, and I teach frontend fundamentals to new developers at Blaze Forge. Right now I'm looking for a team where I can ship real product from day one.",
   ],
   stats: [
@@ -126,10 +126,10 @@ export const projects = [
     summary:
       "A full-stack communication platform with auth-based onboarding, live chat, 1:1 video calls, a friend-request graph, an installable PWA shell and a CI/CD deploy pipeline.",
     detail:
-      "TalkSpace is a production full-stack communication app built on React 19, Node, Express and MongoDB. It ships 16 REST endpoints behind JWT auth with bcrypt hashing, Zustand and TanStack Query for client state, Stream SDK for messaging and video, an installable PWA shell, and automated deploys through GitHub Actions.",
+      "TalkSpace is a production full-stack communication app built on React 19, Node, Express and MongoDB. It runs JWT auth in an httpOnly cookie with bcrypt hashing and Google sign-in, Zustand and TanStack Query for client state, Stream SDK for messaging and video, an installable PWA shell, and automated deploys through GitHub Actions.",
     highlights: [
-      "16 REST endpoints behind JWT auth with bcrypt password hashing",
-      "Real-time messaging and 1:1 video calls via the Stream SDK",
+      "JWT in an httpOnly, SameSite=Strict cookie, bcrypt, and rate-limited auth routes",
+      "Stream messaging and video, with the API secret kept server-side and per-user tokens minted on request",
       "PWA frontend on Zustand + TanStack Query with automated CI/CD",
     ],
     stack: [
@@ -163,7 +163,7 @@ export const projects = [
       "GravLang is a programming language designed from first principles in Python. It implements the full pipeline — lexer, recursive-descent parser, abstract syntax tree and tree-walking interpreter — with object-oriented constructs and recursion, plus a native standard library, a desktop GUI IDE and a CLI runner.",
     highlights: [
       "Complete pipeline: lexer, recursive-descent parser, AST, interpreter",
-      "OOP constructs and recursion on top of a 10+ function standard library",
+      "285 passing tests, including 25 example programs run end to end",
       "Ships with both a desktop GUI IDE and a CLI runner",
     ],
     stack: ["Python", "Interpreter", "AST", "Tkinter", "CLI"],
@@ -204,17 +204,17 @@ export const projects = [
     kicker: "Desktop app",
     category: "Desktop",
     year: "2026",
-    status: "Released · v1.3",
+    status: "Microsoft Store · v1.3",
     image: playdexImg,
     thumb: playdexThumb,
     summary:
-      "Finding a game used to mean opening Steam, Epic and GOG one at a time to check which launcher had it. Playdex reads all three into one library, and flags the games I own on more than one store.",
+      "Finding a game used to mean opening Steam, Epic and GOG one at a time. Playdex reads all three into one library and flags the games I own twice. Published on the Microsoft Store.",
     detail:
       "Playdex is an Electron desktop app that merges Steam, Epic and GOG into a single library without logging into anything — it reads each launcher's own local files: Steam's appinfo.vdf and app manifests, Epic's catalog cache and install manifests, and GOG Galaxy's SQLite database. On top of that it tracks playtime, maps disk usage per drive, finds duplicate purchases across stores and launches each game through its own launcher.",
     highlights: [
-      "Read-only parsers for three launchers' local formats — no logins, no network server",
-      "Duplicate finder for games owned on more than one store, plus disk space per drive",
-      "Sandboxed renderer over a narrow IPC bridge; installer built and checksummed in CI",
+      "Published on the Microsoft Store, which certified and signs the package",
+      "Library counts match each launcher's own, and every counting rule has a fixture test",
+      "34 tests including Playwright UI tests, type-checked in CI; zero runtime dependencies",
     ],
     stack: ["Electron", "JavaScript", "Node", "SQLite", "IPC", "GitHub Actions"],
     href: "https://github.com/Divyansh3105/playdex",
@@ -238,7 +238,7 @@ export const projects = [
     highlights: [
       "Three switchable personas sharing a single long-term memory layer",
       "Document-grounded RAG over a FastAPI + Postgres backend",
-      "Text and voice interaction from one Next.js client",
+      "267 backend tests under pytest, plus lint, type-check and Docker build in CI",
     ],
     stack: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "RAG"],
     href: "https://github.com/Divyansh3105/CIPHER",

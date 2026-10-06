@@ -56,7 +56,7 @@ export function CaseHeader() {
  * to send anyone to, so it renders the repo alone rather than a dead button.
  * `children` is the page's fine print.
  */
-export function CaseFooter({ repo, live, children }) {
+export function CaseFooter({ repo, live, liveLabel = "Live app", children }) {
   return (
     <section className="bg-ink text-paper">
       <div className="mx-auto max-w-6xl px-5 py-16 md:px-10 md:py-20">
@@ -76,7 +76,7 @@ export function CaseFooter({ repo, live, children }) {
                 rel="noreferrer"
                 className="group relative flex items-center gap-3 overflow-hidden border border-paper/25 px-6 py-3.5"
               >
-                <span className="label-mono relative z-10">Live app</span>
+                <span className="label-mono relative z-10">{liveLabel}</span>
                 <ExternalLink size={15} className="relative z-10" />
                 <span className="absolute inset-0 -translate-y-full bg-blood transition-transform duration-500 ease-web group-hover:translate-y-0" />
               </a>

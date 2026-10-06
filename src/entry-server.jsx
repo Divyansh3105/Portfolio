@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { renderToString } from "react-dom/server";
 import App from "./App.jsx";
 import GravLangCase from "./components/GravLangCase.jsx";
+import PlaydexCase from "./components/PlaydexCase.jsx";
 import TalkSpaceCase from "./components/TalkSpaceCase.jsx";
 
 /**
@@ -33,6 +34,12 @@ export const pages = {
     renderToString(
       <StrictMode>
         <TalkSpaceCase />
+      </StrictMode>,
+    ),
+  playdex: () =>
+    renderToString(
+      <StrictMode>
+        <PlaydexCase />
       </StrictMode>,
     ),
 };

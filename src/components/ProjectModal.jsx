@@ -241,7 +241,9 @@ export default function ProjectModal({ project, onClose }) {
                 className="group relative flex items-center gap-3 overflow-hidden bg-ink px-6 py-3.5 text-paper"
               >
                 <span className="label-mono relative z-10">
-                  {project.repo === project.href ? "View source" : "Open live"}
+                  {project.repo === project.href
+                    ? "View source"
+                    : (project.liveLabel ?? "Open live")}
                 </span>
                 <ExternalLink size={15} className="relative z-10" />
                 <span className="absolute inset-0 -translate-y-full bg-blood transition-transform duration-500 ease-web group-hover:translate-y-0" />

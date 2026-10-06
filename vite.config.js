@@ -22,7 +22,7 @@ const CF_BEACON_TOKEN = '0a447798cbdb4e3f9f269db18da4c49d'
  * Cloudflare Web Analytics, injected into every built page.
  *
  * A plugin rather than the tag pasted into each of the three HTML shells:
- * one place, all three pages, and it can decline to emit anything.
+ * one place, every page, and it can decline to emit anything.
  *
  * `type="module"` matches the snippet Cloudflare hands out. A classic
  * deferred script also works against the current beacon.min.js, but if they
@@ -143,12 +143,13 @@ export default defineConfig(async ({ isSsrBuild, mode }) => ({
       : {
         // Multi-page build. The case studies are documents, not app routes,
         // so each gets its own entry instead of a router dependency bought
-        // for two pages. Vite emits dist/<name>/index.html, served at
+        // for three pages. Vite emits dist/<name>/index.html, served at
         // /<name>/.
         input: {
           main: resolve(import.meta.dirname, 'index.html'),
           gravlang: resolve(import.meta.dirname, 'gravlang/index.html'),
           talkspace: resolve(import.meta.dirname, 'talkspace/index.html'),
+          playdex: resolve(import.meta.dirname, 'playdex/index.html'),
         },
       },
   },

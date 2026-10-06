@@ -19,6 +19,7 @@ const PAGES = [
   { path: "dist/index.html", route: "/", marker: "Full-Stack Developer" },
   { path: "dist/gravlang/index.html", route: "/gravlang/", marker: "GravLang" },
   { path: "dist/talkspace/index.html", route: "/talkspace/", marker: "TalkSpace" },
+  { path: "dist/playdex/index.html", route: "/playdex/", marker: "Playdex" },
 ];
 
 const html = {};

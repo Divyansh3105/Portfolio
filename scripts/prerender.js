@@ -19,6 +19,7 @@ const shells = {
   main: "dist/index.html",
   gravlang: "dist/gravlang/index.html",
   talkspace: "dist/talkspace/index.html",
+  playdex: "dist/playdex/index.html",
 };
 
 const { pages } = await import(

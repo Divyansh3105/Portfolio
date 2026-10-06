@@ -5,7 +5,7 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# This is not a SPA: it is two prerendered documents. There is deliberately no
+# This is not a SPA: it is a handful of prerendered documents. There is deliberately no
 # `/* -> /index.html 200` catch-all, because that answered every unknown URL
 # with the homepage under a 200 - a soft 404. Netlify serves dist/404.html
 # with a real 404 status for anything unmatched.
@@ -17,6 +17,11 @@
 [[redirects]]
   from = "/talkspace"
   to = "/talkspace/"
+  status = 301
+
+[[redirects]]
+  from = "/playdex"
+  to = "/playdex/"
   status = 301
 
 [[headers]]

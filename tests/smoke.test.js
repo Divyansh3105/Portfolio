@@ -100,6 +100,7 @@ describe("hydration", () => {
     ["/", "DIVYANSH"],
     ["/gravlang/", "GRAVLANG"],
     ["/talkspace/", "TALKSPACE"],
+    ["/playdex/", "PLAYDEX"],
   ]) {
     test(`${route} hydrates without console errors`, async () => {
       const { page, context, problems } = await openPage();

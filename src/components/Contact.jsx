@@ -32,11 +32,6 @@ const links = [
     href: profile.resume,
     icon: FileIcon,
   },
-  {
-    label: "Phone",
-    value: profile.phone,
-    href: `tel:${profile.phone.replace(/\s/g, "")}`,
-  },
 ];
 
 const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";

@@ -35,7 +35,6 @@ export const profile = {
   location: "Meerut, Uttar Pradesh, India",
   status: "Open to SWE internships & entry-level roles",
   email: "divyanshgarg3105@gmail.com",
-  phone: "+91 7535009007",
   github: "https://github.com/Divyansh3105",
   linkedin: "https://www.linkedin.com/in/divyanshgarg3105",
   live: "https://divyanshgarg3105.netlify.app",

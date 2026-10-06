@@ -206,6 +206,23 @@ describe("availability", () => {
   });
 });
 
+describe("contact details", () => {
+  test("no page publishes a phone number", () => {
+    // Removed on purpose: a public page is scraped, and a number on it is
+    // spam calls for years. Email, GitHub, LinkedIn and the résumé remain.
+    for (const page of PAGES) {
+      assert.doesNotMatch(html[page.path], /href="tel:/, `${page.route} links a phone`);
+      // A pattern rather than the number itself, so the test does not
+      // republish what it guards against.
+      assert.doesNotMatch(
+        html[page.path],
+        /\+91[\s-]*\d{5}/,
+        `${page.route} prints a phone number`,
+      );
+    }
+  });
+});
+
 describe("the code specimen", () => {
   test("real source is on the home page, not just claims about it", () => {
     // Tag-free, because each keyword is wrapped in its own span for colour -

@@ -1,7 +1,10 @@
 import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "../lib/gsap";
 import { about } from "../data/site";
-import portrait from "../assets/portrait.webp";
+/* A different photograph from the hero's, so the page does not show one
+   picture twice. Square head-and-shoulders crop; 736px covers the xl circle
+   at 2x. */
+import portrait from "../assets/portrait-about.webp";
 import { Spider, Thread, WebCorner, WebOrb } from "./WebDecor";
 
 /**

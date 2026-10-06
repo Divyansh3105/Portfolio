@@ -32,7 +32,7 @@ export const profile = {
   role: "Full-Stack Developer",
   stack: "React · Node · MongoDB",
   tagline: "I ship production code, not just tutorials.",
-  location: "Meerut, Uttar Pradesh, India",
+  location: "Meerut, India · Remote or relocation",
   status: "Open to SWE internships & entry-level roles",
   email: "divyanshgarg3105@gmail.com",
   github: "https://github.com/Divyansh3105",
@@ -50,14 +50,13 @@ export const about = {
   heading: ["Interface to", "infrastructure,", "end to end."],
   paragraphs: [
     "I build full-stack products from the interface down to the backend, and I go looking for the engineering problems no tutorial covers. When I wanted to understand how languages actually work, I didn't read about it — I wrote GravLang, an interpreted language in Python with its own lexer, parser, AST and tree-walking interpreter.",
-    "That instinct runs through everything: TalkSpace, a real-time platform with cookie-based JWT auth, Google sign-in and 1:1 video calls; Playdex, a desktop app now on the Microsoft Store; a PHP/MySQL billing system running in production on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
+    "That instinct runs through everything: TalkSpace, a real-time platform with cookie-based JWT auth, Google sign-in and 1:1 video calls; Playdex, a desktop app now on the Microsoft Store; a PHP/MySQL billing system with a live demo on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
     "I'm a B.Tech CSE student at Graphic Era Hill University (8.5/10 GPA) graduating in 2027, and I teach frontend fundamentals to new developers at Blaze Forge. Right now I'm looking for a team where I can ship real product from day one.",
   ],
   stats: [
     { value: String(profile.repoCount), label: "Public repos" },
     { value: "8.5", label: "GPA / 10" },
     { value: "2027", label: "B.Tech CSE" },
-    { value: "2", label: "Roles shipped" },
   ],
 };
 
@@ -101,7 +100,6 @@ export const skillGroups = [
       "MongoDB",
       "PostgreSQL",
       "MySQL",
-      "WebRTC",
       "Git & GitHub Actions",
     ],
   },
@@ -254,10 +252,10 @@ export const projects = [
     id: "utility",
     index: "06",
     name: "Public Utility Management",
-    kicker: "Production system",
+    kicker: "Billing system",
     category: "Full-stack",
     year: "2025",
-    status: "Live",
+    status: "Live demo",
     image: utilityImg,
     thumb: utilityThumb,
     summary:
@@ -390,8 +388,8 @@ export const nav = [
 ];
 
 export const marquee = [
-  "Ships production code",
-  "Not just tutorials",
+  "Interface to infrastructure",
+  "Wrote a language from scratch",
   "React · Node · MongoDB",
   "Open to internships",
 ];

@@ -213,7 +213,7 @@ export default function Path() {
 
         {/* ---------------- certifications ---------------- */}
         <div className="path-certs mt-20 border-t border-ash pt-10">
-          <p className="label-mono mb-6 text-ink/45">Certifications</p>
+          <p className="label-mono mb-6 text-ink/45">Courses</p>
           <ul className="grid grid-cols-1 gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {certifications.map((cert) => (
               <li key={cert.name} className="path-cert flex items-start gap-3">

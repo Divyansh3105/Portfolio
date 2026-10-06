@@ -31,16 +31,15 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    # Third-party origins, and nothing else is: the EmailJS endpoint the
-    # contact form posts to, and Cloudflare Web Analytics - which needs two
-    # entries, because the beacon is
+    # Third-party origins, and nothing else is: Cloudflare Web Analytics -
+    # which needs two entries, because the beacon is
     # served from static.cloudflareinsights.com but reports to
     # cloudflareinsights.com/cdn-cgi/rum. Allowing only the script origin lets
     # it load and then silently fail to send anything. The TalkSpace host is
     # in connect-src for one opaque wake-up ping when its dialog opens.
     # 'unsafe-inline' on style-src is required - Tailwind is a stylesheet, but
     # GSAP writes inline `style` attributes on every element it animates.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://cloudflareinsights.com https://talkspace-i5d2.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://talkspace-i5d2.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 
 # Content-hashed filenames, so they can never go stale.
 [[headers]]

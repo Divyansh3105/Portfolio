@@ -7,7 +7,7 @@ spider-web visual language drawn entirely from generated SVG geometry.
 This is a merge of two earlier builds. The design system, motion architecture
 and content layer come from the second; the substance and the working features
 come from the first — real project screenshots, the project detail modal, the
-EmailJS contact form, the resume, scroll-spy navigation, interface sound and
+resume, scroll-spy navigation, interface sound and
 the ambient node mesh. See **Merge notes** at the end for what changed on the
 way across.
 
@@ -19,7 +19,6 @@ way across.
 | Styling | Tailwind CSS v4 (`@theme` design tokens in `src/index.css`) |
 | Motion | GSAP 3 + ScrollTrigger |
 | Fonts | Archivo Variable (display) · IBM Plex Mono (labels), self-hosted |
-| Mail | EmailJS REST endpoint (no SDK) |
 | Deploy | Netlify (`netlify.toml` + SPA redirect) |
 | CI | GitHub Actions — lint + build on every push and PR |
 
@@ -28,17 +27,11 @@ icon and generated project plate is drawn from code.
 
 ## Environment
 
-The contact form posts to EmailJS. Copy `.env.example` to `.env` and fill in:
+Nothing is required. The Contact section is a mailto link plus GitHub,
+LinkedIn and the résumé; there is no form and no mail service to configure,
+and no phone number on any page (a build test enforces that).
 
-```bash
-cp .env.example .env
-```
-
-`VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID` and
-`VITE_EMAILJS_PUBLIC_KEY`. With any of them missing the form shows its error
-state and points the visitor at the mailto address instead of failing silently.
-
-Analytics needs no configuration. The Cloudflare Web Analytics token lives in
+Analytics needs no configuration either. The Cloudflare Web Analytics token lives in
 `vite.config.js` because it is not a secret — it identifies the site and is
 readable in the page source of any site using it. `VITE_CF_BEACON_TOKEN`
 overrides it if a separate property is ever wanted.
@@ -49,7 +42,7 @@ local page loads are not reported and do not litter the console.
 Cloudflare Web Analytics is cookieless and needs no consent banner. It records
 page views, referrers, countries and Core Web Vitals per path — enough to tell
 whether the case studies are being read. It has no custom events, so clicks on
-the résumé or the contact form are not measured by it.
+the résumé or the email link are not measured by it.
 
 ## Tests
 
@@ -63,14 +56,12 @@ fallbacks, assertions about what the build actually publishes, and a browser
 pass over the built site with Playwright.
 
 The browser tests are hermetic. Every request that is not to the local test
-server is aborted, so nothing depends on Cloudflare or EmailJS being
-reachable, and no test can send real mail. Fonts are served from the same
+server is aborted, so nothing depends on Cloudflare or a project's live host
+being reachable. Fonts are served from the same
 origin, so they load in tests exactly as they do in production.
 
 Each one was checked by breaking the thing it guards: removing the prerender
-step fails five assertions, removing the honeypot guard fails the spam test,
-and reinstating the old "report success regardless of the response" bug fails
-the silent-failure test.
+step fails five assertions.
 
 ## Running it
 
@@ -93,10 +84,9 @@ npm run lint
 `oxlint` runs with the `jsx-a11y` plugin enabled. Two suppressions are
 deliberate, and scoped in `.oxlintrc.json` rather than waved through:
 
-- `prefer-tag-over-role` is off project-wide. The dialogs and the contact
-  form's status region implement their semantics by hand; swapping in native
-  `<dialog>`/`<output>` would change focus and backdrop behaviour that is
-  already correct.
+- `prefer-tag-over-role` is off project-wide. The dialogs implement their
+  semantics by hand; swapping in native `<dialog>` would change focus and
+  backdrop behaviour that is already correct.
 - The click-handler rules are off **for `ProjectModal.jsx` only**. Its
   backdrop closes on click as a convenience, and Escape is the keyboard path,
   handled in the same component. A clickable `div` anywhere else still fails.
@@ -120,7 +110,7 @@ src/
     ProjectPlate.jsx   screenshot cover, or generated art where there is none
     ProjectModal.jsx   full project specification in an accessible dialog
     Path.jsx           experience timeline on a scroll-drawn silk line
-    Contact.jsx        EmailJS form, copy-to-clipboard, links, footer
+    Contact.jsx        mailto + copy-to-clipboard, links, footer
     Cursor.jsx         trailing ring (fine pointers only)
     WebMesh.jsx        canvas node mesh tethered to the pointer (hero only)
     WebDecor.jsx       WebCorner / WebOrb / WebDrape / Thread / Spider
@@ -175,9 +165,9 @@ What came across from the earlier build, and what was changed on the way:
   live and source links); added real dialog semantics it did not have: focus
   trap, focus restore, `aria-modal`, scroll lock with scrollbar compensation,
   and an Escape handler that is not capturing a stale callback.
-- **Contact form** — kept the EmailJS REST call; removed the hardcoded
-  credential fallbacks, and stopped it reporting success when the request
-  failed. A failure now says so and offers the mailto address.
+- **Contact form** — carried across with real error handling, then removed
+  later along with the phone number: a mailto reaches the same inbox without
+  a third-party relay, and needs nothing configured.
 - **Scroll spy** — was an unthrottled `scroll` listener measuring `offsetTop`
   on every section on every event. Now one `IntersectionObserver`.
 - **Interface sound** — kept the synthesised tones; it now starts off rather

@@ -395,12 +395,3 @@ export const marquee = [
   "React · Node · MongoDB",
   "Open to internships",
 ];
-
-/** Options offered by the contact form's project-type selector. */
-export const projectTypes = [
-  "Full-stack web application",
-  "Frontend / UI engineering",
-  "Shopify storefront",
-  "Full-time or internship role",
-  "Something else",
-];

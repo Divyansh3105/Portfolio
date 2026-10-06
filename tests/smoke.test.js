@@ -1,16 +1,14 @@
 /**
  * The built site, in a real browser.
  *
- * Two things only a browser can tell us. First, whether the pages hydrate
- * cleanly — prerendering means React adopts existing markup rather than
- * building it, and the ways that goes wrong (a mismatch, a ref that is null
- * on the first render) produce a console error and a half-working page, not a
- * build failure. Second, whether the contact form still sends, which is the
- * bug this project has actually had: an earlier build reported success even
- * when the request failed, and quietly lost every message.
+ * What only a browser can tell us: whether the pages hydrate cleanly.
+ * Prerendering means React adopts existing markup rather than building it,
+ * and the ways that goes wrong (a mismatch, a ref that is null on the first
+ * render) produce a console error and a half-working page, not a build
+ * failure. And whether the work index still opens its dialogs.
  *
  * Hermetic on purpose. Every request that is not to the local server is
- * aborted, so no test depends on Google Fonts, Cloudflare or EmailJS being
+ * aborted, so no test depends on Cloudflare or a project's live host being
  * reachable, and no test can send real traffic to any of them.
  */
 import { createServer } from "node:http";
@@ -163,99 +161,3 @@ async function assertLink(scope, href) {
   const count = await scope.locator(`a[href="${href}"]`).count();
   assert.equal(count, 1, `expected exactly one link to ${href}`);
 }
-
-describe("the contact form", () => {
-  /** Replaces fetch before any app code runs, and records what it was given. */
-  const stubFetch = (page) =>
-    page.addInitScript(() => {
-      window.__sent = [];
-      window.fetch = (url, options) => {
-        window.__sent.push({ url: String(url), body: options?.body });
-        return Promise.resolve(new Response("OK", { status: 200 }));
-      };
-    });
-
-  async function fillAndSubmit(page, { honeypot } = {}) {
-    await page.goto(`${origin}/`, { waitUntil: "load" });
-    await page.locator("#contact").scrollIntoViewIfNeeded();
-    await page.fill("#contact-name", "Ada Lovelace");
-    await page.fill("#contact-email", "ada@example.com");
-    await page.fill("#contact-message", "Do you have time for a role?");
-    if (honeypot) {
-      // A person cannot reach this field, so neither can a normal fill().
-      await page.locator("#contact-company").evaluate((el, value) => {
-        const setter = Object.getOwnPropertyDescriptor(
-          Object.getPrototypeOf(el),
-          "value",
-        ).set;
-        setter.call(el, value);
-        el.dispatchEvent(new Event("input", { bubbles: true }));
-      }, honeypot);
-    }
-    await page.locator('#contact form button[type="submit"]').click();
-    await page.waitForTimeout(800);
-  }
-
-  test("a real message reaches the mail endpoint", async () => {
-    const { page, context } = await openPage();
-    try {
-      await stubFetch(page);
-      await fillAndSubmit(page);
-
-      const sent = await page.evaluate(() => window.__sent);
-      assert.equal(sent.length, 1, "exactly one request should be made");
-      assert.match(sent[0].url, /api\.emailjs\.com/);
-
-      const params = JSON.parse(sent[0].body).template_params;
-      assert.equal(params.from_name, "Ada Lovelace");
-      assert.equal(params.from_email, "ada@example.com");
-      assert.equal(
-        params.company,
-        undefined,
-        "the honeypot must not be forwarded to the mail template",
-      );
-    } finally {
-      await context.close();
-    }
-  });
-
-  test("a filled honeypot sends nothing at all", async () => {
-    const { page, context } = await openPage();
-    try {
-      await stubFetch(page);
-      await fillAndSubmit(page, { honeypot: "AcmeSpamCo" });
-
-      assert.deepEqual(
-        await page.evaluate(() => window.__sent),
-        [],
-        "a trapped submission must not reach the network",
-      );
-      // It should still look like success, so the bot learns nothing.
-      await page.locator("#contact").getByText("Thread sent.").waitFor({
-        state: "visible",
-        timeout: 3000,
-      });
-    } finally {
-      await context.close();
-    }
-  });
-
-  test("a failed send is reported, not swallowed", async () => {
-    // The regression this project actually had: the old build showed success
-    // no matter what came back, so undelivered messages vanished silently.
-    const { page, context } = await openPage();
-    try {
-      await page.addInitScript(() => {
-        window.fetch = () =>
-          Promise.resolve(new Response("nope", { status: 500 }));
-      });
-      await fillAndSubmit(page);
-
-      const alert = page.locator('#contact [role="alert"]');
-      await alert.waitFor({ state: "visible", timeout: 3000 });
-      assert.match(await alert.innerText(), /didn.t send/i);
-    } finally {
-      await context.close();
-    }
-  });
-});

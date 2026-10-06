@@ -83,13 +83,6 @@ export const CloseIcon = (props) => (
   </Icon>
 );
 
-export const SendIcon = (props) => (
-  <Icon {...props}>
-    <path d="M22 2 11 13" />
-    <path d="M22 2 15 22l-4-9-9-4z" />
-  </Icon>
-);
-
 export const SoundOnIcon = (props) => (
   <Icon {...props}>
     <path d="M11 5 6 9H2v6h4l5 4z" />
@@ -103,21 +96,4 @@ export const SoundOffIcon = (props) => (
     <path d="M11 5 6 9H2v6h4l5 4z" />
     <path d="M22 9l-6 6M16 9l6 6" />
   </Icon>
-);
-
-export const SpinnerIcon = ({ size = 16, className = "" }) => (
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    className={`animate-spin ${className}`}
-  >
-    <path d="M12 3a9 9 0 1 0 9 9" />
-  </svg>
 );

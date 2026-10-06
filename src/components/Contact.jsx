@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "../lib/gsap";
 import { sound } from "../lib/sound";
-import { profile, projectTypes } from "../data/site";
+import { profile } from "../data/site";
 import {
   CheckIcon,
   CopyIcon,
   FileIcon,
   GithubIcon,
   LinkedinIcon,
-  SendIcon,
-  SpinnerIcon,
 } from "./Icons";
 import { Spider, WebCorner, WebDrape, WebOrb } from "./WebDecor";
 
+/* Email and these three are the only ways in. No phone number on a public
+   page, and no form: a mailto reaches the same inbox without a third-party
+   relay in between. */
 const links = [
   {
     label: "GitHub",
@@ -28,32 +29,15 @@ const links = [
   },
   {
     label: "Résumé",
-    value: "Divyansh_Garg_Resume.pdf",
+    value: "View PDF",
     href: profile.resume,
     icon: FileIcon,
   },
 ];
 
-const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
-
-const EMPTY = {
-  name: "",
-  email: "",
-  projectType: projectTypes[0],
-  message: "",
-  // Honeypot. Left empty by anyone who can see the form; filled by the kind
-  // of bot that walks the DOM and completes every input it finds.
-  company: "",
-};
-
 export default function Contact() {
   const root = useRef(null);
-  const [form, setForm] = useState(EMPTY);
-  const [state, setState] = useState("idle"); // idle | sending | sent | error
   const [copied, setCopied] = useState(false);
-
-  const field = (key) => (e) =>
-    setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
   const copyEmail = async () => {
     try {
@@ -64,61 +48,6 @@ export default function Contact() {
     } catch {
       // Clipboard blocked (insecure context, denied permission). The address
       // is right there in the label, so there is nothing to recover from.
-    }
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-
-    // Anything in the honeypot means this was not a person. Report the same
-    // success a real send gets rather than an error: telling a bot which
-    // field caught it is how it learns to skip that field next time.
-    if (form.company) {
-      setState("sent");
-      return;
-    }
-
-    setState("sending");
-
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      setState("error");
-      return;
-    }
-
-    try {
-      const res = await fetch(EMAILJS_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          service_id: serviceId,
-          template_id: templateId,
-          user_id: publicKey,
-          template_params: {
-            from_name: form.name,
-            from_email: form.email,
-            project_type: form.projectType,
-            message: form.message,
-            to_email: profile.email,
-          },
-        }),
-      });
-
-      // The previous build reported success even when the request failed,
-      // which quietly swallowed every message that never arrived. A failure
-      // is now shown as a failure, with the mailto fallback alongside it.
-      if (!res.ok) {
-        setState("error");
-        return;
-      }
-
-      sound.pluck();
-      setState("sent");
-    } catch {
-      setState("error");
     }
   };
 
@@ -144,11 +73,6 @@ export default function Contact() {
           "-=0.3",
         )
         .from(".contact-mail", { y: 26, opacity: 0, duration: 0.9 }, "-=0.55")
-        .from(
-          ".contact-form",
-          { y: 32, opacity: 0, duration: 1, ease: "expo.out" },
-          "-=0.7",
-        )
         .from(
           ".contact-link",
           { y: 20, opacity: 0, duration: 0.7, stagger: 0.08 },
@@ -187,9 +111,6 @@ export default function Contact() {
 
     return () => ctx.revert();
   }, []);
-
-  const inputClass =
-    "w-full border border-paper/20 bg-paper/5 px-4 py-3.5 text-[0.92rem] text-paper placeholder:text-paper/30 transition-colors duration-300 focus:border-blood-soft focus:outline-none focus:ring-1 focus:ring-blood-soft";
 
   return (
     <footer
@@ -235,16 +156,15 @@ export default function Contact() {
         </h2>
 
         <div className="mt-14 grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-20">
-          {/* ================= left: direct lines ================= */}
-          <div>
-            <p className="max-w-md text-[0.98rem] leading-[1.75] text-paper/60">
-              I&apos;m looking for a team where I can ship real product from day
-              one — internships or entry-level engineering roles. Freelance and
-              collaboration are open too. The form goes straight to my inbox; so
-              does the address.
-            </p>
+          <p className="max-w-md text-[0.98rem] leading-[1.75] text-paper/60">
+            I&apos;m looking for a team where I can ship real product from day
+            one — internships or entry-level engineering roles. Freelance and
+            collaboration are open too. Email is the fastest way to reach me; I
+            usually reply within a day.
+          </p>
 
-            <div className="contact-mail mt-10">
+          <div>
+            <div className="contact-mail">
               <p className="label-mono mb-3 text-paper/40">Direct</p>
               <div className="flex flex-wrap items-center gap-3 border-b border-paper/20 pb-4">
                 <a
@@ -268,7 +188,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <ul className="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2">
+            <ul className="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-3">
               {links.map((link) => {
                 const LinkIcon = link.icon;
                 const external = link.href.startsWith("http");
@@ -289,7 +209,7 @@ export default function Contact() {
                       onMouseEnter={() => sound.hover()}
                       className="group inline-flex items-center gap-2.5 text-[0.95rem] text-paper/85 transition-colors duration-300 hover:text-blood-soft"
                     >
-                      {LinkIcon && <LinkIcon size={15} />}
+                      <LinkIcon size={15} />
                       {link.value}
                       <span className="h-px w-0 bg-blood-soft transition-[width] duration-400 ease-web group-hover:w-5" />
                     </a>
@@ -297,189 +217,6 @@ export default function Contact() {
                 );
               })}
             </ul>
-          </div>
-
-          {/* ================= right: the form ================= */}
-          <div className="contact-form border border-paper/12 bg-paper/[0.03] p-6 sm:p-9">
-            {/* Always mounted, so the polite region is present before its
-                text changes - a region that appears at the same moment as
-                its message is announced inconsistently. Errors are left to
-                the assertive role="alert" below so they aren't said twice. */}
-            <p className="sr-only" role="status" aria-live="polite">
-              {state === "sending"
-                ? "Sending your message."
-                : state === "sent"
-                  ? "Message sent. I usually reply within a day."
-                  : ""}
-            </p>
-
-            {state === "sent" ? (
-              <div className="flex min-h-96 flex-col items-center justify-center gap-5 text-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border border-blood-soft text-blood-soft">
-                  <CheckIcon size={28} />
-                </span>
-                <h3 className="display-tight text-[2rem]">Thread sent.</h3>
-                <p className="max-w-sm text-[0.92rem] leading-relaxed text-paper/55">
-                  Thanks {form.name.split(" ")[0] || "for reaching out"} — your
-                  message is in my inbox. I usually reply within a day.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm(EMPTY);
-                    setState("idle");
-                  }}
-                  className="label-mono mt-2 border border-paper/25 px-6 py-3 transition-colors duration-300 hover:border-blood-soft hover:text-blood-soft"
-                >
-                  Send another
-                </button>
-              </div>
-            ) : (
-              <form
-                onSubmit={submit}
-                aria-busy={state === "sending"}
-                className="flex flex-col gap-6"
-              >
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="contact-name"
-                      className="label-mono text-paper/50"
-                    >
-                      Name
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      required
-                      autoComplete="name"
-                      placeholder="Your name"
-                      value={form.name}
-                      onChange={field("name")}
-                      className={inputClass}
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="contact-email"
-                      className="label-mono text-paper/50"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      placeholder="you@company.com"
-                      value={form.email}
-                      onChange={field("email")}
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="contact-type"
-                    className="label-mono text-paper/50"
-                  >
-                    What&apos;s this about
-                  </label>
-                  <select
-                    id="contact-type"
-                    value={form.projectType}
-                    onChange={field("projectType")}
-                    className={inputClass}
-                  >
-                    {projectTypes.map((type) => (
-                      <option key={type} value={type} className="bg-ink">
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Off-screen rather than display:none - some bots skip
-                    fields they can tell are hidden. aria-hidden and
-                    tabIndex -1 keep it away from screen readers and the tab
-                    order, so nobody using the form ever meets it. */}
-                <div
-                  aria-hidden="true"
-                  className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
-                >
-                  <label htmlFor="contact-company">
-                    Company (leave this field empty)
-                  </label>
-                  <input
-                    id="contact-company"
-                    type="text"
-                    name="company"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={form.company}
-                    onChange={field("company")}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="contact-message"
-                    className="label-mono text-paper/50"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    required
-                    rows={5}
-                    placeholder="What are you building, and where do you need a hand?"
-                    value={form.message}
-                    onChange={field("message")}
-                    className={`${inputClass} resize-none`}
-                  />
-                </div>
-
-                {state === "error" && (
-                  <p
-                    role="alert"
-                    className="border border-blood-soft/40 bg-blood/10 px-4 py-3 text-[0.85rem] leading-relaxed text-blood-soft"
-                  >
-                    That didn&apos;t send. Mail me directly at{" "}
-                    <a
-                      href={`mailto:${profile.email}`}
-                      className="underline underline-offset-4"
-                    >
-                      {profile.email}
-                    </a>{" "}
-                    and I&apos;ll pick it up there.
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={state === "sending"}
-                  onMouseEnter={() => sound.hover()}
-                  className="group relative flex items-center justify-center gap-3 overflow-hidden bg-blood px-7 py-4 text-paper disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  <span className="label-mono relative z-10">
-                    {state === "sending" ? "Sending" : "Send message"}
-                  </span>
-                  <span className="relative z-10">
-                    {state === "sending" ? (
-                      <SpinnerIcon size={15} />
-                    ) : (
-                      <SendIcon
-                        size={15}
-                        className="transition-transform duration-500 ease-web group-hover:translate-x-1"
-                      />
-                    )}
-                  </span>
-                  <span className="absolute inset-0 -translate-x-full bg-carbon transition-transform duration-500 ease-web group-hover:translate-x-0" />
-                </button>
-              </form>
-            )}
           </div>
         </div>
 

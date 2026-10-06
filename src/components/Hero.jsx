@@ -311,7 +311,10 @@ export default function Hero() {
             on the page set as decoration. It is now a status in its own
             right: accent colour, its own frame, and a live dot. Location
             stays a label, because location is genuinely secondary. */}
-        <div className="hero-eyebrow hero-anim invisible mb-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+        {/* From lg up the portrait plate sits at the right of this row, so
+            the row stops short of it and the location wraps instead of
+            running underneath (plate width + its frame, less the gutter). */}
+        <div className="hero-eyebrow hero-anim invisible mb-6 flex flex-wrap items-center gap-x-5 gap-y-3 lg:pr-[calc(5vw+13rem)] xl:pr-[calc(5vw+15rem)]">
           <p className="inline-flex items-center gap-3 border border-blood/35 bg-blood/[0.07] px-3.5 py-2 text-blood">
             <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
               <span className="status-ping absolute inline-flex h-full w-full rounded-full bg-blood/70" />

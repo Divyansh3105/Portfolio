@@ -269,6 +269,7 @@ export default function Work() {
                         rel="noreferrer"
                         onClick={() => sound.click()}
                         aria-label={`Open ${project.name} live`}
+                        title={project.note}
                         className="flex h-9 w-9 items-center justify-center border border-ink/15 text-ink/60 transition-colors duration-300 hover:border-blood hover:bg-blood hover:text-paper group-hover:border-paper/25 group-hover:text-paper/70"
                       >
                         <ExternalLink size={15} />

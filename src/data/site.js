@@ -143,6 +143,10 @@ export const projects = [
     ],
     caseStudy: "/talkspace/",
     href: "https://talkspace-i5d2.onrender.com/",
+    // Free-tier hosting sleeps when idle. The modal pings it on open so it is
+    // usually awake by the time anyone clicks through, and says so in case not.
+    wake: "https://talkspace-i5d2.onrender.com/",
+    note: "Free-tier hosting: the first load can take about 20 seconds while the server wakes.",
     repo: "https://github.com/Divyansh3105/TalkSpace",
     tone: "ink",
   },

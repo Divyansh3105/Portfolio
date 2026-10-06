@@ -102,6 +102,13 @@ export default function ProjectModal({ project, onClose }) {
     };
   }, [close]);
 
+  // Wake a sleeping free-tier host now, so it has had the time spent reading
+  // this dialog to start. Opaque and fire-and-forget.
+  const wake = project?.wake;
+  useEffect(() => {
+    if (wake) fetch(wake, { mode: "no-cors" }).catch(() => {});
+  }, [wake]);
+
   if (!project) return null;
 
   return (
@@ -253,6 +260,12 @@ export default function ProjectModal({ project, onClose }) {
                 <GithubIcon size={15} />
                 <span className="label-mono">Source</span>
               </a>
+            )}
+
+            {project.note && (
+              <p className="basis-full font-mono text-[0.72rem] leading-relaxed text-ink/50">
+                {project.note}
+              </p>
             )}
           </div>
         </div>

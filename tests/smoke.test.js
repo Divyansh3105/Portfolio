@@ -138,6 +138,10 @@ describe("hydration", () => {
 describe("the work index", () => {
   test("a project opens its dialog, and TalkSpace links to its case study", async () => {
     const { page, context } = await openPage();
+    const woken = [];
+    page.on("request", (req) => {
+      if (req.url().includes("onrender.com")) woken.push(req.url());
+    });
     try {
       await page.goto(`${origin}/`, { waitUntil: "load" });
       await page.locator("#work").scrollIntoViewIfNeeded();
@@ -146,6 +150,8 @@ describe("the work index", () => {
       const dialog = page.locator('[role="dialog"]');
       await dialog.waitFor({ state: "visible", timeout: 5000 });
       await assertLink(dialog, "/talkspace/");
+      // Opening the dialog pings the sleeping free-tier host awake.
+      assert.equal(woken.length, 1, "TalkSpace's host should be pinged once");
     } finally {
       await context.close();
     }

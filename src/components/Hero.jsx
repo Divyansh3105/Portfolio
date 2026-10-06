@@ -208,7 +208,7 @@ export default function Hero() {
     <section
       id="top"
       ref={root}
-      className="relative h-svh min-h-152 w-full overflow-hidden bg-bone"
+      className="relative flex min-h-svh w-full flex-col overflow-hidden bg-bone lg:block lg:h-svh lg:min-h-152"
     >
       {/* ---------------- background webs ---------------- */}
       {/* On a phone the name and status sit over the lower half of the
@@ -245,9 +245,13 @@ export default function Hero() {
       </div>
 
       {/* ---------------- portrait plate ---------------- */}
+      {/* Below lg the plate sits in the flow above the type rather than
+          pinned over it: pinned to the top while the type is pinned to the
+          bottom, the two met on any phone shorter than ~810px. In flow, a
+          short screen makes the hero taller instead of overlapping. */}
       <div
         data-depth="1.5"
-        className="hero-plate hero-parallax pointer-events-none absolute right-[5vw] top-[13vh] w-34 sm:w-44 lg:top-[16vh] lg:w-52 xl:w-60"
+        className="hero-plate hero-parallax pointer-events-none relative mr-[5vw] mt-[13vh] w-34 self-end sm:w-44 lg:absolute lg:right-[5vw] lg:top-[16vh] lg:mr-0 lg:mt-0 lg:w-52 xl:w-60"
       >
         <div className="hero-plate-inner relative">
           <div className="absolute -inset-3 border border-ink/15" />
@@ -310,7 +314,7 @@ export default function Hero() {
       </div>
 
       {/* ---------------- foreground type ---------------- */}
-      <div className="pointer-events-none relative mx-auto flex h-full max-w-[112rem] flex-col justify-end px-5 pb-10 sm:px-8 md:pb-14">
+      <div className="pointer-events-none relative mx-auto flex w-full max-w-[112rem] flex-1 flex-col justify-end px-5 pb-10 pt-10 sm:px-8 md:pb-14 lg:h-full lg:pt-0">
         {/* Availability used to sit here in the same 11px label style as the
             scroll cue and the section numbers - the most consequential line
             on the page set as decoration. It is now a status in its own

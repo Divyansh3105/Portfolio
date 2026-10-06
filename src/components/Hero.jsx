@@ -211,7 +211,12 @@ export default function Hero() {
       className="relative h-svh min-h-152 w-full overflow-hidden bg-bone"
     >
       {/* ---------------- background webs ---------------- */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      {/* On a phone the name and status sit over the lower half of the
+          webs; fading them out there keeps the type readable. */}
+      <div
+        className="pointer-events-none absolute inset-0 mask-[linear-gradient(to_bottom,#000_30%,rgba(0,0,0,0.15)_55%)] md:mask-none"
+        aria-hidden="true"
+      >
         {/* Live node mesh, tethering itself to the pointer. */}
         <WebMesh className="opacity-45" />
 

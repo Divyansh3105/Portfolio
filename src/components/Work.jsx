@@ -127,6 +127,10 @@ export default function Work() {
   }, [active, fine]);
 
   const current = projects.find((p) => p.id === active) ?? projects[0];
+  /* Four get the full row; the rest are one line each. Eight rows of equal
+     weight was ~6000px on a phone, and the strongest work drowned in it. */
+  const featured = projects.filter((p) => p.featured);
+  const more = projects.filter((p) => !p.featured);
 
   const open = (project) => {
     sound.click();
@@ -170,16 +174,17 @@ export default function Work() {
             </h2>
           </div>
           <p className="work-intro max-w-sm text-[0.95rem] leading-relaxed text-graphite">
-            {projects.length} of {profile.repoCount} public repositories. A language, a
-            real-time platform, a billing system in production, a storefront for
-            a paying client — picked because each one taught me something the
+            {projects.length} of {profile.repoCount} public repositories,{" "}
+            {featured.length} of them in depth. A real-time platform, a
+            language, a storefront for a paying client and a desktop app on the
+            Microsoft Store — picked because each one taught me something the
             next one needed.
           </p>
         </div>
 
         {/* ---------------- index ---------------- */}
         <ul className="border-t border-ash">
-          {projects.map((project) => (
+          {featured.map((project) => (
             <li key={project.id}>
               <div
                 onMouseEnter={() => {
@@ -305,6 +310,38 @@ export default function Work() {
             </li>
           ))}
         </ul>
+
+        {/* ---------------- more ---------------- */}
+        <div className="mt-16">
+          <p className="label-mono mb-5 text-ink/45">More projects</p>
+          <ul className="border-t border-ash">
+            {more.map((project) => (
+              <li
+                key={project.id}
+                className="group relative flex flex-wrap items-baseline gap-x-6 gap-y-1 border-b border-ash py-4 transition-colors duration-300 hover:bg-bone"
+              >
+                <span className="label-mono w-8 text-ink/40">{project.index}</span>
+                <span className="font-display text-[1.15rem] font-semibold transition-colors duration-300 group-hover:text-blood">
+                  {project.name}
+                </span>
+                <span className="label-mono text-ink/45">{project.kicker}</span>
+                <span className="label-mono ml-auto hidden text-ink/40 md:inline">
+                  {project.stack.slice(0, 3).join(" · ")}
+                </span>
+                {/* Same whole-row target as the featured rows. */}
+                <button
+                  type="button"
+                  onClick={() => open(project)}
+                  className="absolute inset-0 cursor-pointer"
+                >
+                  <span className="sr-only">
+                    {project.name} — view project details
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="mt-14 flex flex-wrap items-center gap-5">
           <a

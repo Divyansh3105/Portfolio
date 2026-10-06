@@ -114,6 +114,7 @@ export const skills = skillGroups.flatMap((group) => group.items);
 export const projects = [
   {
     id: "talkspace",
+    featured: true,
     index: "01",
     name: "TalkSpace",
     kicker: "Real-time platform",
@@ -147,6 +148,7 @@ export const projects = [
   },
   {
     id: "gravlang",
+    featured: true,
     index: "02",
     name: "GravLang",
     kicker: "Language design",
@@ -172,6 +174,7 @@ export const projects = [
   },
   {
     id: "kesav",
+    featured: true,
     index: "03",
     name: "Kesav Diamond",
     kicker: "Commerce · client work",
@@ -195,6 +198,7 @@ export const projects = [
   },
   {
     id: "playdex",
+    featured: true,
     index: "04",
     name: "Playdex",
     kicker: "Desktop app",

@@ -110,7 +110,7 @@ export default function PlaydexCase() {
               Case study &middot; Desktop app
             </p>
 
-            <h1 className="display-tight text-[clamp(3.2rem,13vw,9rem)]">
+            <h1 className="display-tight text-[clamp(2.6rem,13vw,9rem)]">
               Play<span className="text-blood">dex</span>
             </h1>
 

@@ -79,7 +79,7 @@ export default function TalkSpaceCase() {
               Case study &middot; Real-time platform
             </p>
 
-            <h1 className="display-tight text-[clamp(3.2rem,13vw,9rem)]">
+            <h1 className="display-tight text-[clamp(2.6rem,13vw,9rem)]">
               Talk<span className="text-blood">Space</span>
             </h1>
 
@@ -365,7 +365,7 @@ return () => {
         <section className="border-b border-ash">
           <div className="mx-auto max-w-6xl px-5 py-16 md:px-10 md:py-24">
             <div className="grid gap-10 md:grid-cols-12 md:gap-14">
-              <div className="md:col-span-7">
+              <div className="min-w-0 md:col-span-7">
                 <h2 className="display-tight text-[clamp(2rem,6vw,3.6rem)]">
                   The secret never
                   <br />

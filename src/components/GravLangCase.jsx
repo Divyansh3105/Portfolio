@@ -101,7 +101,7 @@ export default function CaseStudy() {
               Case study &middot; Language implementation
             </p>
 
-            <h1 className="display-tight text-[clamp(3.2rem,13vw,9rem)]">
+            <h1 className="display-tight text-[clamp(2.6rem,13vw,9rem)]">
               Grav<span className="text-blood">Lang</span>
             </h1>
 
@@ -345,7 +345,7 @@ except Exception as e:
             </h2>
 
             <div className="mt-10 grid gap-10 md:grid-cols-12 md:gap-14">
-              <div className="md:col-span-7">
+              <div className="min-w-0 md:col-span-7">
                 <p className="text-[0.98rem] leading-[1.8] text-graphite">
                   The IDE ships a step debugger with editor breakpoints and a live variable
                   inspector. The hard part is not the UI — it is that a tree-walking

@@ -37,18 +37,21 @@ const links = [
 
 export default function Contact() {
   const root = useRef(null);
-  const [copied, setCopied] = useState(false);
+  // "idle" | "copied" | "failed"
+  const [copyState, setCopyState] = useState("idle");
+  const copied = copyState === "copied";
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(profile.email);
       sound.click();
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2600);
+      setCopyState("copied");
     } catch {
-      // Clipboard blocked (insecure context, denied permission). The address
-      // is right there in the label, so there is nothing to recover from.
+      // Clipboard blocked (insecure context, denied permission). Say so
+      // rather than do nothing - the address is on screen to copy by hand.
+      setCopyState("failed");
     }
+    setTimeout(() => setCopyState("idle"), 2600);
   };
 
   useEffect(() => {
@@ -183,8 +186,14 @@ export default function Contact() {
                   className="label-mono ml-auto flex items-center gap-2 border border-paper/25 px-3.5 py-2 text-paper/75 transition-colors duration-300 hover:border-blood-soft hover:text-blood-soft"
                 >
                   {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
-                  <span>{copied ? "Copied" : "Copy"}</span>
+                  <span>
+                    {copied ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy"}
+                  </span>
                 </button>
+                <span role="status" className="sr-only">
+                  {copied && "Email address copied"}
+                  {copyState === "failed" && "Could not copy. Select the address and copy it manually."}
+                </span>
               </div>
             </div>
 

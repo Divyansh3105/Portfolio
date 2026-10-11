@@ -409,7 +409,7 @@ export default function Hero() {
             rel="noreferrer"
             onClick={() => sound.click()}
             onMouseEnter={() => sound.hover()}
-            className="hero-cta hero-anim label-mono invisible flex items-center gap-2 border-b border-ink/25 pb-1 text-ink/70 transition-colors duration-300 hover:border-blood hover:text-blood"
+            className="hero-cta hero-anim label-mono invisible flex items-center gap-2 border-b border-ink/25 py-1.5 text-ink/70 transition-colors duration-300 hover:border-blood hover:text-blood"
           >
             <FileIcon size={14} />
             <span>Résumé</span>

@@ -29,10 +29,10 @@ export function CaseHeader() {
       </a>
 
       <header className="sticky top-0 z-50 border-b border-ink/10 bg-bone/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-10">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 md:px-10">
           <a
             href="/"
-            className="label-mono text-ink transition-colors hover:text-blood"
+            className="label-mono py-2 text-ink transition-colors hover:text-blood"
           >
             Divyansh<span className="text-blood">/</span>Garg
           </a>

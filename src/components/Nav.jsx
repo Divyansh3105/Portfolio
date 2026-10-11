@@ -163,7 +163,7 @@ export default function Nav() {
           <a
             href="#top"
             onClick={() => sound.click()}
-            className="nav-item group flex items-center gap-2.5 text-paper"
+            className="nav-item group flex items-center gap-2.5 py-2 text-paper"
           >
             <Spider
               size={17}
@@ -209,7 +209,7 @@ export default function Nav() {
               rel="noreferrer"
               onClick={() => sound.click()}
               onMouseEnter={() => sound.hover()}
-              className="nav-item label-mono hidden items-center gap-2 border border-paper/30 px-3.5 py-2 text-paper transition-colors duration-300 hover:border-paper sm:inline-flex"
+              className="nav-item label-mono hidden items-center gap-2 border border-paper/30 px-3.5 py-3 text-paper transition-colors duration-300 hover:border-paper sm:inline-flex"
             >
               <FileIcon size={14} />
               <span>Résumé</span>

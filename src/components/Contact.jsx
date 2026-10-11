@@ -207,7 +207,7 @@ export default function Contact() {
                       rel={external ? "noreferrer" : undefined}
                       onClick={() => sound.click()}
                       onMouseEnter={() => sound.hover()}
-                      className="group inline-flex items-center gap-2.5 text-[0.95rem] text-paper/85 transition-colors duration-300 hover:text-blood-soft"
+                      className="group inline-flex items-center gap-2.5 py-2.5 text-[0.95rem] text-paper/85 transition-colors duration-300 hover:text-blood-soft"
                     >
                       <LinkIcon size={15} />
                       {link.value}
@@ -230,7 +230,7 @@ export default function Contact() {
           <a
             href="#top"
             onClick={() => sound.click()}
-            className="contact-foot label-mono text-paper/60 transition-colors duration-300 hover:text-blood-soft"
+            className="contact-foot label-mono py-2 text-paper/60 transition-colors duration-300 hover:text-blood-soft"
           >
             Back to top &uarr;
           </a>

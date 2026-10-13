@@ -31,7 +31,7 @@ export const profile = {
   last: "Garg",
   role: "Full-Stack Developer",
   stack: "React · Node · MongoDB",
-  tagline: "I ship production code, not just tutorials.",
+  tagline: "I ship production code.",
   location: "Meerut, India · Remote or relocation",
   status: "Open to SWE internships & entry-level roles",
   email: "divyanshgarg3105@gmail.com",
@@ -49,8 +49,8 @@ export const profile = {
 export const about = {
   heading: ["Interface to", "infrastructure,", "end to end."],
   paragraphs: [
-    "I build full-stack products from the interface down to the backend, and I go looking for the engineering problems no tutorial covers. When I wanted to understand how languages actually work, I didn't read about it — I wrote GravLang, an interpreted language in Python with its own lexer, parser, AST and tree-walking interpreter.",
-    "That instinct runs through everything: TalkSpace, a real-time platform with cookie-based JWT auth, Google sign-in and 1:1 video calls; Playdex, a desktop app now on the Microsoft Store; a PHP/MySQL billing system with a live demo on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
+    "I build full-stack products from the interface down to the backend, and I go looking for the engineering problems no tutorial covers. When I wanted to understand how languages work, I didn't read about it. I wrote GravLang, an interpreted language in Python with its own lexer, parser, AST and tree-walking interpreter.",
+    "The same habit shows up in my other projects: TalkSpace, a real-time platform with cookie-based JWT auth, Google sign-in and 1:1 video calls; Playdex, a desktop app now on the Microsoft Store; a PHP/MySQL billing system with a live demo on a normalised six-table schema; a Shopify storefront I shipped end to end for a luxury jewelry brand in my first paid engineering role.",
     "I'm a B.Tech CSE student at Graphic Era Hill University (8.5/10 GPA) graduating in 2027, and I teach frontend fundamentals to new developers at Blaze Forge. Right now I'm looking for a team where I can ship real product from day one.",
   ],
   stats: [
@@ -159,9 +159,9 @@ export const projects = [
     image: gravlangImg,
     thumb: gravlangThumb,
     summary:
-      "An interpreted programming language built from scratch in Python — custom lexer, recursive-descent parser, AST, tree-walking interpreter, OOP support, a GUI IDE and CLI execution.",
+      "An interpreted programming language built from scratch in Python: custom lexer, recursive-descent parser, AST, tree-walking interpreter, OOP support, a GUI IDE and CLI execution.",
     detail:
-      "GravLang is a programming language designed from first principles in Python. It implements the full pipeline — lexer, recursive-descent parser, abstract syntax tree and tree-walking interpreter — with object-oriented constructs and recursion, plus a native standard library, a desktop GUI IDE and a CLI runner.",
+      "GravLang is a programming language designed from first principles in Python. It implements the full pipeline of lexer, recursive-descent parser, abstract syntax tree and tree-walking interpreter, with object-oriented constructs and recursion, plus a native standard library, a desktop GUI IDE and a CLI runner.",
     highlights: [
       "Complete pipeline: lexer, recursive-descent parser, AST, interpreter",
       "285 passing tests, including 25 example programs run end to end",
@@ -185,9 +185,9 @@ export const projects = [
     image: kesavImg,
     thumb: kesavThumb,
     summary:
-      "A custom Shopify storefront for a luxury diamond-jewelry brand, delivered end to end across a three-month engagement — theme architecture, catalog, checkout and QA.",
+      "A custom Shopify storefront for a luxury diamond-jewelry brand, delivered end to end across a three-month engagement: theme architecture, catalog, checkout and QA.",
     detail:
-      "Designed and built a responsive custom Shopify storefront for Kesav Diamond. The work covered theme architecture, product and collection structure, brand-aligned UI, payment gateway wiring, and shipping and tax rules — taken from requirements discovery through to go-live, working directly with the client.",
+      "Designed and built a responsive custom Shopify storefront for Kesav Diamond. The work covered theme architecture, product and collection structure, brand-aligned UI, payment gateway wiring, and shipping and tax rules. I worked directly with the client from requirements discovery through to go-live.",
     highlights: [
       "Custom theme architecture and catalog aligned to a luxury brand direction",
       "Payment gateway, shipping and tax rules wired into a streamlined checkout",
@@ -211,7 +211,7 @@ export const projects = [
     summary:
       "Finding a game used to mean opening Steam, Epic and GOG one at a time. Playdex reads all three into one library and flags the games I own twice. Published on the Microsoft Store.",
     detail:
-      "Playdex is an Electron desktop app that merges Steam, Epic and GOG into a single library without logging into anything — it reads each launcher's own local files: Steam's appinfo.vdf and app manifests, Epic's catalog cache and install manifests, and GOG Galaxy's SQLite database. On top of that it tracks playtime, maps disk usage per drive, finds duplicate purchases across stores and launches each game through its own launcher.",
+      "Playdex is an Electron desktop app that merges Steam, Epic and GOG into a single library without logging into anything. It reads each launcher's own local files: Steam's appinfo.vdf and app manifests, Epic's catalog cache and install manifests, and GOG Galaxy's SQLite database. On top of that it tracks playtime, maps disk usage per drive, finds duplicate purchases across stores and launches each game through its own launcher.",
     highlights: [
       "Published on the Microsoft Store, which certified and signs the package",
       "Library counts match each launcher's own, and every counting rule has a fixture test",
@@ -283,7 +283,7 @@ export const projects = [
     image: gitfinderImg,
     thumb: gitfinderThumb,
     summary:
-      "A developer-profile dashboard over the GitHub REST API — repository search, language breakdowns and contribution charts rendered with Chart.js.",
+      "A developer-profile dashboard over the GitHub REST API with repository search, language breakdowns and contribution charts rendered in Chart.js.",
     detail:
       "A dashboard over the GitHub REST API that resolves any username into a profile view: repository search and filtering, per-language breakdowns computed across a user's repos, and contribution activity charted with Chart.js.",
     highlights: [
@@ -307,12 +307,12 @@ export const projects = [
     image: solarImg,
     thumb: solarThumb,
     summary:
-      "An interactive 3D solar system with orbital mechanics, built entirely in HTML and CSS — no JavaScript, no framework, just transforms and keyframes.",
+      "An interactive 3D solar system with orbital mechanics, built entirely in HTML and CSS, with no JavaScript and no framework, just transforms and keyframes.",
     detail:
-      "A solar system rendered entirely with CSS 3D transforms and keyframe animation — orbital periods, axial tilt and relative scale, with no JavaScript and no framework anywhere in the build.",
+      "A solar system rendered entirely with CSS 3D transforms and keyframe animation, covering orbital periods, axial tilt and relative scale. There is no JavaScript and no framework anywhere in the build.",
     highlights: [
       "Orbital mechanics expressed purely in CSS keyframes and 3D transforms",
-      "Zero JavaScript — no framework, no runtime, no dependencies",
+      "Zero JavaScript, no framework, no runtime and no dependencies",
       "Relative orbital periods and axial tilt modelled per planet",
     ],
     stack: ["HTML", "CSS 3D", "Animation"],
@@ -326,12 +326,12 @@ export const experience = [
   {
     org: "Blaze Forge",
     role: "Frontend Development Instructor",
-    period: "Jul 2026 — Present",
+    period: "Jul 2026 – Present",
     place: "Dehradun",
-    body: "Teaching HTML, CSS and JavaScript to aspiring developers — breaking core web fundamentals into practical lessons and building debugging instincts that stick.",
+    body: "I teach HTML, CSS and JavaScript to new developers, with the emphasis on debugging technique over memorised fixes.",
     achievements: [
-      "Turning core web fundamentals into lessons that hold up under real projects",
-      "Coaching debugging technique rather than memorised fixes",
+      "Teaching web fundamentals through lessons that hold up under real projects",
+      "Teaching debugging technique instead of memorised fixes",
     ],
     tags: ["Teaching", "HTML", "CSS", "JavaScript"],
     current: true,
@@ -339,7 +339,7 @@ export const experience = [
   {
     org: "Kesav Diamond",
     role: "Full Stack Engineer",
-    period: "Mar 2026 — May 2026",
+    period: "Mar 2026 – May 2026",
     place: "Dehradun",
     body: "Shipped a production Shopify storefront for a luxury diamond-jewelry brand: responsive UI/UX aligned to the brand's premium direction, restructured product and collection pages, and cross-device QA.",
     achievements: [
@@ -352,9 +352,9 @@ export const experience = [
   {
     org: "Graphic Era Hill University",
     role: "B.Tech, Computer Science",
-    period: "Aug 2023 — Jul 2027",
+    period: "Aug 2023 – Jul 2027",
     place: "Dehradun",
-    body: "Computer Science undergraduate carrying an 8.5/10 GPA. Coursework in systems, databases and algorithms — most of which ends up as something I build and put online.",
+    body: "Computer Science undergraduate with an 8.5/10 GPA. Coursework covers systems, databases and algorithms, and most of it ends up in something I build and put online.",
     achievements: [
       "8.5 / 10 cumulative GPA",
       "Focus on systems, databases, algorithms and REST API design",

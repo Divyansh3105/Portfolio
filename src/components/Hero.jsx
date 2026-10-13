@@ -342,7 +342,7 @@ export default function Hero() {
 
         <h1 className="hero-anim invisible">
           <span className="sr-only">
-            {profile.first} {profile.last} &mdash; {profile.role}
+            {profile.first} {profile.last}, {profile.role}
           </span>
           {/* From lg up the portrait plate occupies the top right, so the
               name is sized to stop short of it rather than run underneath. */}

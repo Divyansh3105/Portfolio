@@ -177,8 +177,8 @@ export default function Work() {
             {projects.length} of {profile.repoCount} public repositories,{" "}
             {featured.length} of them in depth. A real-time platform, a
             language, a storefront for a paying client and a desktop app on the
-            Microsoft Store — picked because each one taught me something the
-            next one needed.
+            Microsoft Store. I picked them because each one taught me something
+            the next one needed.
           </p>
         </div>
 
@@ -268,7 +268,7 @@ export default function Work() {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => sound.click()}
-                        aria-label={`Open ${project.name} — ${project.liveLabel ?? "live"}`}
+                        aria-label={`Open ${project.name}: ${project.liveLabel ?? "live"}`}
                         title={project.note}
                         className="flex h-9 w-9 items-center justify-center border border-ink/15 text-ink/60 transition-colors duration-300 hover:border-blood hover:bg-blood hover:text-paper group-hover:border-paper/25 group-hover:text-paper/70"
                       >
@@ -304,7 +304,7 @@ export default function Work() {
                   className="absolute inset-0 z-[1] cursor-pointer"
                 >
                   <span className="sr-only">
-                    {project.name} — view project details
+                    {project.name}: view project details
                   </span>
                 </button>
               </div>
@@ -336,7 +336,7 @@ export default function Work() {
                   className="absolute inset-0 cursor-pointer"
                 >
                   <span className="sr-only">
-                    {project.name} — view project details
+                    {project.name}: view project details
                   </span>
                 </button>
               </li>

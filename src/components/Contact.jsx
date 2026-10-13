@@ -161,7 +161,7 @@ export default function Contact() {
         <div className="mt-14 grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-20">
           <p className="max-w-md text-[0.98rem] leading-[1.75] text-paper/60">
             I&apos;m looking for a team where I can ship real product from day
-            one — internships or entry-level engineering roles. Freelance and
+            one: internships or entry-level engineering roles. Freelance and
             collaboration are open too. Email is the fastest way to reach me; I
             usually reply within a day.
           </p>

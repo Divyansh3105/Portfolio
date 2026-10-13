@@ -123,9 +123,8 @@ export default function Skills() {
             </h2>
           </div>
           <p className="skills-head max-w-sm text-[0.95rem] leading-relaxed text-graphite">
-            Three areas of competence rather than one flat wall of nouns. Every
-            tool here is one I&apos;ve built with, in a project or in
-            coursework &mdash; not one I&apos;ve only read about.
+            Every tool here is one I&apos;ve built something with, in a project or
+            in coursework.
           </p>
         </div>
 

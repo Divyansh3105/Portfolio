@@ -127,11 +127,9 @@ export default function Proof() {
           id="proof-heading"
           className="display-tight text-[clamp(2.1rem,7vw,5.2rem)]"
         >
+          <span className="proof-line block">Precedence is</span>
           <span className="proof-line block">
-            Precedence isn&rsquo;t a table.
-          </span>
-          <span className="proof-line block">
-            It&rsquo;s the{" "}
+            the{" "}
             <span className="italic text-blood-soft">call order.</span>
           </span>
         </h2>
@@ -155,7 +153,7 @@ export default function Proof() {
                 first, a multiplication is already a finished subtree by the
                 time the{" "}
                 <span className="font-mono text-[0.9em] text-paper">+</span> is
-                considered. Nothing enforces that — it falls out of the shape of
+                considered. Nothing enforces that. It falls out of the shape of
                 the calls.
               </p>
             </div>

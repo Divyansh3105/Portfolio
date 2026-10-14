@@ -42,19 +42,19 @@ const STAGES = [
     n: "02",
     name: "Lexer",
     file: "core/lexer.py",
-    body: "One master regex, built by joining ~40 named groups in priority order, scans the source in a single pass. Order is the whole trick: ** must be tried before *, and ... before ., or the longer operator can never match. Identifiers match last, then get promoted to keywords by dictionary lookup — let is only a keyword because nothing else claimed it first.",
+    body: "One master regex, built by joining ~40 named groups in priority order, scans the source in a single pass. Order is the whole trick: ** must be tried before *, and ... before ., or the longer operator can never match. Identifiers match last, then get promoted to keywords by dictionary lookup. That is why let is a keyword: nothing else claimed it first.",
   },
   {
     n: "03",
     name: "Parser",
     file: "core/parser.py",
-    body: "Recursive descent, one method per precedence level, each calling the level above it. Precedence isn't a table to consult — it is the call order itself.",
+    body: "Recursive descent, one method per precedence level, each calling the level above it. Precedence comes from the call order, so there is no table to consult.",
   },
   {
     n: "04",
     name: "Interpreter",
     file: "core/interpreter.py",
-    body: "A tree-walker. _exec dispatches on node class name to a _visit_<Node> method, recursing depth-first — so the inner BinOp resolves to a number before the outer one runs. Evaluation order is just the shape of the tree.",
+    body: "A tree-walker. _exec dispatches on node class name to a _visit_<Node> method, recursing depth-first, so the inner BinOp resolves to a number before the outer one runs. Evaluation order is just the shape of the tree.",
   },
 ];
 
@@ -68,7 +68,7 @@ const FACTS = [
 const DEMOS = [
   {
     file: "brainfuck.grav",
-    body: "A Brainfuck interpreter — a language interpreting a second language, tape and data pointer and all.",
+    body: "A Brainfuck interpreter: one language interpreting another, tape and data pointer included.",
   },
   {
     file: "snake_game.grav",
@@ -109,12 +109,13 @@ export default function CaseStudy() {
               id="lede"
               className="mt-10 max-w-2xl text-[1.05rem] leading-[1.7] text-ink/80 md:text-[1.2rem]"
             >
-              I wrote a programming language to find out how they actually work.
-              GravLang is interpreted and dynamically typed, implemented in Python —
-              lexer, recursive-descent parser, AST and tree-walking interpreter, plus a
-              desktop IDE whose step debugger pauses the interpreter mid-evaluation.
-              No parser generator, no <span className="font-mono text-[0.92em]">eval</span>,
-              no tutorial to follow.
+              I wrote a programming language to find out how they work.
+              GravLang is interpreted and dynamically typed, implemented in Python: a
+              lexer, a recursive-descent parser, an AST and a tree-walking interpreter,
+              plus a desktop IDE whose step debugger pauses the interpreter
+              mid-evaluation. It uses no parser generator and no{" "}
+              <span className="font-mono text-[0.92em]">eval</span>, and I wrote it
+              without following a tutorial.
             </p>
 
             <dl className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4">
@@ -137,9 +138,8 @@ export default function CaseStudy() {
               One line, all the way down
             </h2>
             <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-              Every token and tree below is real output from the current implementation,
-              not a description of it. Here is a single statement carried from source text
-              to a value.
+              Every token and tree below is real output from the current implementation.
+              Here is a single statement carried from source text to a value.
             </p>
 
             <div className="mt-12 border border-ink/15">
@@ -223,7 +223,7 @@ export default function CaseStudy() {
                         before it ever builds a node, the multiplication is already a
                         finished subtree by the time the{" "}
                         <span className="font-mono text-[0.9em] text-ink">+</span> is
-                        considered. Nothing enforced that — it fell out of the structure.
+                        considered. Nothing enforced that. It fell out of the structure.
                       </p>
                     </>
                   )}
@@ -249,7 +249,7 @@ export default function CaseStudy() {
               {/* 1 */}
               <article className="min-w-0 border-l-2 border-blood pl-6 md:col-span-2">
                 <h3 className="font-display text-[1.15rem] font-semibold leading-snug">
-                  Control flow rides on Python exceptions — and that sets a trap
+                  Control flow rides on Python exceptions, which sets a trap
                 </h3>
                 <p className="mt-4 max-w-2xl text-[0.94rem] leading-[1.75] text-graphite">
                   <span className="font-mono text-[0.9em] text-ink">return</span>,{" "}
@@ -290,7 +290,7 @@ except Exception as e:
                   <span className="font-mono text-[0.9em] text-ink">Environment</span> is a
                   dict plus a parent pointer, but it exposes two distinct writes.{" "}
                   <span className="font-mono text-[0.9em] text-ink">set()</span> always
-                  binds in the current scope — that is{" "}
+                  binds in the current scope, and that is{" "}
                   <span className="font-mono text-[0.9em] text-ink">let</span>.{" "}
                   <span className="font-mono text-[0.9em] text-ink">assign()</span> walks
                   the parent chain for an existing binding and raises if it never finds one.
@@ -313,7 +313,7 @@ except Exception as e:
                   <span className="font-mono text-[0.9em] text-ink">
                     f&quot;hi {"{name}"}!&quot;
                   </span>{" "}
-                  looks like it needs a runtime feature. It does not — the parser desugars
+                  looks like it needs a runtime feature. It does not: the parser desugars
                   it into concatenation and the interpreter never learns f-strings exist.
                   There is no <span className="font-mono text-[0.9em] text-ink">FString</span>{" "}
                   node in the AST at all:
@@ -328,8 +328,8 @@ except Exception as e:
                   </Slab>
                 </div>
                 <p className="mt-6 text-[0.94rem] leading-[1.75] text-graphite">
-                  One surface feature, zero runtime cost, nothing new to maintain in the
-                  evaluator. The cheapest place to add a feature is usually earlier in the
+                  The feature costs nothing at runtime and adds nothing to the evaluator.
+                  The cheapest place to add a feature is usually earlier in the
                   pipeline than you would think.
                 </p>
               </article>
@@ -348,8 +348,8 @@ except Exception as e:
               <div className="min-w-0 md:col-span-7">
                 <p className="text-[0.98rem] leading-[1.8] text-graphite">
                   The IDE ships a step debugger with editor breakpoints and a live variable
-                  inspector. The hard part is not the UI — it is that a tree-walking
-                  interpreter has no natural pause point. It is one deep recursive call
+                  inspector. The UI is the easy part. The hard part is that a tree-walking
+                  interpreter has no natural pause point: it is one deep recursive call
                   that either runs to completion or throws.
                 </p>
                 <p className="mt-5 text-[0.98rem] leading-[1.8] text-graphite">
@@ -359,7 +359,7 @@ except Exception as e:
                   <span className="font-mono text-[0.9em] text-ink">on_step</span> callback,
                   and <span className="font-mono text-[0.9em] text-ink">_exec</span> invokes
                   it before executing any statement-level node. That single injected hook is
-                  the entire debugging surface — the CLI passes nothing and pays nothing.
+                  the entire debugging surface. The CLI passes nothing and pays nothing.
                 </p>
                 <p className="mt-5 text-[0.98rem] leading-[1.8] text-graphite">
                   The IDE runs the interpreter on a worker thread. Its hook checks whether
@@ -369,9 +369,8 @@ except Exception as e:
                     blocks the interpreter thread on a{" "}
                     <span className="font-mono text-[0.9em]">threading.Event</span>
                   </span>{" "}
-                  until the user clicks step or continue. The interpreter is not simulating
-                  a pause — it is genuinely stopped mid-evaluation, holding a real Python
-                  call stack.
+                  until the user clicks step or continue. The interpreter is genuinely stopped
+                  mid-evaluation, holding a real Python call stack.
                 </p>
               </div>
 
@@ -382,7 +381,7 @@ except Exception as e:
                     The step callback also feeds a{" "}
                     <span className="text-ink">compiler stages window</span> that shows the
                     token list, the pretty-printed AST and the live execution trace side by
-                    side — the pipeline on this page, rendered from whatever program you
+                    side. It is the pipeline on this page, rendered from whatever program you
                     just typed into the editor.
                   </p>
                 </div>
@@ -398,8 +397,8 @@ except Exception as e:
               Programs written in it
             </h2>
             <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-              The real test of a language is not its test suite — it is whether you can
-              build something awkward in it.
+              The real test of a language is whether you can build something awkward in
+              it.
             </p>
 
             <div className="mt-12 grid gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2">
@@ -423,17 +422,16 @@ except Exception as e:
             </h2>
             <div className="mt-8 max-w-2xl">
               <p className="text-[0.98rem] leading-[1.8] text-graphite">
-                Tree-walking is the honest choice for a first language — the evaluator maps
-                one-to-one onto the grammar, which is exactly what makes it a good way to
-                learn. It is also slow. Every evaluation re-traverses Python objects and
+                Tree-walking is the honest choice for a first language. The evaluator maps
+                one-to-one onto the grammar, which is what makes it a good way to learn. It is also slow. Every evaluation re-traverses Python objects and
                 every variable lookup walks a dict chain.
               </p>
               <p className="mt-5 text-[0.98rem] leading-[1.8] text-graphite">
                 The next version compiles the AST to a bytecode instruction set and runs a
                 stack VM, with variable resolution done once at compile time so locals
                 become array slots instead of dictionary lookups. That is the rewrite that
-                would make the Brainfuck demo finish quickly rather than eventually — and
-                the reason to do it is measurement, not fashion.
+                would make the Brainfuck demo finish quickly rather than eventually. The
+                reason to do it is measurement.
               </p>
             </div>
           </div>

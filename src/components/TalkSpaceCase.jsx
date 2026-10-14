@@ -25,7 +25,7 @@ const STATES = [
     n: "01",
     name: "Strangers",
     where: "no document",
-    body: "Nothing exists. The absence of a row is the state — which is why every send has to prove the absence first, in both directions at once.",
+    body: "Nothing exists. The absence of a row is the state, which is why every send has to prove the absence first, in both directions at once.",
   },
   {
     n: "02",
@@ -43,7 +43,7 @@ const STATES = [
     n: "04",
     name: "Withdrawn",
     where: "document deleted",
-    body: "Declining and cancelling are the same delete, reached from opposite ends. Removing a friend is a different operation entirely — it pulls both arrays and leaves no request behind.",
+    body: "Declining and cancelling are the same delete, reached from opposite ends. Removing a friend is a different operation entirely: it pulls both arrays and leaves no request behind.",
   },
 ];
 
@@ -62,7 +62,7 @@ const LIMITS = [
   },
   {
     title: "Cold starts are the first impression",
-    body: "The API sleeps on a free instance, so the first request after an idle period takes about twenty seconds. That is a hosting tier, not an architecture — but it is what a visitor actually experiences.",
+    body: "The API sleeps on a free instance, so the first request after an idle period takes about twenty seconds. That is a hosting tier, not an architecture, but it is what a visitor actually experiences.",
   },
 ];
 
@@ -88,7 +88,7 @@ export default function TalkSpaceCase() {
               className="mt-10 max-w-2xl text-[1.05rem] leading-[1.7] text-ink/80 md:text-[1.2rem]"
             >
               Chat is the easy half. The interesting half is that the state
-              lives in three places at once — a social graph in MongoDB, the
+              lives in three places at once: a social graph in MongoDB, the
               messaging and video session inside Stream&rsquo;s
               infrastructure, and a cache of both in the browser. Almost every
               decision below is really the same question: when these three
@@ -114,13 +114,12 @@ export default function TalkSpaceCase() {
             <h2 className="display-tight max-w-3xl text-[clamp(2rem,6vw,3.6rem)]">
               A friendship is
               <br />
-              not a boolean
+              an edge with a lifecycle
             </h2>
             <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-              It is an edge with a lifecycle, and the lifecycle is what the
-              product is made of — the notification badge, the pending state on
-              a button, the difference between declining and cancelling. Four
-              states, and two different records describing them.
+              That lifecycle is what the product is made of: the notification badge, the pending state on
+              a button, the difference between declining and cancelling. There
+              are four states, described by two different records.
             </p>
 
             <div className="mt-12 border border-ink/15">
@@ -191,9 +190,8 @@ await User.findByIdAndUpdate(friendRequest.recipient, {
                           $push
                         </span>{" "}
                         because the write has to survive being run twice. A
-                        double-tapped accept button, a retried request, a stale
-                        client — any of them replays this, and a set does not
-                        care.
+                        double-tapped accept button or a retried request replays
+                        this, and a set does not care.
                       </p>
                     </div>
                   )}
@@ -229,8 +227,8 @@ await User.findByIdAndUpdate(friendRequest.recipient, {
                   </span>
                   , so no ordinary query returns the hash even if someone
                   forgets to exclude it. Login opts back in explicitly, at the
-                  one place that genuinely needs it — the exception is visible
-                  in the code rather than assumed.
+                  one place that needs it, so the exception is visible in the
+                  code.
                 </p>
                 <div className="mt-6 max-w-2xl">
                   <Slab>
@@ -247,7 +245,7 @@ const user = await User.findOne({ email }).select("+password -__v");`}
                     select
                   </span>{" "}
                   is a Mongoose feature, and the recommendation query is not a
-                  Mongoose query — it is an aggregation pipeline handed
+                  Mongoose query. It is an aggregation pipeline handed
                   straight to MongoDB.{" "}
                   <span className="font-mono text-[0.9em] text-ink">
                     $sample
@@ -285,7 +283,7 @@ const sanitizedUsers = recommendedUsers.map((user) => {
                 <p className="mt-4 text-[0.94rem] leading-[1.75] text-graphite">
                   They answer different questions. The document answers{" "}
                   <span className="text-ink">how did this edge come to be</span>{" "}
-                  — who asked, who accepted, when — which is what the
+                  (who asked, who accepted, when), which is what the
                   notifications page is built from. The array answers{" "}
                   <span className="text-ink">who are this user&rsquo;s
                   friends right now</span>, which is asked on nearly every
@@ -304,9 +302,9 @@ const sanitizedUsers = recommendedUsers.map((user) => {
                   Declining and cancelling are the same row
                 </h3>
                 <p className="mt-4 text-[0.94rem] leading-[1.75] text-graphite">
-                  Accepting is asymmetric — only the recipient may do it, and
-                  the sender gets a 403. But deletion is not, because one
-                  document serves two features: the recipient declining, and
+                  Accepting is asymmetric: only the recipient may do it, and
+                  the sender gets a 403. Deletion is symmetric, because one
+                  document serves two features: the recipient declining and
                   the sender changing their mind.
                 </p>
                 <div className="mt-6">
@@ -332,7 +330,7 @@ const isInvolved =
                 <p className="mt-4 max-w-2xl text-[0.94rem] leading-[1.75] text-graphite">
                   Online dots need the same Stream connection the chat is
                   already using. Opening a second one works in development and
-                  is wrong everywhere else — two sockets per tab, two presence
+                  is wrong everywhere else: two sockets per tab, two presence
                   streams, and a race over which one disconnects last. The
                   presence hook attaches to the existing client instead, and
                   its cleanup deliberately does less than it looks like it
@@ -372,7 +370,7 @@ return () => {
                   reaches the browser
                 </h2>
                 <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-                  The browser has to talk to Stream directly — that is the
+                  The browser has to talk to Stream directly. That is the
                   point of using it, and it is why messages and video do not
                   route through my server. But the API secret that authorises
                   those calls can never be shipped to it, because anything in a
@@ -409,7 +407,7 @@ export const generateStreamToken = (userId) =>
                     , and it has to be unique. Declared unique alone, the first
                     password-only signup stores{" "}
                     <span className="font-mono text-[0.9em] text-ink">null</span>{" "}
-                    and the second one collides with it — the index treats two
+                    and the second one collides with it, because the index treats two
                     missing values as a duplicate.{" "}
                     <span className="font-mono text-[0.9em] text-ink">
                       sparse: true

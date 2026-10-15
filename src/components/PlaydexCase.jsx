@@ -25,7 +25,7 @@ const STORES = [
     n: "01",
     name: "Steam",
     where: "appcache/appinfo.vdf",
-    body: "A binary file with no public documentation. The library cache says which app ids you have; only appinfo.vdf says which of them are games rather than DLC, tools or test configs — and it still knows games the store has delisted, which the web API no longer returns.",
+    body: "A binary file with no public documentation. The library cache says which app ids you have; only appinfo.vdf says which of them are games rather than DLC, tools or test configs. It also still knows games the store has delisted, which the web API no longer returns.",
     code: `const magic = buf.readUInt32LE(0);
 if (magic !== 0x07564429) throw new Error(\`unsupported appinfo.vdf format 0x\${magic.toString(16)}\`);
 const tableAt = Number(buf.readBigUInt64LE(8));`,
@@ -59,7 +59,7 @@ return catalog
     return !i.mainGameItem?.id && (cats.has('games') || (cats.has('engines') && cats.has('applications')));
   })`,
     after:
-      "The cache also stores ™ and ® as a literal question mark — Apex Legends? — so titles are cleaned before they are matched against the other two stores.",
+      "The cache also stores ™ and ® as a literal question mark (Apex Legends?), so titles are cleaned before they are matched against the other two stores.",
   },
   {
     n: "03",
@@ -81,7 +81,7 @@ const db = new DatabaseSync(path.join(tmp, 'galaxy-2.0.db'));`,
 const LIMITS = [
   {
     title: "Duplicates match on exact titles",
-    body: "After normalising, two titles either match or they do not. A game sold under a different name on each store is missed. Fuzzy matching is the fix, and it is deliberately waiting for real libraries to show misses — it brings false positives of its own.",
+    body: "After normalising, two titles either match or they do not. A game sold under a different name on each store is missed. Fuzzy matching is the fix, and it is deliberately waiting for real libraries to show misses, because it brings false positives of its own.",
   },
   {
     title: "The ™ fix eats a real question mark",
@@ -89,11 +89,11 @@ const LIMITS = [
   },
   {
     title: "The GitHub installer is unsigned",
-    body: "SmartScreen warns on it, and Smart App Control blocks it outright. The Microsoft Store build is the real answer — the Store signs the package — but anyone installing from GitHub still meets the warning first.",
+    body: "SmartScreen warns on it, and Smart App Control blocks it outright. The Microsoft Store build is the real answer, since the Store signs the package, but anyone installing from GitHub still meets the warning first.",
   },
   {
     title: "Galaxy's database is still trusted for paths",
-    body: "A GOG install must contain its goggame-<id>.info before Playdex will launch it or measure it. Another Windows user who can edit the database could still point a game at a different folder holding a matching file. Galaxy trusts the same data, so this adds no new risk — but it is not zero.",
+    body: "A GOG install must contain its goggame-<id>.info before Playdex will launch it or measure it. Another Windows user who can edit the database could still point a game at a different folder holding a matching file. Galaxy trusts the same data, so this adds no new risk, but the risk is not zero.",
   },
 ];
 
@@ -120,7 +120,7 @@ export default function PlaydexCase() {
             >
               My games are split across Steam, Epic and GOG, and none of them
               will tell another program what you own without a login. Their
-              own files on disk will — but each launcher stores them
+              own files on disk will, but each launcher stores them
               differently: an undocumented binary format, a base64 blob of
               JSON, and a SQLite database another program is holding open.
               Reading them is easy to describe. The hard part is that every
@@ -158,7 +158,7 @@ export default function PlaydexCase() {
               three formats
             </h2>
             <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-              No store APIs, no keys, nothing uploaded. Each parser reads one
+              Playdex calls no store APIs and uploads nothing. Each parser reads one
               launcher&rsquo;s local data, read-only.
             </p>
 
@@ -275,7 +275,7 @@ ipcMain.handle('launch', (e, id) => {
                     <span className="font-mono text-[0.9em] text-ink">
                       __proto__
                     </span>{" "}
-                    does not store it — it swaps its own prototype. An object
+                    does not store it. It swaps its own prototype. An object
                     with no prototype has nothing to swap.
                   </p>
                 </div>
@@ -298,7 +298,7 @@ ipcMain.handle('launch', (e, id) => {
                 <div className="mt-6 border-l-2 border-ink/20 bg-bone p-6">
                   <p className="label-mono mb-4 text-ink/45">The page itself</p>
                   <p className="text-[0.92rem] leading-[1.75] text-graphite">
-                    Sandboxed, context-isolated, no Node. Served from{" "}
+                    The page is sandboxed and context-isolated, with no Node. Served from{" "}
                     <span className="font-mono text-[0.9em] text-ink">
                       app://playdex/
                     </span>{" "}
@@ -379,8 +379,7 @@ ipcMain.handle('launch', (e, id) => {
               What I&rsquo;d change
             </h2>
             <p className="mt-6 max-w-2xl text-[0.98rem] leading-[1.75] text-graphite">
-              Four known limits, each one a trade I chose rather than one I
-              missed.
+              Four known limits. I chose each one as a trade-off.
             </p>
 
             <div className="mt-12 grid gap-px border border-ink/15 bg-ink/15 sm:grid-cols-2">

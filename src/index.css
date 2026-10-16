@@ -186,3 +186,37 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Dark mode
+
+   The palette is inverted rather than re-themed: neutrals swap ends, and the
+   two reds swap with them, because blood is the red that sits on light
+   surfaces and blood-soft the one that sits on dark ones. Sections that are
+   ink-on-bone in light become bone-on-ink in dark, and the inverted
+   interludes (Specimen, Contact) flip the other way, so the page keeps its
+   rhythm and every colour pair keeps the contrast it was chosen for.
+   Unlayered on purpose: it has to beat Tailwind's layered utilities.
+   ------------------------------------------------------------------ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bone: #0d0d0c;
+  --color-paper: #161615;
+  --color-ash: #272624;
+  --color-smoke: #3d3b38;
+  --color-graphite: #9b978f;
+  --color-ink: #f2f0eb;
+  --color-carbon: #e4e1da;
+  --color-blood: #e8636d;
+  --color-blood-soft: #c10f1b;
+}
+
+/* The header is blended with mix-blend-difference, which only reads against
+   a near-white foreground on a dark base. Pin both ends in dark mode. */
+:root[data-theme="dark"] .nav-header {
+  --color-paper: #fafaf8;
+}
+:root[data-theme="dark"] .nav-scrim {
+  background-color: #0a0a0a;
+}
+

@@ -115,7 +115,7 @@ export default function ProjectModal({ project, onClose }) {
     <div
       ref={backdrop}
       onClick={close}
-      className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto bg-ink/80 p-4 backdrop-blur-sm sm:items-center md:p-8"
+      className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm sm:items-center md:p-8"
     >
       <div
         ref={panel}

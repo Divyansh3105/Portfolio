@@ -4,6 +4,7 @@ import { sound } from "../lib/sound";
 import { nav, profile } from "../data/site";
 import { FileIcon, SoundOffIcon, SoundOnIcon } from "./Icons";
 import { Spider } from "./WebDecor";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const root = useRef(null);
@@ -153,12 +154,12 @@ export default function Nav() {
           difference is taken against a known colour rather than the page. */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none fixed inset-x-0 top-0 z-40 h-18 bg-ink transition-opacity duration-500 ease-web md:h-22 ${
+        className={`nav-scrim pointer-events-none fixed inset-x-0 top-0 z-40 h-18 bg-ink transition-opacity duration-500 ease-web md:h-22 ${
           scrolled ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      <header ref={root} className="fixed inset-x-0 top-0 z-50 mix-blend-difference">
+      <header ref={root} className="nav-header fixed inset-x-0 top-0 z-50 mix-blend-difference">
         <div className="mx-auto flex max-w-[112rem] items-center justify-between px-5 py-5 sm:px-8 md:py-7">
           <a
             href="#top"
@@ -214,6 +215,8 @@ export default function Nav() {
               <FileIcon size={14} />
               <span>Résumé</span>
             </a>
+
+            <ThemeToggle className="nav-item flex h-9 w-9 items-center justify-center border border-paper/30 text-paper transition-colors duration-300 hover:border-paper" />
 
             <button
               type="button"

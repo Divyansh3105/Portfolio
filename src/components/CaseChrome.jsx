@@ -1,5 +1,6 @@
 import { profile } from "../data/site";
 import { ArrowUpRight, ExternalLink } from "./Icons";
+import ThemeToggle from "./ThemeToggle";
 
 /**
  * Chrome shared by the case-study pages.
@@ -36,15 +37,18 @@ export function CaseHeader() {
           >
             Divyansh<span className="text-blood">/</span>Garg
           </a>
-          <a
-            href="/#work"
-            className="label-mono group flex items-center gap-2 text-ink/55 transition-colors hover:text-ink"
-          >
-            <span className="transition-transform duration-500 ease-web group-hover:-translate-x-1">
-              &larr;
-            </span>
-            Back to work
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="/#work"
+              className="label-mono group flex items-center gap-2 py-2 text-ink/55 transition-colors hover:text-ink"
+            >
+              <span className="transition-transform duration-500 ease-web group-hover:-translate-x-1">
+                &larr;
+              </span>
+              Back to work
+            </a>
+            <ThemeToggle className="flex h-9 w-9 items-center justify-center border border-ink/20 text-ink/70 transition-colors hover:border-blood hover:text-blood" />
+          </div>
         </div>
       </header>
     </>

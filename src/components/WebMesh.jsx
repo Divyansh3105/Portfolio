@@ -63,6 +63,11 @@ export default function WebMesh({ className = "" }) {
       mouse.y += (mouse.ty - mouse.y) * 0.03;
 
       ctx.clearRect(0, 0, width, height);
+      // Re-read each frame so the toggle recolours the mesh immediately.
+      const linkRgb =
+        document.documentElement.dataset.theme === "dark"
+          ? "rgba(242, 240, 235, "
+          : "rgba(10, 10, 10, ";
 
       for (let i = 0; i < nodes.length; i += 1) {
         const a = nodes[i];
@@ -94,7 +99,7 @@ export default function WebMesh({ className = "" }) {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(10, 10, 10, ${(1 - d / linkDistance) * 0.1})`;
+            ctx.strokeStyle = `${linkRgb}${(1 - d / linkDistance) * 0.1})`;
             ctx.lineWidth = 0.4;
             ctx.stroke();
           }

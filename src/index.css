@@ -250,3 +250,62 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Print
+
+   Always printed on white, whatever the screen theme. Chrome is hidden, motion
+   is switched off and the viewport-height sections are released so the page
+   flows across sheets instead of stretching one hero over a whole page.
+   ------------------------------------------------------------------ */
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --color-bone: #fff;
+    --color-paper: #fff;
+    --color-ash: #ddd;
+    --color-smoke: #bbb;
+    --color-graphite: #444;
+    --color-ink: #000;
+    --color-carbon: #111;
+    --color-blood: #8a0b14;
+    --color-blood-soft: #8a0b14;
+  }
+
+  header,
+  canvas,
+  .scroll-progress,
+  .nav-scrim,
+  #mobile-menu,
+  .marquee-track {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  section,
+  footer {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  article,
+  li,
+  pre,
+  figure {
+    break-inside: avoid;
+  }
+
+  a[href^="http"]:not(.label-mono)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+}

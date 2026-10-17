@@ -29,6 +29,8 @@ export function CaseHeader() {
         Skip to content
       </a>
 
+      <div className="scroll-progress" aria-hidden="true" />
+
       <header className="sticky top-0 z-50 border-b border-ink/10 bg-bone/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 md:px-10">
           <a

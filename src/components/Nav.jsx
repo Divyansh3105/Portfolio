@@ -152,6 +152,7 @@ export default function Nav() {
     <>
       {/* Painted below the header and outside its blend, so the header's
           difference is taken against a known colour rather than the page. */}
+      <div className="scroll-progress" aria-hidden="true" />
       <div
         aria-hidden="true"
         className={`nav-scrim pointer-events-none fixed inset-x-0 top-0 z-40 h-18 bg-ink transition-opacity duration-500 ease-web md:h-22 ${

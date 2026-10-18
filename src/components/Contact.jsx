@@ -35,6 +35,14 @@ const links = [
   },
 ];
 
+// Month of the build, formatted in UTC so the prerendered HTML and the
+// hydrating client always agree.
+const UPDATED = new Date(__BUILT_AT__).toLocaleDateString("en-GB", {
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
 export default function Contact() {
   const root = useRef(null);
   // "idle" | "copied" | "failed"
@@ -235,6 +243,9 @@ export default function Contact() {
           </p>
           <p className="contact-foot label-mono text-paper/40">
             {profile.location}
+          </p>
+          <p className="contact-foot label-mono text-paper/40">
+            Updated {UPDATED}
           </p>
           <a
             href="#top"

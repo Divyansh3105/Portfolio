@@ -133,6 +133,7 @@ export default defineConfig(async ({ isSsrBuild, mode }) => ({
   // number costs a visitor nothing at runtime and cannot be forgotten.
   define: {
     __REPO_COUNT__: await repoCount(),
+    __BUILT_AT__: JSON.stringify(new Date().toISOString()),
   },
   build: {
     // The SSR pass takes its entry from the command line, so the multi-page

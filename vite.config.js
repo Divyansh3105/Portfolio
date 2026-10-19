@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
@@ -52,6 +53,23 @@ function cloudflareAnalytics(token) {
         },
       ]
     },
+  }
+}
+
+
+/**
+ * Puts the loading screen (src/loader.html) at the top of <body> on every
+ * page, so it paints before any script runs. One source, four shells.
+ */
+function loadingScreen() {
+  const markup = readFileSync(
+    resolve(import.meta.dirname, 'src/loader.html'),
+    'utf8',
+  )
+  return {
+    name: 'loading-screen',
+    transformIndexHtml: (html) =>
+      html.replace(/<body[^>]*>/, (open) => open + markup),
   }
 }
 
@@ -126,6 +144,7 @@ export default defineConfig(async ({ isSsrBuild, mode }) => ({
       loadEnv(mode, import.meta.dirname, '').VITE_CF_BEACON_TOKEN ||
         CF_BEACON_TOKEN,
     ),
+    loadingScreen(),
     ogCacheBusting(await ogCacheKey()),
     preloadDisplayFont(/archivo-latin-wght-normal-[\w-]+\.woff2$/),
   ],

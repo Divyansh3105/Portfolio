@@ -5,6 +5,7 @@ import portrait from "../assets/portrait.webp";
 import { Spider, WebCorner, WebDrape, WebOrb } from "./WebDecor";
 import WebMesh from "./WebMesh";
 import { sound } from "../lib/sound";
+import { ready } from "../lib/loader";
 import { FileIcon } from "./Icons";
 
 /**
@@ -36,7 +37,8 @@ export default function Hero() {
       /* ---------- entrance ---------- */
       const tl = gsap.timeline({
         defaults: { ease: "power4.out" },
-        delay: 0.15,
+        // Held until the loading screen starts to lift (src/lib/loader.js).
+        paused: true,
       });
 
       tl.set(el.querySelectorAll(".hero-anim"), { visibility: "visible" })
@@ -83,6 +85,7 @@ export default function Hero() {
         );
 
       if (reduced) tl.progress(1);
+      else ready.then(() => tl.delay(0.15).play());
 
       /* ---------- ambient, continuous ---------- */
       if (!reduced) {

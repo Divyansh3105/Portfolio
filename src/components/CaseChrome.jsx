@@ -1,6 +1,7 @@
 import { profile } from "../data/site";
 import { ArrowUpRight, ExternalLink } from "./Icons";
 import ThemeToggle from "./ThemeToggle";
+import "../lib/loader";
 
 /**
  * Chrome shared by the case-study pages.

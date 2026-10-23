@@ -7,7 +7,7 @@
 
 /* Two sizes per shot. `image` is the full-width plate the modal shows; the
    `-thumb` at 800w is what the index plates use, and they are the hot path -
-   eight of them render inline on touch. Serving the 1600w file into a 352px
+   nine of them render inline on touch. Serving the 1600w file into a 352px
    slot was costing roughly 800KB a visit for imagery nobody had opened yet. */
 import talkspaceImg from "../assets/talkspace.webp";
 import talkspaceThumb from "../assets/talkspace-thumb.webp";
@@ -23,6 +23,8 @@ import cipherImg from "../assets/cipher.webp";
 import cipherThumb from "../assets/cipher-thumb.webp";
 import gitfinderImg from "../assets/gitfinder.webp";
 import gitfinderThumb from "../assets/gitfinder-thumb.webp";
+import reposcopeImg from "../assets/reposcope.webp";
+import reposcopeThumb from "../assets/reposcope-thumb.webp";
 import solarImg from "../assets/solar.webp";
 import solarThumb from "../assets/solar-thumb.webp";
 
@@ -101,6 +103,7 @@ export const skillGroups = [
       "PostgreSQL",
       "MySQL",
       "Git & GitHub Actions",
+      "Docker",
     ],
   },
 ];
@@ -249,8 +252,34 @@ export const projects = [
     tone: "ink",
   },
   {
-    id: "utility",
+    id: "reposcope",
     index: "06",
+    name: "RepoScope",
+    kicker: "Analytics · no framework",
+    category: "Full-stack",
+    year: "2026",
+    status: "Live",
+    image: reposcopeImg,
+    thumb: reposcopeThumb,
+    summary:
+      "Plain PHP 8.5 with no framework and no database. It turns GitHub profiles and CSV files into statistics and interactive charts, drawn by a canvas chart library I wrote from scratch.",
+    detail:
+      "RepoScope has three modes: a single-profile analysis, a leaderboard comparing up to 15 developers, and a CSV analyzer. GitHub data comes through the REST API with pagination, a 10-minute session cache and rate-limit handling, and the session lock is released during network calls so other tabs stay responsive. The CSV parser handles BOM and Windows-1252 files, thousands separators and header detection. The charts are a dependency-free canvas library with hit-tested tooltips and a data table under every chart for screen readers.",
+    highlights: [
+      "Canvas chart library (bar, line, pie) written from scratch, sharp on high-DPI screens",
+      "CSP, CSRF tokens, upload checks on the real file type, CSV formula-injection protection on export",
+      "Dockerised on Render; GitHub Actions lints every PHP file, runs 35 regression checks and smoke-tests the image",
+    ],
+    stack: ["PHP 8.5", "JavaScript", "HTML5 Canvas", "Docker", "GitHub Actions"],
+    href: "https://reposcope-k4kb.onrender.com",
+    wake: "https://reposcope-k4kb.onrender.com",
+    note: "Free-tier hosting: the first load can take up to a minute while the server wakes.",
+    repo: "https://github.com/Divyansh3105/RepoScope",
+    tone: "ink",
+  },
+  {
+    id: "utility",
+    index: "07",
     name: "Public Utility Management",
     kicker: "Billing system",
     category: "Full-stack",
@@ -274,7 +303,7 @@ export const projects = [
   },
   {
     id: "gitfinder",
-    index: "07",
+    index: "08",
     name: "GitHub Finder",
     kicker: "Data dashboard",
     category: "Frontend",
@@ -298,7 +327,7 @@ export const projects = [
   },
   {
     id: "solar",
-    index: "08",
+    index: "09",
     name: "SolarExplorer",
     kicker: "CSS experiment",
     category: "Frontend",

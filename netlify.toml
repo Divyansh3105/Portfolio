@@ -39,7 +39,7 @@
     # in connect-src for one opaque wake-up ping when its dialog opens.
     # 'unsafe-inline' on style-src is required - Tailwind is a stylesheet, but
     # GSAP writes inline `style` attributes on every element it animates.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://talkspace-i5d2.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://talkspace-i5d2.onrender.com https://reposcope-k4kb.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 
 # Content-hashed filenames, so they can never go stale.
 [[headers]]
